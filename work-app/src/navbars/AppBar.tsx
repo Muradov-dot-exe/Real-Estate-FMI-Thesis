@@ -24,10 +24,18 @@ const HomeBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            <Button color="inherit" href="/">
+              Home
+            </Button>
+            <Button color="inherit">Products</Button>
+            <Button color="inherit">Locations</Button>
           </Typography>
-          <Button color="inherit">Sign Up</Button>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" href="/signup">
+            Sign Up
+          </Button>
+          <Button color="inherit" href="/signin">
+            Sign In
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>
