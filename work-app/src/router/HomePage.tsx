@@ -1,6 +1,6 @@
 import React from "react";
 import HomeBar from "../navbars/AppBar";
-import { Box, Container, Paper, Stack } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 export default function Home() {
   return (
