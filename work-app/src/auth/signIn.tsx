@@ -16,6 +16,11 @@ import HomeBar from "../navbars/AppBar";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
 
 function Copyright(props: any) {
   return (
@@ -40,9 +45,11 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: "",
+  });
+  const { email, password } = credentials;
   const signIn = async (e: any) => {
     e.preventDefault();
     await signInWithEmailAndPassword(auth, email, password)
@@ -63,11 +70,14 @@ export default function SignIn() {
       password: data.get("password"),
     });
   };
+  const handleGoogleSubmit = () => {};
+  const handleFacebookSubmit = () => {};
+  const handleCredential = () => {};
 
   return (
     <>
       <HomeBar />
-      <div onSubmit={signIn}>
+      <Box onSubmit={signIn}>
         <ThemeProvider theme={defaultTheme}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -100,7 +110,7 @@ export default function SignIn() {
                   name="email"
                   autoFocus
                   type="email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleCredential}
                 />
                 <TextField
                   margin="normal"
@@ -110,12 +120,33 @@ export default function SignIn() {
                   label="Password"
                   type="password"
                   id="password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={handleCredential}
                 />
                 <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
                   label="Remember me"
                 />
+                <Grid container>
+                  <Grid item xs>
+                    <Button
+                      variant="contained"
+                      startIcon={<FontAwesomeIcon icon={faGoogle} />}
+                      color="error"
+                      onClick={handleGoogleSubmit}
+                    >
+                      Google
+                    </Button>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Button
+                      variant="contained"
+                      onClick={handleFacebookSubmit}
+                      startIcon={<FontAwesomeIcon icon={faFacebookF} />}
+                    >
+                      Facebook
+                    </Button>
+                  </Grid>
+                </Grid>
                 <Button
                   type="submit"
                   fullWidth
@@ -141,7 +172,7 @@ export default function SignIn() {
             <Copyright sx={{ mt: 8, mb: 4 }} />
           </Container>
         </ThemeProvider>
-      </div>
+      </Box>
     </>
   );
 }

@@ -1,5 +1,4 @@
 // Import the functions you need from the SDKs you need
-
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -17,6 +16,7 @@ const firebaseConfig = {
   measurementId: "G-WJL9LJZ8BY",
 };
 
+firebase.initializeApp(firebaseConfig);
 // Initialize Firebase
 
 firebase.initializeApp(firebaseConfig);
