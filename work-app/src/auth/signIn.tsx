@@ -19,7 +19,11 @@ import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginInitiate } from "../redux/authActions";
+import {
+  facebookSignInInitiate,
+  googleSignInInitiate,
+  loginInitiate,
+} from "../redux/authActions";
 
 function Copyright(props: any) {
   return (
@@ -50,38 +54,6 @@ export default function SignIn() {
     password: "",
   });
 
-  const [error, setError] = useState({
-    email: "",
-    password: "",
-    passwordConfirm: "",
-  });
-
-  const validateInput = (e: any) => {
-    let { name, value } = e.target;
-    setError((prev) => {
-      const stateObj: any = { ...prev, [name]: "" };
-
-      switch (name) {
-        case "email":
-          if (!value) {
-            stateObj[name] = "Please enter Email.";
-          }
-          break;
-
-        case "password":
-          if (!value) {
-            stateObj[name] = "Please enter Password.";
-          }
-          break;
-
-        default:
-          return "Credentials error";
-      }
-
-      return stateObj;
-    });
-  };
-
   const { email, password } = credentials;
 
   const { currentUser } = useSelector((state: any) => state.user);
@@ -104,8 +76,12 @@ export default function SignIn() {
     setCredentials({ email: "", password: "" });
   };
 
-  const handleGoogleSubmit = () => {};
-  const handleFacebookSubmit = () => {};
+  const handleGoogleSubmit = () => {
+    dispatch(googleSignInInitiate());
+  };
+  const handleFacebookSubmit = () => {
+    dispatch(facebookSignInInitiate());
+  };
 
   const handleCredential = (event: any) => {
     let { name, value } = event.target;
@@ -137,41 +113,28 @@ export default function SignIn() {
             noValidate
             sx={{ mt: 1 }}
           >
-            <Grid item xs>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoFocus
-                type="email"
-                onChange={handleCredential}
-                onBlur={validateInput}
-              />
-              {error.email && (
-                <Typography style={{ color: "red" }}>{error.email}</Typography>
-              )}
-            </Grid>
-            <Grid item xs>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                onChange={handleCredential}
-                onBlur={validateInput}
-              />
-              {error.password && (
-                <Typography style={{ color: "red" }}>
-                  {error.password}
-                </Typography>
-              )}
-            </Grid>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoFocus
+              type="email"
+              onChange={handleCredential}
+            />
+
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              onChange={handleCredential}
+            />
 
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -204,11 +167,12 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={email.length === 0 || password.length === 0}
             >
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs={10}>
+              <Grid item xs={5.5}>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
