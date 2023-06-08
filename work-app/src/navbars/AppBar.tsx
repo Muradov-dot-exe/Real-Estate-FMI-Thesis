@@ -7,28 +7,19 @@ import {
   Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import React, { useEffect, useState } from "react";
-import { auth } from "../firebase";
-import { User, onAuthStateChanged, signOut } from "firebase/auth";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutInitiate } from "../redux/authActions";
+import { Link } from "react-router-dom";
 
 const HomeBar = () => {
-  const [authUser, setAuthUser] = useState<User | null>(null);
+  const { currentUser } = useSelector((state: any) => state.user);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const listener = onAuthStateChanged(auth, (user) => {
-      user ? setAuthUser(user) : setAuthUser(null);
-    });
-    return () => {
-      listener();
-    };
-  });
-
-  const userSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        console.log("signed out");
-      })
-      .catch((error) => console.log(error));
+  const handleAuth = () => {
+    if (currentUser) {
+      dispatch(logoutInitiate());
+    }
   };
 
   return (
@@ -45,19 +36,22 @@ const HomeBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Button color="inherit" href="/">
-              Home
-            </Button>
-            {authUser && (
+            <Link style={{ color: "inherit" }} to={"/"}>
+              <Button color="inherit">Home</Button>
+            </Link>
+
+            {currentUser && (
               <>
-                <Button color="inherit" href="/products">
-                  Products
-                </Button>
-                <Button color="inherit">Locations</Button>
+                <Link style={{ color: "inherit" }} to="/products">
+                  <Button color="inherit">Products</Button>
+                </Link>
+                <Link style={{ color: "inherit" }} to={"/"}>
+                  <Button color="inherit">Location</Button>
+                </Link>
               </>
             )}
           </Typography>
-          {!authUser ? (
+          {!currentUser ? (
             <>
               <Button color="inherit" href="/signup">
                 Sign Up
@@ -67,7 +61,7 @@ const HomeBar = () => {
               </Button>
             </>
           ) : (
-            <Button onClick={userSignOut} color="inherit" href="/">
+            <Button onClick={handleAuth} color="inherit" href="/">
               Sign Out
             </Button>
           )}

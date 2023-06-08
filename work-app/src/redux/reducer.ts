@@ -9,9 +9,15 @@ const userReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case types.REGISTER_START:
     case types.LOGIN_START:
+    case types.LOGOUT_START:
       return {
         ...state,
         loading: true,
+      };
+    case types.LOGOUT_SUCCESS:
+      return {
+        ...state,
+        currentUser: null,
       };
     case types.REGISTER_SUCCESS:
     case types.LOGIN_SUCCESS:
@@ -22,6 +28,7 @@ const userReducer = (state = initialState, action: any) => {
       };
     case types.REGISTER_FAIL:
     case types.LOGIN_FAIL:
+    case types.LOGOUT_FAIL:
       return {
         ...state,
         loading: false,
