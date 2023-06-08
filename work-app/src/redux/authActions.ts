@@ -16,11 +16,25 @@ const registerFailed = (error: Error) => ({
   payload: error,
 });
 
+const loginStart = () => ({
+  type: types.LOGIN_START,
+});
+
+const loginSuccess = (user: any) => ({
+  type: types.LOGIN_SUCCESS,
+  payload: user,
+});
+
+const loginFailed = (error: Error) => ({
+  type: types.LOGIN_FAIL,
+  payload: error,
+});
+
 export const registerInitiate = (
   email: string,
   password: string,
   displayName: string
-) => {
+): any => {
   return function (dispatch: any) {
     dispatch(registerStart());
     auth
@@ -32,5 +46,17 @@ export const registerInitiate = (
         dispatch(registerSuccess(user));
       })
       .catch((error) => dispatch(registerFailed(error.message)));
+  };
+};
+
+export const loginInitiate = (email: string, password: string): any => {
+  return function (dispatch: any) {
+    dispatch(loginStart());
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then(({ user }) => {
+        dispatch(loginSuccess(user));
+      })
+      .catch((error) => dispatch(loginFailed(error.message)));
   };
 };
