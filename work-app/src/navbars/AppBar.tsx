@@ -45,7 +45,7 @@ const HomeBar = () => {
                 <Link style={{ color: "inherit" }} to="/products">
                   <Button color="inherit">Products</Button>
                 </Link>
-                <Link style={{ color: "inherit" }} to={"/"}>
+                <Link style={{ color: "inherit" }} to={"/locations"}>
                   <Button color="inherit">Location</Button>
                 </Link>
               </>

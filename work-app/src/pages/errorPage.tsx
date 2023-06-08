@@ -11,10 +11,8 @@ export default function ErrorPage() {
         <Typography marginTop={"20px"}>
           Sorry, but you are digging too much. This page doesn't exist nigga
         </Typography>
-        <Typography>
-          <Typography marginTop={"30px"}>
-            Got to<Link to={"/"}> Home</Link>.
-          </Typography>
+        <Typography marginTop={"30px"}>
+          Got to<Link to={"/"}> Home</Link>.
         </Typography>
       </Container>
     </Box>

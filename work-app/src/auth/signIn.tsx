@@ -50,6 +50,38 @@ export default function SignIn() {
     password: "",
   });
 
+  const [error, setError] = useState({
+    email: "",
+    password: "",
+    passwordConfirm: "",
+  });
+
+  const validateInput = (e: any) => {
+    let { name, value } = e.target;
+    setError((prev) => {
+      const stateObj: any = { ...prev, [name]: "" };
+
+      switch (name) {
+        case "email":
+          if (!value) {
+            stateObj[name] = "Please enter Email.";
+          }
+          break;
+
+        case "password":
+          if (!value) {
+            stateObj[name] = "Please enter Password.";
+          }
+          break;
+
+        default:
+          return "Credentials error";
+      }
+
+      return stateObj;
+    });
+  };
+
   const { email, password } = credentials;
 
   const { currentUser } = useSelector((state: any) => state.user);
@@ -67,6 +99,7 @@ export default function SignIn() {
     if (!email || !password) {
       return;
     }
+
     dispatch(loginInitiate(email, password));
     setCredentials({ email: "", password: "" });
   };
@@ -76,6 +109,7 @@ export default function SignIn() {
 
   const handleCredential = (event: any) => {
     let { name, value } = event.target;
+
     setCredentials({ ...credentials, [name]: value });
   };
 
@@ -103,31 +137,47 @@ export default function SignIn() {
             noValidate
             sx={{ mt: 1 }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoFocus
-              type="email"
-              onChange={handleCredential}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              onChange={handleCredential}
-            />
+            <Grid item xs>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoFocus
+                type="email"
+                onChange={handleCredential}
+                onBlur={validateInput}
+              />
+              {error.email && (
+                <Typography style={{ color: "red" }}>{error.email}</Typography>
+              )}
+            </Grid>
+            <Grid item xs>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                onChange={handleCredential}
+                onBlur={validateInput}
+              />
+              {error.password && (
+                <Typography style={{ color: "red" }}>
+                  {error.password}
+                </Typography>
+              )}
+            </Grid>
+
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+
             <Grid container>
               <Grid item xs>
                 <Button
@@ -158,12 +208,12 @@ export default function SignIn() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
+              <Grid item xs={10}>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
-              <Grid item>
+              <Grid item xs>
                 <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>

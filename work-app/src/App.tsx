@@ -7,6 +7,7 @@ import ProductsPages from "./products/productsPage";
 import AuthVerification from "./router/authVerificationComponent";
 import HomeBar from "./navbars/AppBar";
 import ErrorPage from "./pages/errorPage";
+import LocationPages from "./locations/locationsPage";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/" element={<AuthVerification />}>
             <Route path="/products" element={<ProductsPages />} />
+            <Route path="/locations" element={<LocationPages />} />
           </Route>
           <Route path="*" element={<ErrorPage />} />
         </Routes>

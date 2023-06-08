@@ -47,6 +47,12 @@ export default function SignUp() {
     passwordConfirm: "",
   });
 
+  const [error, setError] = useState({
+    email: "",
+    password: "",
+    passwordConfirm: "",
+  });
+
   const { email, password, displayName, passwordConfirm } = credentials;
 
   useEffect(() => {
@@ -61,8 +67,9 @@ export default function SignUp() {
     event.preventDefault();
 
     if (password !== passwordConfirm) {
-      return "PASSWORDS DO NOT MATCH";
+      return;
     }
+
     dispatch(registerInitiate(email, password, displayName));
     setCredentials({
       email: "",
@@ -74,7 +81,52 @@ export default function SignUp() {
 
   const handleCredential = (event: any) => {
     let { name, value } = event.target;
+
     setCredentials({ ...credentials, [name]: value });
+  };
+
+  const validateInput = (e: any) => {
+    let { name, value } = e.target;
+    setError((prev) => {
+      const stateObj: any = { ...prev, [name]: "" };
+
+      switch (name) {
+        case "email":
+          if (!value) {
+            stateObj[name] = "Please enter Email.";
+          }
+          break;
+
+        case "password":
+          if (!value) {
+            stateObj[name] = "Please enter Password.";
+          } else if (
+            credentials.passwordConfirm &&
+            value !== credentials.passwordConfirm
+          ) {
+            stateObj["passwordConfirm"] =
+              "Password and Confirm Password does not match.";
+          } else {
+            stateObj["passwordConfirm"] = credentials.passwordConfirm
+              ? ""
+              : error.passwordConfirm;
+          }
+          break;
+
+        case "passwordConfirm":
+          if (!value) {
+            stateObj[name] = "Please enter Confirm Password.";
+          } else if (credentials.password && value !== credentials.password) {
+            stateObj[name] = "Password and Confirm Password does not match.";
+          }
+          break;
+
+        default:
+          break;
+      }
+
+      return stateObj;
+    });
   };
 
   return (
@@ -122,9 +174,15 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   type="email"
+                  onBlur={validateInput}
                   value={email}
                   onChange={handleCredential}
                 />
+                {error.email && (
+                  <Typography marginTop={"5px"} style={{ color: "red" }}>
+                    {error.email}
+                  </Typography>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -134,9 +192,15 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
+                  onBlur={validateInput}
                   value={password}
                   onChange={handleCredential}
                 />
+                {error.password && (
+                  <Typography marginTop={"5px"} style={{ color: "red" }}>
+                    {error.password}
+                  </Typography>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -149,7 +213,14 @@ export default function SignUp() {
                   value={passwordConfirm}
                   onChange={handleCredential}
                   placeholder="Confirm Password"
+                  autoComplete="new-password"
+                  onBlur={validateInput}
                 />
+                {error.passwordConfirm && (
+                  <Typography marginTop={"5px"} style={{ color: "red" }}>
+                    {error.passwordConfirm}
+                  </Typography>
+                )}
               </Grid>
               <Grid item xs={12}></Grid>
             </Grid>
@@ -158,6 +229,9 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={
+                email === "" || password === "" || passwordConfirm === ""
+              }
             >
               Sign Up
             </Button>
