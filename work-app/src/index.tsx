@@ -3,6 +3,8 @@ import * as ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import App from "./App";
+import Layout from "./pages/layoutPage";
+import HomeBar from "./navbars/AppBar";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

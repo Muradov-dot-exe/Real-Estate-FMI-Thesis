@@ -5,6 +5,8 @@ import {
   IconButton,
   Typography,
   Button,
+  createTheme,
+  ThemeProvider,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import React from "react";
@@ -22,52 +24,56 @@ const HomeBar = () => {
     }
   };
 
-  return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link style={{ color: "inherit" }} to={"/"}>
-              <Button color="inherit">Home</Button>
-            </Link>
+  const defaultTheme = createTheme();
 
-            {currentUser && (
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              <Link style={{ color: "inherit" }} to={"/"}>
+                <Button color="inherit">Home</Button>
+              </Link>
+
+              {currentUser && (
+                <>
+                  <Link style={{ color: "inherit" }} to="/products">
+                    <Button color="inherit">Products</Button>
+                  </Link>
+                  <Link style={{ color: "inherit" }} to={"/locations"}>
+                    <Button color="inherit">Location</Button>
+                  </Link>
+                </>
+              )}
+            </Typography>
+            {!currentUser ? (
               <>
-                <Link style={{ color: "inherit" }} to="/products">
-                  <Button color="inherit">Products</Button>
-                </Link>
-                <Link style={{ color: "inherit" }} to={"/locations"}>
-                  <Button color="inherit">Location</Button>
-                </Link>
+                <Button color="inherit" href="/signup">
+                  Sign Up
+                </Button>
+                <Button color="inherit" href="/signin">
+                  Sign In
+                </Button>
               </>
+            ) : (
+              <Button onClick={handleAuth} color="inherit" href="/">
+                Sign Out
+              </Button>
             )}
-          </Typography>
-          {!currentUser ? (
-            <>
-              <Button color="inherit" href="/signup">
-                Sign Up
-              </Button>
-              <Button color="inherit" href="/signin">
-                Sign In
-              </Button>
-            </>
-          ) : (
-            <Button onClick={handleAuth} color="inherit" href="/">
-              Sign Out
-            </Button>
-          )}
-        </Toolbar>
-      </AppBar>
-    </Box>
+          </Toolbar>
+        </AppBar>
+      </Box>
+    </ThemeProvider>
   );
 };
 export default HomeBar;
