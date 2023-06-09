@@ -15,15 +15,22 @@ export default function Home() {
             width: "100%",
           }}
           alt="The house from the offer."
-          src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
+          src="https://pra.com/wp-content/uploads/2018/09/State_Office-Page-PNG-3-Images-Long-Image-1300x300.png"
         />
       </Container>
-      <Box component="div" sx={{ display: "inline" }}>
-        inline
-      </Box>
-      <Box component="div" sx={{ display: "inline" }}>
-        inline
-      </Box>
+
+      <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          inline
+        </Box>
+      </Container>
     </ThemeProvider>
   );
 }
