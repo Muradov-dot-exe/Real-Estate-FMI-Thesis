@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
 type Anchor = "left";
 
@@ -82,6 +83,19 @@ const AppSidebar = () => {
                   <ListItemText primary={text} />
                 </Link>
               )}
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {["Close"].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <CloseIcon />
+              </ListItemIcon>
+              <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
         ))}
