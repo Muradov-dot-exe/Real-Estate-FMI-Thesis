@@ -15,10 +15,12 @@ import { useSelector } from "react-redux";
 import { IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import { TitleContext } from "../context/context";
 
 type Anchor = "left";
 
 const AppSidebar = () => {
+  const { title, setTitle } = React.useContext(TitleContext);
   const [state, setState] = React.useState({
     left: false,
   });
@@ -48,13 +50,17 @@ const AppSidebar = () => {
     >
       <List>
         {["Home"].map((text, index) => (
-          <Link style={{ textDecoration: "none", color: "inherit" }} to={"/"}>
+          <Link
+            style={{ textDecoration: "none", color: "inherit" }}
+            to={"/"}
+            onClick={() => setTitle("Home")}
+          >
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <Home />
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={text} onClick={() => setTitle("Home")} />
               </ListItemButton>
             </ListItem>
           </Link>
@@ -72,15 +78,23 @@ const AppSidebar = () => {
                 <Link
                   style={{ textDecoration: "none", color: "inherit" }}
                   to={"/products"}
+                  onClick={() => setTitle("Products")}
                 >
-                  <ListItemText primary={text} />
+                  <ListItemText
+                    primary={text}
+                    onClick={() => setTitle("Products")}
+                  />
                 </Link>
               ) : (
                 <Link
                   style={{ textDecoration: "none", color: "inherit" }}
                   to={"/locations"}
+                  onClick={() => setTitle("Locations")}
                 >
-                  <ListItemText primary={text} />
+                  <ListItemText
+                    primary={text}
+                    onClick={() => setTitle("Locations")}
+                  />
                 </Link>
               )}
             </ListItemButton>

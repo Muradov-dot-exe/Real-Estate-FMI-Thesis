@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { registerInitiate } from "../redux/authActions";
+import { TitleContext } from "../context/context";
 
 function Copyright(props: any) {
   return (
@@ -38,6 +39,8 @@ const defaultTheme = createTheme();
 export default function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { title, setTitle } = React.useContext(TitleContext);
+
   const { currentUser } = useSelector((state: any) => state.user);
 
   const [credentials, setCredentials] = useState({

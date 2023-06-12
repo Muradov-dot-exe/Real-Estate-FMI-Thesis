@@ -7,14 +7,18 @@ import {
   createTheme,
   ThemeProvider,
 } from "@mui/material";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutInitiate } from "../redux/authActions";
 import TemporaryDrawer from "./AppSidebar";
+import { TitleContext } from "../context/context";
 
 const AppHeader = () => {
   const { currentUser } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
+
+  const value = useContext(TitleContext);
+
 
   const handleAuth = () => {
     if (currentUser) {
@@ -32,7 +36,7 @@ const AppHeader = () => {
             <Box>
               <TemporaryDrawer />
             </Box>
-
+            <Typography>{value.title}</Typography>
             <Typography
               variant="h6"
               component="div"
