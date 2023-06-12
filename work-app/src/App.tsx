@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { auth } from "./firebase";
 import { setUser } from "./redux/authActions";
 import { router } from "./router/routes";
-import Layout from "./pages/layoutPage";
 import React from "react";
 
 const App = () => {

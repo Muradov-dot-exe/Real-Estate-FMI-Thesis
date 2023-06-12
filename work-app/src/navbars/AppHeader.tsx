@@ -2,19 +2,17 @@ import {
   Box,
   AppBar,
   Toolbar,
-  IconButton,
   Typography,
   Button,
   createTheme,
   ThemeProvider,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutInitiate } from "../redux/authActions";
-import { Link } from "react-router-dom";
+import TemporaryDrawer from "./AppSidebar";
 
-const HomeBar = () => {
+const AppHeader = () => {
   const { currentUser } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
 
@@ -31,31 +29,15 @@ const HomeBar = () => {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              <Link style={{ color: "inherit" }} to={"/"}>
-                <Button color="inherit">Home</Button>
-              </Link>
+            <Box>
+              <TemporaryDrawer />
+            </Box>
 
-              {currentUser && (
-                <>
-                  <Link style={{ color: "inherit" }} to="/products">
-                    <Button color="inherit">Products</Button>
-                  </Link>
-                  <Link style={{ color: "inherit" }} to={"/locations"}>
-                    <Button color="inherit">Location</Button>
-                  </Link>
-                </>
-              )}
-            </Typography>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1 }}
+            ></Typography>
             {!currentUser ? (
               <>
                 <Button color="inherit" href="/signup">
@@ -76,4 +58,4 @@ const HomeBar = () => {
     </ThemeProvider>
   );
 };
-export default HomeBar;
+export default AppHeader;
