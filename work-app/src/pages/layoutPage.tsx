@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-import HomeBar from "../navbars/AppHeader";
+import AppHeader from "../navbars/AppHeader";
 import { Box } from "@mui/material";
 
 const Layout = () => {
   return (
     <>
-      <HomeBar />
+      <AppHeader />
 
       <Box>
         <Outlet />

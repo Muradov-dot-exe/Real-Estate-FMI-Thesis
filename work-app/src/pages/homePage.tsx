@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Box, Container, ThemeProvider, createTheme } from "@mui/material";
+import { TitleContext } from "../context/context";
 
 export default function Home() {
   const defaultTheme = createTheme();
+
+  const value = useContext(TitleContext);
+
+  useEffect(() => {
+    value.setTitle("Home");
+  }, []);
 
   return (
     <ThemeProvider theme={defaultTheme}>
