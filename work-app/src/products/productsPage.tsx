@@ -1,7 +1,15 @@
 import { Box, Divider, Typography } from "@mui/material";
 import DataTableComponent from "../components/DataTableComponent";
+import { useContext, useEffect } from "react";
+import { TitleContext } from "../context/context";
 
 const ProductsPages = () => {
+  const value = useContext(TitleContext);
+
+  useEffect(() => {
+    value.setTitle("Products");
+  }, [value]);
+
   return (
     <>
       <Box

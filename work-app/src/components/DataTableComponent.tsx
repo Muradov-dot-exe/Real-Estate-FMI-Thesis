@@ -7,19 +7,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
-import { Foods } from "../types/foodsTypes";
+import { Food } from "../types/foodsTypes";
 import AutoComplete from "./AutoCompleteComponent";
-import { Autocomplete, TextField } from "@mui/material";
+import axios from "axios";
 
 export default function DataTableComponent() {
-  const [data, setData] = useState([]);
-  const fetchJson = () => {
-    fetch("http://localhost:3001/food")
+  const [data, setData] = useState<Food[]>([]);
+  const fetchJson = async () => {
+    await axios
+      .get("http://localhost:3001/food")
       .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setData(data);
+        setData(response.data);
       })
       .catch((e: Error) => {
         console.log(e.message);
@@ -28,6 +26,8 @@ export default function DataTableComponent() {
   useEffect(() => {
     fetchJson();
   }, []);
+
+  console.log(data);
 
   return (
     <TableContainer component={Paper}>
@@ -42,7 +42,7 @@ export default function DataTableComponent() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row: Foods) => (
+          {data.map((row: Food) => (
             <TableRow
               key={row.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -51,7 +51,7 @@ export default function DataTableComponent() {
                 {row.name}
               </TableCell>
               <TableCell align="center">
-                <AutoComplete incomingData={row.calories} />
+                <AutoComplete food={row.calories} />
               </TableCell>
               <TableCell align="right">{row.fat}</TableCell>
               <TableCell align="right">{row.carbs}</TableCell>

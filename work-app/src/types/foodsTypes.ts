@@ -1,7 +1,7 @@
-export interface Foods {
+export interface Food {
   name: string;
   calories: number[];
-  fat: number;
-  carbs: number;
-  protein: number;
+  fat: string;
+  carbs: string;
+  protein: string;
 }

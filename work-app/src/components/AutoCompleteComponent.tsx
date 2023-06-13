@@ -1,11 +1,17 @@
 import { Autocomplete, TextField } from "@mui/material";
+import { Food } from "../types/foodsTypes";
 
-const AutoComplete: React.FC<any> = ({ incomingData }: any): JSX.Element => {
+type Data = {
+  food: number[];
+};
+
+const AutoComplete = (incomingData: Data): JSX.Element => {
+  const { food } = incomingData;
   return (
     <Autocomplete
       disablePortal
       id="combo-box-demo"
-      options={incomingData}
+      options={food}
       sx={{ width: 300, display: "flex", alignContent: "center" }}
       renderInput={(params) => <TextField {...params} label="Calories" />}
     />
