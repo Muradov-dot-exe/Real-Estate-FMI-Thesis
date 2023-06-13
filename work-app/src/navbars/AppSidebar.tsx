@@ -48,7 +48,11 @@ const AppSidebar = () => {
     >
       <List>
         {["Home"].map((text, index) => (
-          <Link style={{ textDecoration: "none", color: "inherit" }} to={"/"}>
+          <Link
+            style={{ textDecoration: "none", color: "inherit" }}
+            to={"/"}
+            key={text}
+          >
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
@@ -65,12 +69,13 @@ const AppSidebar = () => {
         {["Products", "Locations"].map((text, index) => (
           <ListItem key={text} disablePadding>
             {currentUser && (
-              <ListItemButton>
-                <ListItemIcon>
+              <ListItemButton key={text}>
+                <ListItemIcon key={text}>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
                 {index === 0 && currentUser ? (
                   <Link
+                    key={text}
                     style={{ textDecoration: "none", color: "inherit" }}
                     to={"/products"}
                   >
@@ -78,10 +83,11 @@ const AppSidebar = () => {
                   </Link>
                 ) : (
                   <Link
+                    key={text}
                     style={{ textDecoration: "none", color: "inherit" }}
                     to={"/locations"}
                   >
-                    <ListItemText primary={text} />
+                    <ListItemText primary={text} key={text} />
                   </Link>
                 )}
               </ListItemButton>
