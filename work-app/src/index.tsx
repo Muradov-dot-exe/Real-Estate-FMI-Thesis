@@ -4,12 +4,15 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import App from "./App";
 import { CssBaseline } from "@mui/material";
+import MainContext from "./context/context";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <CssBaseline />
     <Provider store={store}>
-      <App />
+      <MainContext>
+        <App />
+      </MainContext>
     </Provider>
   </React.StrictMode>
 );

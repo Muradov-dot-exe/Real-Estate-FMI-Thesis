@@ -10,10 +10,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { registerInitiate } from "../redux/authActions";
+import { TitleContext } from "../context/context";
 
 function Copyright(props: any) {
   return (
@@ -38,6 +39,12 @@ const defaultTheme = createTheme();
 export default function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const value = useContext(TitleContext);
+  useEffect(() => {
+    value.setTitle("Sign Up");
+  }, [value]);
+
   const { currentUser } = useSelector((state: any) => state.user);
 
   const [credentials, setCredentials] = useState({
