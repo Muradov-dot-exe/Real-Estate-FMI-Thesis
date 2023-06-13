@@ -1,5 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import { Box, Container, ThemeProvider, createTheme } from "@mui/material";
+import {
+  Box,
+  Container,
+  Divider,
+  ThemeProvider,
+  Typography,
+  createTheme,
+} from "@mui/material";
 import { TitleContext } from "../context/context";
 import TitlebarImageList from "../helpers/imageList";
 
@@ -30,12 +37,17 @@ export default function Home() {
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 5,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            marginBottom: 5,
           }}
         >
+          <Typography sx={{ fontWeight: "bold" }}>
+            Available Products
+          </Typography>
+          <Divider />
           <TitlebarImageList />
         </Box>
       </Container>
