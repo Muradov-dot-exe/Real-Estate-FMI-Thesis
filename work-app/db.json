@@ -3,7 +3,7 @@
     {
       "id": "1",
       "name": "Frozen yoghurt",
-      "calories-per-100g": "159",
+      "calories": ["132", "12"],
       "fat": "6",
       "carbs": "24",
       "protein": "4"
@@ -11,7 +11,7 @@
     {
       "id": "2",
       "name": "Ice cream sandwich",
-      "calories-per-100g": "237",
+      "calories": "237",
       "fat": "9",
       "carbs": "37",
       "protein": "4.3"
@@ -19,7 +19,7 @@
     {
       "id": "3",
       "name": "Eclair",
-      "calories-per-100g": "262",
+      "calories": "262",
       "fat": "16",
       "carbs": "24",
       "protein": "6"
@@ -27,15 +27,15 @@
     {
       "id": "4",
       "name": "Cupcake",
-      "calories-per-100g": "305",
+      "calories": "305",
       "fat": "3.7",
       "carbs": "67",
-      "protein": "4"
+      "protein": "4.3"
     },
     {
       "id": "5",
       "name": "Gingerbread",
-      "calories-per-100g": "159",
+      "calories": "159",
       "fat": "6",
       "carbs": "24",
       "protein": "4"
