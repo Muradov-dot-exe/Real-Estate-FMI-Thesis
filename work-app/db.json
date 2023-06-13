@@ -1,5 +1,44 @@
 {
-  "posts": [{ "id": 1, "title": "json-server", "author": "typicode" }],
-  "comments": [{ "id": 1, "body": "some comment", "postId": 1 }],
-  "profile": { "name": "typicode" }
+  "food": [
+    {
+      "id": "1",
+      "name": "Frozen yoghurt",
+      "calories-per-100g": "159",
+      "fat": "6",
+      "carbs": "24",
+      "protein": "4"
+    },
+    {
+      "id": "2",
+      "name": "Ice cream sandwich",
+      "calories-per-100g": "237",
+      "fat": "9",
+      "carbs": "37",
+      "protein": "4.3"
+    },
+    {
+      "id": "3",
+      "name": "Eclair",
+      "calories-per-100g": "262",
+      "fat": "16",
+      "carbs": "24",
+      "protein": "6"
+    },
+    {
+      "id": "4",
+      "name": "Cupcake",
+      "calories-per-100g": "305",
+      "fat": "3.7",
+      "carbs": "67",
+      "protein": "4"
+    },
+    {
+      "id": "5",
+      "name": "Gingerbread",
+      "calories-per-100g": "159",
+      "fat": "6",
+      "carbs": "24",
+      "protein": "4"
+    }
+  ]
 }
