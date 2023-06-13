@@ -24,6 +24,7 @@ import {
   googleSignInInitiate,
   loginInitiate,
 } from "../redux/authActions";
+import { TitleContext } from "../context/context";
 
 function Copyright(props: any) {
   return (
@@ -57,6 +58,11 @@ export default function SignIn() {
   const { email, password } = credentials;
 
   const { currentUser } = useSelector((state: any) => state.user);
+
+  const value = React.useContext(TitleContext);
+  useEffect(() => {
+    value.setTitle("Sign In");
+  }, [value]);
 
   useEffect(() => {
     if (currentUser) {
