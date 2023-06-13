@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Box, Container, ThemeProvider, createTheme } from "@mui/material";
 import { TitleContext } from "../context/context";
+import TitlebarImageList from "../helpers/imageList";
 
 export default function Home() {
   const defaultTheme = createTheme();
@@ -35,7 +36,7 @@ export default function Home() {
             alignItems: "center",
           }}
         >
-          inline
+          <TitlebarImageList />
         </Box>
       </Container>
     </ThemeProvider>
