@@ -62,7 +62,7 @@ export default function SignIn() {
   const value = React.useContext(TitleContext);
   useEffect(() => {
     value.setTitle("Sign In");
-  }, []);
+  }, [value]);
 
   useEffect(() => {
     if (currentUser) {

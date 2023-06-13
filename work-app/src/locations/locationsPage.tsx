@@ -12,7 +12,7 @@ const LocationPages = () => {
 
   useEffect(() => {
     value.setTitle("Locations");
-  }, []);
+  }, [value]);
 
   return (
     <div>

@@ -43,7 +43,7 @@ export default function SignUp() {
   const value = useContext(TitleContext);
   useEffect(() => {
     value.setTitle("Sign Up");
-  }, []);
+  }, [value]);
 
   const { currentUser } = useSelector((state: any) => state.user);
 
