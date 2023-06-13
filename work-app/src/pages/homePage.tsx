@@ -9,7 +9,7 @@ export default function Home() {
 
   useEffect(() => {
     value.setTitle("Home");
-  }, []);
+  }, [value]);
 
   return (
     <ThemeProvider theme={defaultTheme}>

@@ -6,7 +6,7 @@ const ProductsPages = () => {
 
   useEffect(() => {
     value.setTitle("Products");
-  }, []);
+  }, [value]);
 
   return <p>Welcome to products</p>;
 };
