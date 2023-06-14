@@ -1,16 +1,23 @@
 import { Autocomplete, TextField } from "@mui/material";
-import { Specs } from "../types/specTypes";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 type Data = {
   Data: (string | number | number[] | string[])[];
 };
 
 const AutoComplete: React.FC<Data> = ({ Data }): JSX.Element => {
+  const [value, setValue] = useState(null);
+  const handleValue = (event: React.ChangeEvent<{}>, newEvent: any) => {
+    setValue(newEvent);
+  };
+
+  console.log(value);
   return (
     <Autocomplete
       disablePortal
       id="combo-box-demo"
+      value={value}
+      onChange={handleValue}
       options={Data}
       sx={{
         width: 200,

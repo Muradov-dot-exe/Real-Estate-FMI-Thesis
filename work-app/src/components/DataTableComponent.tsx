@@ -10,9 +10,11 @@ import { useEffect, useState } from "react";
 import { Specs } from "../types/specTypes";
 import AutoComplete from "./AutoCompleteComponent";
 import axios from "axios";
+import { Button } from "@mui/material";
 
 export default function DataTableComponent() {
   const [data, setData] = useState<Specs[]>([]);
+  const [motherboard, setMotherboard] = useState("");
 
   const fetchJson = async () => {
     await axios
@@ -28,7 +30,10 @@ export default function DataTableComponent() {
   useEffect(() => {
     fetchJson();
   }, []);
-  console.log(data);
+
+  const handleMotherboard = (event: any) => {
+    setMotherboard(event.target.value);
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -38,8 +43,8 @@ export default function DataTableComponent() {
             <TableCell>Motherboard Brand</TableCell>
             <TableCell align="inherit">&nbsp;RAM(GB)</TableCell>
             <TableCell align="inherit">Video Card&nbsp;</TableCell>
-            <TableCell align="inherit">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="inherit">Protein&nbsp;(g)</TableCell>
+            <TableCell align="inherit">VRAM&nbsp;(GB)</TableCell>
+            <TableCell align="inherit">Price&nbsp;(USD$)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -49,7 +54,15 @@ export default function DataTableComponent() {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}
+                <Button
+                  value={row.name}
+                  color="primary"
+                  onClick={(e) => {
+                    handleMotherboard(e);
+                  }}
+                >
+                  {row.name}
+                </Button>
               </TableCell>
               <TableCell align="left">
                 <AutoComplete Data={row.RAM} />
