@@ -3,11 +3,12 @@ import React, { useState } from "react";
 
 type Data = {
   Data: (string | number | number[] | string[])[];
+  disabled?: boolean;
 };
 
-const AutoComplete: React.FC<Data> = ({ Data }): JSX.Element => {
+const AutoComplete: React.FC<Data> = ({ Data, disabled }): JSX.Element => {
   const [value, setValue] = useState(null);
-  const handleValue = (event: React.ChangeEvent<{}>, newEvent: any) => {
+  const handleValue = (event: any, newEvent: any) => {
     setValue(newEvent);
   };
 
@@ -17,13 +18,14 @@ const AutoComplete: React.FC<Data> = ({ Data }): JSX.Element => {
       disablePortal
       id="combo-box-demo"
       value={value}
+      disabled={disabled}
       onChange={handleValue}
       options={Data}
       sx={{
         width: 200,
         marginRight: -15,
       }}
-      renderInput={(params) => <TextField {...params} label="Calories" />}
+      renderInput={(params) => <TextField {...params} label="Parameter" />}
     />
   );
 };

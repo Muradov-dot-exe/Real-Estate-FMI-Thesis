@@ -5,40 +5,72 @@
       "name": "MSI MOTHERBOARD",
       "RAM": ["8", "12"],
       "VideoCard": ["RTX 1080", "RTX 1080 TI"],
-      "carbs": "24",
-      "protein": "4"
+      "VRAM": ["8", "12"]
     },
     {
       "id": "2",
       "name": "ASUS MOTHERBOARD",
       "RAM": ["16", "32"],
       "VideoCard": ["RTX 4080", "RTX 4090", "RTX 4090 TI"],
-      "carbs": "37",
-      "protein": "4.3"
+      "VRAM": ["16", "32"]
     },
     {
       "id": "3",
       "name": "NZXT MOTHERBOARD",
       "RAM": ["12", "24"],
       "VideoCard": ["RTX 3060", "RTX 3070"],
-      "carbs": "24",
-      "protein": "6"
+      "VRAM": ["6", "8"]
     },
     {
       "id": "4",
       "name": "ASROCK MOTHERBOARD",
-      "RAM": ["2", "4"],
+      "RAM": ["8", "16"],
       "VideoCard": ["AMD RX 6700", "AMD RX 7200"],
-      "carbs": "67",
-      "protein": "4.3"
+      "VRAM": ["6", "12"]
     },
     {
       "id": "5",
       "name": "EVGA MOTHERBOARD",
       "RAM": ["6", "12"],
       "VideoCard": ["Intel Xeon 12", "Intel Celeron 3"],
-      "carbs": "24",
-      "protein": "4"
+      "VRAM": ["2", "4"]
+    }
+  ],
+  "prices": [
+    {
+      "id": "1",
+      "mbprice": 250,
+      "ramPrice": [100, 200],
+      "VideoCardPrice": ["500", "550"],
+      "vramPrice": ["100", "150"]
+    },
+    {
+      "id": "2",
+      "mbprice": 200,
+      "ramPrice": [150, 250],
+      "VideoCardPrice": ["600", "650", "700"],
+      "vramPrice": ["200", "250"]
+    },
+    {
+      "id": "3",
+      "mbprice": 300,
+      "ramPrice": [130, 190],
+      "VideoCardPrice": ["550", "600"],
+      "vramPrice": ["150", "200"]
+    },
+    {
+      "id": "4",
+      "mbprice": 150,
+      "ramPrice": [90, 110],
+      "VideoCardPrice": ["300", "330"],
+      "vramPrice": ["120", "130"]
+    },
+    {
+      "id": "5",
+      "mbprice": 100,
+      "ramPrice": [70, 110],
+      "VideoCardPrice": ["200", "250"],
+      "vramPrice": ["50", "80"]
     }
   ]
 }

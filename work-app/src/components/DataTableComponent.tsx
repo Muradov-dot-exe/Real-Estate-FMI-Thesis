@@ -7,16 +7,18 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
-import { Specs } from "../types/specTypes";
+import { Prices, Specs } from "../types/specTypes";
 import AutoComplete from "./AutoCompleteComponent";
 import axios from "axios";
-import { Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
 export default function DataTableComponent() {
   const [data, setData] = useState<Specs[]>([]);
+  const [price, setPrice] = useState<Prices[]>([]);
   const [motherboard, setMotherboard] = useState("");
+  const [priceAdder, setPriceAdder] = useState<number>(0);
 
-  const fetchJson = async () => {
+  const getAllSpecs = async () => {
     await axios
       .get("http://localhost:3001/specs")
       .then((response) => {
@@ -26,14 +28,40 @@ export default function DataTableComponent() {
         console.log(e.message);
       });
   };
+  const getAllPrices = async () => {
+    await axios
+      .get("http://localhost:3001/prices")
+      .then((response) => {
+        setPrice(response.data);
+      })
+      .catch((e: Error) => {
+        console.log(e.message);
+      });
+  };
 
   useEffect(() => {
-    fetchJson();
+    getAllSpecs();
+    getAllPrices();
   }, []);
 
   const handleMotherboard = (event: any) => {
     setMotherboard(event.target.value);
   };
+  const normalPrice = price.map((price: Prices) => {
+    return price.ramPrice.filter((item) => {
+      return item === 200;
+    });
+  });
+  useEffect(() => {
+    if (motherboard === "MSI MOTHERBOARD") {
+      setPriceAdder(200);
+    }
+  }, [motherboard]);
+  const priceCalc = () => {};
+
+  const datarest = data.map((item) => ({ ...item }));
+
+  console.log(datarest);
 
   return (
     <TableContainer component={Paper}>
@@ -57,6 +85,7 @@ export default function DataTableComponent() {
                 <Button
                   value={row.name}
                   color="primary"
+                  disabled={motherboard !== ""}
                   onClick={(e) => {
                     handleMotherboard(e);
                   }}
@@ -71,11 +100,9 @@ export default function DataTableComponent() {
                 <AutoComplete Data={row.VideoCard} />
               </TableCell>
               <TableCell align="center">
-                {/* <AutoComplete Data={row.carbs} /> */}
+                <AutoComplete Data={row.VRAM} />
               </TableCell>
-              <TableCell align="center">
-                {/* <AutoComplete Data={row.protein} /> */}
-              </TableCell>
+              <TableCell align="center">{priceAdder}</TableCell>
             </TableRow>
           ))}
         </TableBody>
