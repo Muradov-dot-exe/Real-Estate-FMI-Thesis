@@ -21,7 +21,9 @@ const ProductsPages = () => {
           marginBottom: 5,
         }}
       >
-        <Typography sx={{ fontWeight: "bold" }}>Food Macros</Typography>
+        <Typography sx={{ fontWeight: "bold" }}>
+          PC Components and Specs
+        </Typography>
       </Box>
       <Divider />
       <Box>

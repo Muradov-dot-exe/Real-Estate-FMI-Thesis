@@ -1,16 +1,17 @@
 import { Autocomplete, TextField } from "@mui/material";
+import { Specs } from "../types/specTypes";
+import React, { useEffect, useState } from "react";
 
 type Data = {
-  calories: number[];
+  Data: (string | number | number[] | string[])[];
 };
 
-const AutoComplete = (calorieInput: Data): JSX.Element => {
-  const { calories } = calorieInput;
+const AutoComplete: React.FC<Data> = ({ Data }): JSX.Element => {
   return (
     <Autocomplete
       disablePortal
       id="combo-box-demo"
-      options={calories}
+      options={Data}
       sx={{
         width: 200,
         marginRight: -15,

@@ -1,42 +1,42 @@
 {
-  "food": [
+  "specs": [
     {
       "id": "1",
-      "name": "Frozen yoghurt",
-      "calories": ["145", "132"],
-      "fat": "6",
+      "name": "MSI MOTHERBOARD",
+      "RAM": ["8", "12"],
+      "VideoCard": ["RTX 1080", "RTX 1080 TI"],
       "carbs": "24",
       "protein": "4"
     },
     {
       "id": "2",
-      "name": "Ice cream sandwich",
-      "calories": ["145", "132"],
-      "fat": "9",
+      "name": "ASUS MOTHERBOARD",
+      "RAM": [16, 32],
+      "VideoCard": ["RTX 4080", "RTX 4090", "RTX 4090 TI"],
       "carbs": "37",
       "protein": "4.3"
     },
     {
       "id": "3",
-      "name": "Eclair",
-      "calories": ["145", "132"],
-      "fat": "16",
+      "name": "NZXT MOTHERBOARD",
+      "RAM": ["12", "24"],
+      "VideoCard": ["RTX 3060", "RTX 3070"],
       "carbs": "24",
       "protein": "6"
     },
     {
       "id": "4",
-      "name": "Cupcake",
-      "calories": ["145", "132"],
-      "fat": "3.7",
+      "name": "ASROCK MOTHERBOARD",
+      "RAM": ["2", "4"],
+      "VideoCard": ["AMD RX 6700", "AMD RX 7200"],
       "carbs": "67",
       "protein": "4.3"
     },
     {
       "id": "5",
-      "name": "Gingerbread",
-      "calories": ["145", "132"],
-      "fat": "6",
+      "name": "EVGA MOTHERBOARD",
+      "RAM": ["6", "12"],
+      "VideoCard": ["Intel Xeon 12", "Intel Celeron 3"],
       "carbs": "24",
       "protein": "4"
     }
