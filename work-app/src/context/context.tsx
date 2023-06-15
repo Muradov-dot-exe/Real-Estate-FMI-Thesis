@@ -1,11 +1,16 @@
-import React, { createContext, useState } from "react";
+import React, { ReactNode, createContext, useState } from "react";
+
+type HeaderProps = {
+  children: ReactNode;
+};
 
 export const TitleContext = createContext({
   title: "",
   setTitle: (e: string) => {},
 });
 
-const MainContext = ({ children }: any) => {
+const MainContext = (HeaderProps: HeaderProps): JSX.Element => {
+  const { children } = HeaderProps;
   const [title, setTitle] = useState("");
   const value = { title, setTitle };
 

@@ -1,3 +1,5 @@
+import { Box, Divider, Typography } from "@mui/material";
+import DataTableComponent from "../components/DataTableComponent";
 import { useContext, useEffect } from "react";
 import { TitleContext } from "../context/context";
 
@@ -8,7 +10,27 @@ const ProductsPages = () => {
     value.setTitle("Products");
   }, [value]);
 
-  return <p>Welcome to products</p>;
+  return (
+    <>
+      <Box
+        sx={{
+          marginTop: 5,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginBottom: 5,
+        }}
+      >
+        <Typography sx={{ fontWeight: "bold" }}>
+          PC Components and Specs
+        </Typography>
+      </Box>
+      <Divider />
+      <Box>
+        <DataTableComponent />
+      </Box>
+    </>
+  );
 };
 
 export default ProductsPages;
