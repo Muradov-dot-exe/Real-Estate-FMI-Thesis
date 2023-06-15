@@ -2,38 +2,22 @@
   "specs": [
     {
       "id": "1",
-      "name": "MSI MOTHERBOARD",
-      "RAM": ["8", "12"],
-      "VideoCard": ["RTX 1080", "RTX 1080 TI"],
-      "VRAM": ["8", "12"]
-    },
-    {
-      "id": "2",
-      "name": "ASUS MOTHERBOARD",
-      "RAM": ["16", "32"],
-      "VideoCard": ["RTX 4080", "RTX 4090", "RTX 4090 TI"],
-      "VRAM": ["16", "32"]
-    },
-    {
-      "id": "3",
-      "name": "NZXT MOTHERBOARD",
-      "RAM": ["12", "24"],
-      "VideoCard": ["RTX 3060", "RTX 3070"],
-      "VRAM": ["6", "8"]
-    },
-    {
-      "id": "4",
-      "name": "ASROCK MOTHERBOARD",
-      "RAM": ["8", "16"],
-      "VideoCard": ["AMD RX 6700", "AMD RX 7200"],
-      "VRAM": ["6", "12"]
-    },
-    {
-      "id": "5",
-      "name": "EVGA MOTHERBOARD",
-      "RAM": ["6", "12"],
-      "VideoCard": ["Intel Xeon 12", "Intel Celeron 3"],
-      "VRAM": ["2", "4"]
+      "motherboard": ["MSI", "NZXT", "ASROCK", "EVGA"],
+      "RAM": ["4", "8", "12", "16", "24", "32"],
+      "VideoCard": [
+        "Intel Xeon 12",
+        "Intel Celeron 3",
+        "AMD RX 6700",
+        "AMD RX 7200",
+        "RTX 1080",
+        "RTX 1080 TI",
+        "RTX 3060",
+        "RTX 3070",
+        "RTX 4080",
+        "RTX 4090",
+        "RTX 4090 TI"
+      ],
+      "VRAM": ["2", "4", "6", "8", "12", "16", "32"]
     }
   ],
   "prices": [

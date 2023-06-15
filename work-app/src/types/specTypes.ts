@@ -1,5 +1,6 @@
 export interface Specs {
-  name: string;
+  id: string;
+  motherboard: string;
   RAM: number[];
   VideoCard: string[];
   VRAM: number[];

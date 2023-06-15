@@ -1,11 +1,6 @@
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+
 import { useEffect, useState } from "react";
 import { Prices, Specs } from "../types/specTypes";
 import AutoComplete from "./AutoCompleteComponent";
@@ -59,54 +54,78 @@ export default function DataTableComponent() {
   }, [motherboard]);
   const priceCalc = () => {};
 
-  const datarest = data.map((item) => ({ ...item }));
+  const columns: GridColDef[] = [
+    { field: "id", headerName: "ID", sortable: false, width: 90 },
+    {
+      field: "motherboard",
+      headerName: "Motherboard",
+      renderCell: (params) => {
+        return <AutoComplete Data={params.row.motherboard} />;
+      },
+      sortable: false,
+      width: 200,
+      minWidth: 200,
+    },
+    {
+      field: "RAM",
+      headerName: "RAM(GB)",
+      width: 200,
+      sortable: false,
 
-  console.log(datarest);
+      renderCell: (params) => {
+        return <AutoComplete Data={params.row.RAM} />;
+      },
+    },
+    {
+      field: "VideoCard",
+      headerName: "VideoCard",
+      renderCell: (params) => {
+        return <AutoComplete Data={params.row.VideoCard} />;
+      },
+      width: 200,
+      sortable: false,
+
+      minWidth: 100,
+    },
+    {
+      field: "VRAM",
+      headerName: "VRAM(GB)",
+      renderCell: (params) => {
+        return <AutoComplete Data={params.row.VRAM} />;
+      },
+      width: 200,
+      sortable: false,
+
+      minWidth: 100,
+    },
+    {
+      field: "fullName",
+      headerName: "Full name",
+      description: "This column has a value getter and is not sortable.",
+      sortable: false,
+      width: 200,
+      valueGetter: (params: GridValueGetterParams) =>
+        `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    },
+  ];
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Motherboard Brand</TableCell>
-            <TableCell align="inherit">&nbsp;RAM(GB)</TableCell>
-            <TableCell align="inherit">Video Card&nbsp;</TableCell>
-            <TableCell align="inherit">VRAM&nbsp;(GB)</TableCell>
-            <TableCell align="inherit">Price&nbsp;(USD$)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((row: Specs) => (
-            <TableRow
-              key={row.name}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                <Button
-                  value={row.name}
-                  color="primary"
-                  disabled={motherboard !== ""}
-                  onClick={(e) => {
-                    handleMotherboard(e);
-                  }}
-                >
-                  {row.name}
-                </Button>
-              </TableCell>
-              <TableCell align="left">
-                <AutoComplete Data={row.RAM} />
-              </TableCell>
-              <TableCell align="center">
-                <AutoComplete Data={row.VideoCard} />
-              </TableCell>
-              <TableCell align="center">
-                <AutoComplete Data={row.VRAM} />
-              </TableCell>
-              <TableCell align="center">{priceAdder}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Box sx={{ height: 400, width: "100%" }}>
+      <DataGrid
+        rows={data}
+        getRowHeight={() => 70}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 1,
+            },
+          },
+        }}
+        pageSizeOptions={[5]}
+        checkboxSelection
+        disableRowSelectionOnClick
+      />
+    </Box>
   );
 }
