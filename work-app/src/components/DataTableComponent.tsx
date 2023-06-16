@@ -65,10 +65,10 @@ export default function DataTableComponent() {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 400 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Motherboard Brand</TableCell>
+            <TableCell align="right">Motherboard Brand</TableCell>
             <TableCell align="inherit">&nbsp;RAM(GB)</TableCell>
             <TableCell align="inherit">Video Card&nbsp;</TableCell>
             <TableCell align="inherit">VRAM&nbsp;(GB)</TableCell>
@@ -81,7 +81,7 @@ export default function DataTableComponent() {
               key={row.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" align="right">
                 <Button
                   value={row.name}
                   color="primary"

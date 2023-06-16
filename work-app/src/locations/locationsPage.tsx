@@ -1,13 +1,40 @@
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
-import { useContext, useEffect, useMemo } from "react";
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { useContext, useEffect } from "react";
 import { TitleContext } from "../context/context";
+import { Box, Button, Divider, Typography } from "@mui/material";
+import { IconButton } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import "../../src/locations/mapContainer.css";
+
+const columns: GridColDef[] = [
+  { field: "Location", headerName: "Location", width: 600, sortable: false },
+  {
+    field: "Organization",
+    headerName: "Organization",
+    width: 650,
+    sortable: false,
+  },
+  {
+    field: "action",
+    headerName: "Action",
+    sortable: false,
+    editable: false,
+    renderCell: () => {
+      return (
+        <IconButton>
+          <EditIcon />
+        </IconButton>
+      );
+    },
+  },
+];
+
+const rows = [
+  { id: "0", Organization: "Robert Bosch EOOD", Location: "Sf" },
+  { id: "1", Organization: "Robert Bosch EOOD", Location: "Sf4" },
+];
 
 const LocationPages = () => {
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBNGqOJGUgyV8NytZGKyiHxYkX43mMQzu4",
-  });
-  const center = useMemo(() => ({ lat: 18.52043, lng: 73.856743 }), []);
-
   const value = useContext(TitleContext);
 
   useEffect(() => {
@@ -15,19 +42,35 @@ const LocationPages = () => {
   }, [value]);
 
   return (
-    <div>
-      {!isLoaded ? (
-        <h1>Loading...</h1>
-      ) : (
-        <GoogleMap
-          mapContainerClassName="map-container"
-          center={center}
-          zoom={10}
-        >
-          <Marker position={{ lat: 18.52043, lng: 73.856743 }} />
-        </GoogleMap>
-      )}
-    </div>
+    <>
+      <Box
+        style={{
+          height: 700,
+          width: "80%",
+          display: "flex",
+          marginLeft: 350,
+          marginTop: 170,
+        }}
+      >
+        <Box sx={{ marginTop: -9, marginRight: -10 }}>
+          <Typography sx={{ fontWeight: "bold" }}>Locations</Typography>
+          <Divider />
+        </Box>
+
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          disableColumnMenu={true}
+          disableColumnSelector={true}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[]}
+        />
+      </Box>
+    </>
   );
 };
 

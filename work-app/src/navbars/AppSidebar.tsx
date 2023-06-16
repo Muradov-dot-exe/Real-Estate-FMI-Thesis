@@ -2,138 +2,127 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import ApartmentIcon from "@mui/icons-material/Apartment";
 import { Home } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { IconButton } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import RecentActorsIcon from "@mui/icons-material/RecentActors";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import PeopleIcon from "@mui/icons-material/People";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import { AppBar, Toolbar, Typography } from "@mui/material";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import AppHeader from "./AppHeader";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 
-type Anchor = "left";
+const drawerWidth = 300;
 
 const AppSidebar = () => {
-  const [state, setState] = React.useState({
-    left: false,
-  });
-
   const { currentUser } = useSelector((state: any) => state.user);
-
-  const toggleDrawer =
-    (anchor: Anchor, open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
-      ) {
-        return;
-      }
-
-      setState({ ...state, [anchor]: open });
-    };
-
-  const list = (anchor: Anchor) => (
-    <Box
-      sx={{ width: 250 }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List>
-        {["Home"].map((text, index) => (
-          <Link
-            style={{ textDecoration: "none", color: "inherit" }}
-            to={"/"}
-            key={text}
-          >
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <Home />
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          </Link>
-        ))}
-      </List>
-      {currentUser && <Divider />}
-      <List>
-        {["Products", "Locations"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            {currentUser && (
-              <ListItemButton key={text}>
-                <ListItemIcon key={text}>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                {index === 0 && currentUser ? (
-                  <Link
-                    key={text}
-                    style={{ textDecoration: "none", color: "inherit" }}
-                    to={"/products"}
-                  >
-                    <ListItemText primary={text} />
-                  </Link>
-                ) : (
-                  <Link
-                    key={text}
-                    style={{ textDecoration: "none", color: "inherit" }}
-                    to={"/locations"}
-                  >
-                    <ListItemText primary={text} key={text} />
-                  </Link>
-                )}
-              </ListItemButton>
-            )}
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["Close"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <CloseIcon />
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
 
   return (
     <Box>
-      {(["left"] as const).map((anchor) => (
-        <React.Fragment key={anchor}>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={toggleDrawer(anchor, true)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Drawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-          >
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
+      <AppBar sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+        <AppHeader />
+      </AppBar>
+      <Drawer
+        variant="permanent"
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: {
+            width: drawerWidth,
+            boxSizing: "border-box",
+            position: "absolute",
+          },
+        }}
+      >
+        <Toolbar />
+        <Box sx={{ overflow: "auto" }}>
+          <List>
+            {["Dashboard"].map((text, index) => (
+              <Link
+                style={{ textDecoration: "none", color: "inherit" }}
+                to={"/"}
+                key={text}
+              >
+                <ListItem key={text}>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <DashboardIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            ))}
+          </List>
+          {currentUser && <Typography sx={{ marginLeft: 5 }}>Admin</Typography>}
+          <List>
+            {[
+              "Roles",
+              "Locations",
+              "Departments",
+              "Positions",
+              "Associates",
+              "Resource groups",
+              "Event types",
+              "Reports",
+            ].map((text, index) => (
+              <ListItem key={text} disablePadding>
+                {currentUser && (
+                  <ListItemButton key={text}>
+                    <ListItemIcon key={text}>
+                      {index === 0 ? (
+                        <AccountBoxIcon />
+                      ) : index === 1 ? (
+                        <LocationOnIcon />
+                      ) : index === 2 ? (
+                        <ApartmentIcon />
+                      ) : index === 3 ? (
+                        <RecentActorsIcon />
+                      ) : index === 4 ? (
+                        <PeopleAltIcon />
+                      ) : index === 5 ? (
+                        <PeopleIcon />
+                      ) : index === 6 ? (
+                        <EventNoteIcon />
+                      ) : (
+                        <ListAltIcon />
+                      )}
+                    </ListItemIcon>
+                    {index === 0 && currentUser ? (
+                      <Link
+                        key={text}
+                        style={{ textDecoration: "none", color: "inherit" }}
+                        to={"/products"}
+                      >
+                        <ListItemText primary={text} />
+                      </Link>
+                    ) : (
+                      <Link
+                        key={text}
+                        style={{ textDecoration: "none", color: "inherit" }}
+                        to={"/locations"}
+                      >
+                        <ListItemText primary={text} key={text} />
+                      </Link>
+                    )}
+                  </ListItemButton>
+                )}
+              </ListItem>
+            ))}
+          </List>
+          <Toolbar />
+        </Box>
+        <Typography sx={{ marginTop: 37, marginLeft: 15 }}>1.11.7</Typography>
+      </Drawer>
     </Box>
   );
 };

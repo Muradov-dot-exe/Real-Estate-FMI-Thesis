@@ -15,13 +15,15 @@ const ProductsPages = () => {
       <Box
         sx={{
           marginTop: 5,
-          display: "flex",
           flexDirection: "column",
           alignItems: "center",
           marginBottom: 5,
+          display: "flex",
         }}
       >
-        <Typography sx={{ fontWeight: "bold" }}>
+        <Typography
+          sx={{ fontWeight: "bold", display: "flex", alignItems: "center" }}
+        >
           PC Components and Specs
         </Typography>
       </Box>

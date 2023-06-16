@@ -1,13 +1,14 @@
 import { Outlet } from "react-router-dom";
 import AppHeader from "../navbars/AppHeader";
-import { Box } from "@mui/material";
+import { Box, Toolbar } from "@mui/material";
+import AppSidebar from "../navbars/AppSidebar";
 
 const Layout = () => {
   return (
     <>
-      <AppHeader />
+      <AppSidebar />
 
-      <Box>
+      <Box sx={{ position: "relative" }}>
         <Outlet />
       </Box>
     </>
