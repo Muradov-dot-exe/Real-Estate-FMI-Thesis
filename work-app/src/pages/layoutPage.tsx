@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import AppHeader from "../navbars/AppHeader";
 import { Box, Toolbar } from "@mui/material";
 import AppSidebar from "../navbars/AppSidebar";
 

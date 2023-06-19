@@ -1,45 +1,92 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TitleContext } from "../context/context";
-import { Box, Button, Divider, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import "../../src/locations/mapContainer.css";
-
-const columns: GridColDef[] = [
-  { field: "Location", headerName: "Location", width: 600, sortable: false },
-  {
-    field: "Organization",
-    headerName: "Organization",
-    width: 650,
-    sortable: false,
-  },
-  {
-    field: "action",
-    headerName: "Action",
-    sortable: false,
-    editable: false,
-    renderCell: () => {
-      return (
-        <IconButton>
-          <EditIcon />
-        </IconButton>
-      );
-    },
-  },
-];
-
-const rows = [
-  { id: "0", Organization: "Robert Bosch EOOD", Location: "Sf" },
-  { id: "1", Organization: "Robert Bosch EOOD", Location: "Sf4" },
-];
+import ModalComponent from "../modals/modalPopUp";
+import { Department } from "../types/departmentTypes";
+import axios from "axios";
 
 const LocationPages = () => {
   const value = useContext(TitleContext);
+  const [department, setDepartment] = useState<Department[]>([]);
 
+  const columns: GridColDef[] = [
+    {
+      field: "locationName",
+      headerName: "Location",
+      width: 600,
+      renderCell: (params) => {
+        return params.row.locationName;
+      },
+      sortable: false,
+    },
+    {
+      field: "organizationName",
+      headerName: "Organization",
+      width: 650,
+      renderCell: (params) => {
+        return params.row.organizationName;
+      },
+      sortable: false,
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      sortable: false,
+      editable: false,
+      renderCell: () => {
+        return (
+          <IconButton>
+            <EditIcon />
+          </IconButton>
+        );
+      },
+    },
+  ];
+
+  const rows = [
+    {
+      id: "0",
+      organizationName: department.map((item: Department) => {
+        return item.organizationName;
+      }),
+      locationName: department.map((item: Department) => {
+        return item.locationName[0];
+      }),
+    },
+    {
+      id: "1",
+      organizationName: department.map((item: Department) => {
+        return item.organizationName;
+      }),
+      locationName: department.map((item: Department) => {
+        return item.locationName[1];
+      }),
+    },
+  ];
   useEffect(() => {
     value.setTitle("Locations");
   }, [value]);
+
+  const getDepartment = async () => {
+    await axios
+      .get("http://localhost:3001/department")
+      .then((response) => {
+        setDepartment(response.data);
+      })
+      .catch((e: Error) => {
+        console.log(e.message);
+      });
+  };
+
+  useEffect(() => {
+    getDepartment();
+  }, []);
+
+  console.log(department);
 
   return (
     <>
@@ -55,12 +102,11 @@ const LocationPages = () => {
         <Box sx={{ marginTop: -8, marginRight: -10 }}>
           <Typography sx={{ fontWeight: "bold" }}>Locations</Typography>
           <Box sx={{ width: 500 }}>
-            <Button sx={{ marginLeft: 180 }}>Submit</Button>
-
+            <ModalComponent />
             <Divider
               sx={{
                 width: 1533,
-                padding: "1px",
+                marginTop: -3,
               }}
             />
           </Box>
@@ -76,16 +122,14 @@ const LocationPages = () => {
         }}
       >
         <DataGrid
-          rows={rows}
+          rows={department}
           columns={columns}
-          disableColumnMenu={true}
-          disableColumnSelector={true}
           initialState={{
             pagination: {
               paginationModel: { page: 0, pageSize: 5 },
             },
           }}
-          pageSizeOptions={[]}
+          pageSizeOptions={[5]}
         />
       </Box>
     </>

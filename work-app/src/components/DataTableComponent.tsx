@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { Prices, Specs } from "../types/specTypes";
 import AutoComplete from "./AutoCompleteComponent";
 import axios from "axios";
-import { Box, Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 
 export default function DataTableComponent() {
   const [data, setData] = useState<Specs[]>([]);
@@ -44,20 +44,17 @@ export default function DataTableComponent() {
     getAllPrices();
   }, []);
 
+  console.log(getAllPrices);
+
   const handleMotherboard = (event: any) => {
     setMotherboard(event.target.value);
   };
-  const normalPrice = price.map((price: Prices) => {
-    return price.ramPrice.filter((item) => {
-      return item === 200;
-    });
-  });
+
   useEffect(() => {
     if (motherboard === "MSI MOTHERBOARD") {
       setPriceAdder(200);
     }
   }, [motherboard]);
-  const priceCalc = () => {};
 
   const datarest = data.map((item) => ({ ...item }));
 

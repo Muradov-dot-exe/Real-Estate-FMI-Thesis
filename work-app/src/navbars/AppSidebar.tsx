@@ -78,7 +78,7 @@ const AppSidebar = () => {
               <ListItem key={text} disablePadding>
                 {currentUser && (
                   <ListItemButton key={text}>
-                    <ListItemIcon key={text}>
+                    <ListItemIcon>
                       {index === 0 ? (
                         <AccountBoxIcon />
                       ) : index === 1 ? (
