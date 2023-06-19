@@ -1,10 +1,19 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useContext, useEffect } from "react";
 import { TitleContext } from "../context/context";
-import { Box, Button, Divider, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import "../../src/locations/mapContainer.css";
+import AutoComplete from "../components/AutoCompleteComponent";
 
 const columns: GridColDef[] = [
   { field: "Location", headerName: "Location", width: 600, sortable: false },
@@ -33,12 +42,12 @@ const rows = [
   { id: "0", Organization: "Robert Bosch EOOD", Location: "Sf" },
   { id: "1", Organization: "Robert Bosch EOOD", Location: "Sf4" },
 ];
-
-const LocationPages = () => {
+const DepartmentsPage = () => {
   const value = useContext(TitleContext);
+  const dataValue = useContext(TitleContext);
 
   useEffect(() => {
-    value.setTitle("Locations");
+    value.setTitle("Departments");
   }, [value]);
 
   return (
@@ -53,18 +62,39 @@ const LocationPages = () => {
         }}
       >
         <Box sx={{ marginTop: -8, marginRight: -10 }}>
-          <Typography sx={{ fontWeight: "bold" }}>Locations</Typography>
+          <Typography sx={{ fontWeight: "bold" }}>Departments</Typography>
           <Box sx={{ width: 500 }}>
-            <Button sx={{ marginLeft: 180 }}>Submit</Button>
-
             <Divider
               sx={{
+                fontSize: "50px",
                 width: 1533,
-                padding: "1px",
+                fontWeight: "bold",
+                padding: "13px",
               }}
             />
           </Box>
         </Box>
+      </Box>
+      <Box
+        style={{
+          height: 50,
+          width: "80%",
+          display: "flex",
+          marginLeft: 350,
+        }}
+      >
+        <AutoComplete Data={[""]} componentWidth={1000} />
+
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          label="Age"
+          sx={{ marginLeft: 20, width: 500, height: 54, marginTop: -0.1 }}
+        >
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
       </Box>
       <Box
         style={{
@@ -91,5 +121,4 @@ const LocationPages = () => {
     </>
   );
 };
-
-export default LocationPages;
+export default DepartmentsPage;

@@ -105,11 +105,19 @@ const AppSidebar = () => {
                       >
                         <ListItemText primary={text} />
                       </Link>
-                    ) : (
+                    ) : index === 1 ? (
                       <Link
                         key={text}
                         style={{ textDecoration: "none", color: "inherit" }}
                         to={"/locations"}
+                      >
+                        <ListItemText primary={text} key={text} />
+                      </Link>
+                    ) : (
+                      <Link
+                        key={text}
+                        style={{ textDecoration: "none", color: "inherit" }}
+                        to={"/departments"}
                       >
                         <ListItemText primary={text} key={text} />
                       </Link>
