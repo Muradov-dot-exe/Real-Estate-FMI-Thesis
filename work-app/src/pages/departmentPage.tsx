@@ -1,15 +1,7 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useContext, useEffect } from "react";
 import { TitleContext } from "../context/context";
-import {
-  Box,
-  Button,
-  Divider,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
+import { Box, Divider, MenuItem, Select, Typography } from "@mui/material";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import "../../src/locations/mapContainer.css";
@@ -44,7 +36,6 @@ const rows = [
 ];
 const DepartmentsPage = () => {
   const value = useContext(TitleContext);
-  const dataValue = useContext(TitleContext);
 
   useEffect(() => {
     value.setTitle("Departments");

@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useContext, useEffect, useState } from "react";
-import { TitleContext } from "../context/context";
+import { TitleContext, requestSender } from "../context/context";
 import { Box, Divider, Typography } from "@mui/material";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
@@ -8,12 +8,30 @@ import "../../src/locations/mapContainer.css";
 import ModalComponent from "../modals/modalPopUp";
 import { Department } from "../types/departmentTypes";
 import axios from "axios";
+import DeleteModal from "../modals/deleteModal";
 
 const LocationPages = () => {
   const value = useContext(TitleContext);
   const [department, setDepartment] = useState<Department[]>([]);
+  const contextData = useContext(requestSender);
+  const [deleteId, setDeleteId] = useState<number>();
+  const onRowsSelectionHandler = (ids: any) => {
+    const selectedRowsData = ids.map((id: any) =>
+      department.find((row: any) => row.id === id)
+    );
+    const idNumber = selectedRowsData.map((item: any) => item.id);
+    setDeleteId(idNumber);
+  };
 
   const columns: GridColDef[] = [
+    {
+      field: "id",
+      headerName: "ID",
+      width: 0,
+      renderCell: (params) => {
+        return params.row.id;
+      },
+    },
     {
       field: "locationName",
       headerName: "Location",
@@ -37,36 +55,22 @@ const LocationPages = () => {
       headerName: "Action",
       sortable: false,
       editable: false,
+      width: 100,
       renderCell: () => {
         return (
-          <IconButton>
-            <EditIcon />
-          </IconButton>
+          <>
+            <IconButton>
+              <EditIcon />
+            </IconButton>
+            <DeleteModal deleteId={deleteId} />
+          </>
         );
       },
     },
   ];
 
-  const rows = [
-    {
-      id: "0",
-      organizationName: department.map((item: Department) => {
-        return item.organizationName;
-      }),
-      locationName: department.map((item: Department) => {
-        return item.locationName[0];
-      }),
-    },
-    {
-      id: "1",
-      organizationName: department.map((item: Department) => {
-        return item.organizationName;
-      }),
-      locationName: department.map((item: Department) => {
-        return item.locationName[1];
-      }),
-    },
-  ];
+  console.log(deleteId);
+
   useEffect(() => {
     value.setTitle("Locations");
   }, [value]);
@@ -82,11 +86,13 @@ const LocationPages = () => {
       });
   };
 
+  const deleteDepartment = (id: number) => {
+    axios.delete(`http://localhost:3001/department/${id}`);
+  };
+
   useEffect(() => {
     getDepartment();
-  }, []);
-
-  console.log(department);
+  }, [contextData.dataValue]);
 
   return (
     <>
@@ -126,10 +132,11 @@ const LocationPages = () => {
           columns={columns}
           initialState={{
             pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
+              paginationModel: { page: 0, pageSize: 10 },
             },
           }}
-          pageSizeOptions={[5]}
+          pageSizeOptions={[10]}
+          onRowSelectionModelChange={(ids: any) => onRowsSelectionHandler(ids)}
         />
       </Box>
     </>

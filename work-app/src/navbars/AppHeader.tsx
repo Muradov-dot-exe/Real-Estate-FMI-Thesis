@@ -10,9 +10,7 @@ import {
 import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutInitiate } from "../redux/authActions";
-import TemporaryDrawer from "./AppSidebar";
 import { TitleContext } from "../context/context";
-import AppSidebar from "./AppSidebar";
 
 const AppHeader = () => {
   const { currentUser } = useSelector((state: any) => state.user);

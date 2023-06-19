@@ -56,10 +56,6 @@ export default function DataTableComponent() {
     }
   }, [motherboard]);
 
-  const datarest = data.map((item) => ({ ...item }));
-
-  console.log(datarest);
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 400 }} aria-label="simple table">

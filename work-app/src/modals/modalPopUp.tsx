@@ -6,8 +6,9 @@ import {
   FormControl,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
+import { requestSender } from "../context/context";
 
 const style = {
   position: "absolute" as "absolute",
@@ -21,17 +22,10 @@ const style = {
   p: 4,
 };
 
-type Data = {
-  location?: any;
-  organization?: any;
-};
-
-const ModalComponent: React.FC<Data> = ({
-  location,
-  organization,
-}): JSX.Element => {
+const ModalComponent = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
+  const contextData = useContext(requestSender);
 
   const [newLocation, setNewLocation] = useState<any>();
   const [newOrganization, setNewOrganization] = useState<any>();
@@ -64,6 +58,7 @@ const ModalComponent: React.FC<Data> = ({
       }
     );
     handleClose();
+    contextData.setDataValue(["1"]);
   };
 
   return (
@@ -95,7 +90,6 @@ const ModalComponent: React.FC<Data> = ({
             <Typography id="modal-modal-description" sx={{ mt: 5 }}>
               Organization:
               <TextField
-                value={organization}
                 id="outlined-basic"
                 label="Organization"
                 variant="outlined"
