@@ -45,18 +45,37 @@ const LocationPages = () => {
     <>
       <Box
         style={{
-          height: 700,
+          height: 10,
           width: "80%",
           display: "flex",
           marginLeft: 350,
           marginTop: 170,
         }}
       >
-        <Box sx={{ marginTop: -9, marginRight: -10 }}>
+        <Box sx={{ marginTop: -8, marginRight: -10 }}>
           <Typography sx={{ fontWeight: "bold" }}>Locations</Typography>
-          <Divider />
+          <Box sx={{ width: 500 }}>
+            <Divider
+              sx={{
+                height: "10px",
+                fontSize: "50px",
+                width: 1533,
+                fontWeight: "bold",
+                padding: "15px",
+              }}
+            />
+          </Box>
         </Box>
-
+      </Box>
+      <Box
+        style={{
+          height: 700,
+          width: "80%",
+          display: "flex",
+          marginLeft: 350,
+          marginTop: 10,
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}

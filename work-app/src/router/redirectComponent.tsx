@@ -19,7 +19,7 @@ const RedirectPage = () => {
   return (
     <Box>
       <Container component="main" maxWidth="xs">
-        <Typography component="h1" variant="h3" marginTop={"50px"}>
+        <Typography component="h1" variant="h3" marginTop={"80px"}>
           Restricted access redirecting
         </Typography>
       </Container>
