@@ -4,13 +4,15 @@ import {
   Box,
   Typography,
   FormControl,
-  TextField,
   IconButton,
+  Grid,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { requestSender } from "../context/context";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { toast } from "react-toastify";
+import CustomizedSnackbars from "../components/notificationPopup";
 
 type DeleteData = {
   deleteId?: number;
@@ -40,6 +42,11 @@ const DeleteModal: React.FC<DeleteData> = ({ deleteId }): JSX.Element => {
     axios.delete(`http://localhost:3001/department/${deleteId}`);
     handleClose();
     contextData.setDataValue(["1"]);
+    notif();
+  };
+
+  const notif = () => {
+    toast.warning("Location deleted");
   };
 
   return (
@@ -55,15 +62,29 @@ const DeleteModal: React.FC<DeleteData> = ({ deleteId }): JSX.Element => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
+            <Typography
+              id="modal-modal-title"
+              fontWeight={"bold"}
+              component="h2"
+            >
               Are you sure you want to delete this row ?
             </Typography>
-            <Button color="primary" onClick={deleteData}>
-              DELETE
-            </Button>
-            <Button color="primary" onClick={handleClose}>
-              CANCEL
-            </Button>
+            <Grid sx={{ marginTop: 2 }}>
+              <Button
+                color="primary"
+                onClick={deleteData}
+                sx={{ marginLeft: 25 }}
+              >
+                DELETE
+              </Button>
+              <Button
+                color="primary"
+                onClick={handleClose}
+                sx={{ marginLeft: 1 }}
+              >
+                CANCEL
+              </Button>
+            </Grid>
           </Box>
         </Modal>
       </FormControl>

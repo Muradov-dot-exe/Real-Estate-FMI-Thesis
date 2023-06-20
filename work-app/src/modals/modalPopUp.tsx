@@ -5,10 +5,13 @@ import {
   Typography,
   FormControl,
   TextField,
+  Grid,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import { requestSender } from "../context/context";
+import { toast } from "react-toastify";
+import CustomizedSnackbars from "../components/notificationPopup";
 
 const style = {
   position: "absolute" as "absolute",
@@ -42,6 +45,7 @@ const ModalComponent = () => {
     setNewLocation(null);
     setNewOrganization(null);
     setOpen(false);
+    notif();
   };
 
   const postData = async () => {
@@ -60,6 +64,9 @@ const ModalComponent = () => {
     handleClose();
     contextData.setDataValue(["1"]);
   };
+  const notif = () => {
+    toast.success("New location added");
+  };
 
   return (
     <>
@@ -73,28 +80,26 @@ const ModalComponent = () => {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
+          <Grid sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Add Info:
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 3 }}>
-              Location:
               <TextField
                 onChange={(e) => handleLocationChange(e)}
                 id="outlined-basic"
                 label="Location"
                 variant="outlined"
-                sx={{ marginLeft: 1, marginTop: -2, width: 265 }}
+                sx={{ display: "flex" }}
               />
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 5 }}>
-              Organization:
               <TextField
                 id="outlined-basic"
                 label="Organization"
                 variant="outlined"
                 onChange={(e) => handleOrganizationChange(e)}
-                sx={{ marginLeft: 1, marginTop: -2 }}
+                sx={{ display: "flex" }}
               />
             </Typography>
             <Button
@@ -105,7 +110,7 @@ const ModalComponent = () => {
             >
               Add
             </Button>
-          </Box>
+          </Grid>
         </Modal>
       </FormControl>
     </>

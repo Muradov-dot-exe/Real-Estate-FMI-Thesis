@@ -175,6 +175,11 @@
       "locationName": "Sf4",
       "organizationName": "Robert Bosch Eood",
       "id": 2
+    },
+    {
+      "locationName": "Sf6",
+      "organizationName": "Sf5",
+      "id": 3
     }
   ]
 }

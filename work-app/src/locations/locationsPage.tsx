@@ -9,7 +9,7 @@ import ModalComponent from "../modals/modalPopUp";
 import { Department } from "../types/departmentTypes";
 import axios from "axios";
 import DeleteModal from "../modals/deleteModal";
-
+import { toast } from "react-toastify";
 const LocationPages = () => {
   const value = useContext(TitleContext);
   const [department, setDepartment] = useState<Department[]>([]);
@@ -31,6 +31,8 @@ const LocationPages = () => {
       renderCell: (params) => {
         return params.row.id;
       },
+      sortable: false,
+      editable: false,
     },
     {
       field: "locationName",
@@ -68,9 +70,9 @@ const LocationPages = () => {
       },
     },
   ];
-
-  console.log(deleteId);
-
+  const displayLoginNotification = () => {
+    toast.success("New location added");
+  };
   useEffect(() => {
     value.setTitle("Locations");
   }, [value]);
@@ -84,10 +86,6 @@ const LocationPages = () => {
       .catch((e: Error) => {
         console.log(e.message);
       });
-  };
-
-  const deleteDepartment = (id: number) => {
-    axios.delete(`http://localhost:3001/department/${id}`);
   };
 
   useEffect(() => {
@@ -128,6 +126,7 @@ const LocationPages = () => {
         }}
       >
         <DataGrid
+          disableColumnMenu
           rows={department}
           columns={columns}
           initialState={{
