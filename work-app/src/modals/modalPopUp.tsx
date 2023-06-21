@@ -1,17 +1,21 @@
 import {
   Button,
   Modal,
-  Box,
   Typography,
   FormControl,
   TextField,
   Grid,
+  IconButton,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import { requestSender } from "../context/context";
 import { toast } from "react-toastify";
-import CustomizedSnackbars from "../components/notificationPopup";
+import EditIcon from "@mui/icons-material/Edit";
+
+type UpdateData = {
+  updateId?: number;
+};
 
 const style = {
   position: "absolute" as "absolute",
@@ -25,7 +29,7 @@ const style = {
   p: 4,
 };
 
-const ModalComponent = () => {
+const ModalComponent: React.FC<UpdateData> = ({ updateId }): JSX.Element => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const contextData = useContext(requestSender);
@@ -70,9 +74,16 @@ const ModalComponent = () => {
 
   return (
     <>
-      <Button color="primary" onClick={handleOpen} sx={{ marginLeft: 180 }}>
-        Add
-      </Button>
+      {updateId ? (
+        <IconButton onClick={handleOpen}>
+          <EditIcon />
+        </IconButton>
+      ) : (
+        <Button color="primary" onClick={handleOpen} sx={{ marginLeft: 180 }}>
+          Add
+        </Button>
+      )}
+
       <FormControl fullWidth>
         <Modal
           open={open}
@@ -102,14 +113,25 @@ const ModalComponent = () => {
                 sx={{ display: "flex" }}
               />
             </Typography>
-            <Button
-              color="primary"
-              sx={{ marginLeft: 35, marginTop: 5 }}
-              onClick={postData}
-              disabled={!newLocation || !newOrganization}
-            >
-              Add
-            </Button>
+            {updateId ? (
+              <Button
+                color="primary"
+                sx={{ marginLeft: 35, marginTop: 5 }}
+                onClick={postData}
+                disabled={!newLocation || !newOrganization}
+              >
+                Add
+              </Button>
+            ) : (
+              <Button
+                color="primary"
+                sx={{ marginLeft: 35, marginTop: 5 }}
+                onClick={postData}
+                disabled={!newLocation || !newOrganization}
+              >
+                Add
+              </Button>
+            )}
           </Grid>
         </Modal>
       </FormControl>

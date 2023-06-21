@@ -9,7 +9,7 @@ import ModalComponent from "../modals/modalPopUp";
 import { Department } from "../types/departmentTypes";
 import axios from "axios";
 import DeleteModal from "../modals/deleteModal";
-import { toast } from "react-toastify";
+
 const LocationPages = () => {
   const value = useContext(TitleContext);
   const [department, setDepartment] = useState<Department[]>([]);
@@ -70,9 +70,7 @@ const LocationPages = () => {
       },
     },
   ];
-  const displayLoginNotification = () => {
-    toast.success("New location added");
-  };
+
   useEffect(() => {
     value.setTitle("Locations");
   }, [value]);

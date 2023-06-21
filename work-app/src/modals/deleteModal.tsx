@@ -12,7 +12,6 @@ import axios from "axios";
 import { requestSender } from "../context/context";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
-import CustomizedSnackbars from "../components/notificationPopup";
 
 type DeleteData = {
   deleteId?: number;

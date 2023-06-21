@@ -11,6 +11,7 @@ import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutInitiate } from "../redux/authActions";
 import { TitleContext } from "../context/context";
+import { toast } from "react-toastify";
 
 const AppHeader = () => {
   const { currentUser } = useSelector((state: any) => state.user);
@@ -21,7 +22,12 @@ const AppHeader = () => {
   const handleAuth = () => {
     if (currentUser) {
       dispatch(logoutInitiate());
+      notif();
     }
+  };
+
+  const notif = () => {
+    toast.info("Signed Out");
   };
 
   const defaultTheme = createTheme();
