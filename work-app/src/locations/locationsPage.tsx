@@ -8,9 +8,7 @@ import "../../src/locations/mapContainer.css";
 import ModalComponent from "../modals/modalPopUp";
 import { Department } from "../types/departmentTypes";
 import axios from "axios";
-import DeleteModal from "../modals/deleteModal";
-
-const LocationPages = () => {
+import DeleteModal from "../modals/deleteModal";const LocationPages = () => {
   const value = useContext(TitleContext);
   const [department, setDepartment] = useState<Department[]>([]);
   const contextData = useContext(requestSender);

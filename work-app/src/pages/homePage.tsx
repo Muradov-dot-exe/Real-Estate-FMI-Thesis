@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Box, Container, ThemeProvider, createTheme } from "@mui/material";
 import { TitleContext } from "../context/context";
+import DeleteFile from "../components/delete";
 
 export default function Home() {
   const defaultTheme = createTheme();
@@ -37,6 +38,7 @@ export default function Home() {
           }}
         >
           inline
+          <DeleteFile />
         </Box>
       </Container>
     </ThemeProvider>
