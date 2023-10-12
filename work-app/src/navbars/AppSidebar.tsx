@@ -128,7 +128,9 @@ const AppSidebar = () => {
           </List>
           <Toolbar />
         </Box>
-        <Typography sx={{ marginTop: 37, marginLeft: 15 }}>1.11.7</Typography>
+        {currentUser && (
+          <Typography sx={{ marginTop: 37, marginLeft: 15 }}>1.11.7</Typography>
+        )}
       </Drawer>
     </Box>
   );
