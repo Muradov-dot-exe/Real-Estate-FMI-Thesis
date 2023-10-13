@@ -122,8 +122,18 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          {errorMsg !== null && <Alert severity="error">{errorMsg}</Alert>}
-          {emailAlert !== null && emailAlert}
+          {errorMsg !== null && emailAlert === null && (
+            <>
+              <br></br>
+              <Alert severity="error">{errorMsg}</Alert>
+            </>
+          )}
+          {emailAlert !== null && (
+            <>
+              <br></br>
+              {emailAlert}
+            </>
+          )}
           <Box
             component="form"
             onSubmit={handleSubmit}
