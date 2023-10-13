@@ -22,9 +22,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   facebookSignInInitiate,
   googleSignInInitiate,
-  loginInitiate,
 } from "../redux/authActions";
 import { TitleContext } from "../context/context";
+import { validateEmail } from "./emailRegex";
+import { useUserAuth } from "../context/authContext";
+import { Alert } from "@mui/material";
 
 function Copyright(props: any) {
   return (
@@ -34,10 +36,8 @@ function Copyright(props: any) {
       align="center"
       {...props}
     >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
+      {"Muradov LTD © "}
+
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -49,6 +49,9 @@ const defaultTheme = createTheme();
 export default function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [emailAlert, setEmailAlert] = useState<any>(null);
+  const { signIn }: any = useUserAuth();
+  const [errorMsg, setErrorMsg] = useState<any>(null);
 
   const [credentials, setCredentials] = useState({
     email: "",
@@ -72,14 +75,21 @@ export default function SignIn() {
     }
   }, [currentUser, navigate]);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!email || !password) {
       return;
     }
-
-    dispatch(loginInitiate(email, password));
-    setCredentials({ email: "", password: "" });
+    if (validateEmail(email)?.input === undefined) {
+      return setEmailAlert(<Alert severity="error">Bad Email Format!</Alert>);
+    } else if (validateEmail(email)?.input !== undefined) {
+      setEmailAlert(null);
+    }
+    try {
+      await signIn(email, password);
+    } catch (error: any) {
+      setErrorMsg(error.message);
+    }
   };
 
   const handleGoogleSubmit = () => {
@@ -88,7 +98,6 @@ export default function SignIn() {
   const handleFacebookSubmit = () => {
     dispatch(facebookSignInInitiate());
   };
-
   const handleCredential = (event: any) => {
     let { name, value } = event.target;
 
@@ -113,6 +122,8 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          {errorMsg !== null && <Alert severity="error">{errorMsg}</Alert>}
+          {emailAlert !== null && emailAlert}
           <Box
             component="form"
             onSubmit={handleSubmit}

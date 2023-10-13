@@ -1,5 +1,11 @@
 import React, { useContext, useEffect } from "react";
-import { Box, Container, ThemeProvider, createTheme } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  ThemeProvider,
+  createTheme,
+} from "@mui/material";
 import { TitleContext } from "../context/context";
 import DeleteFile from "../components/delete";
 
@@ -14,19 +20,17 @@ export default function Home() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container maxWidth={false} disableGutters sx={{ display: "flex" }}>
+      <Grid container sx={{ display: "flex" }}>
         <Box
           component="img"
           sx={{
-            height: 300,
-            maxHeight: { xs: 300, md: 340 },
-            width: "auto",
-            marginLeft: 50,
+            height: "100%",
+            width: "100%",
           }}
           alt="The house from the offer."
           src="https://pra.com/wp-content/uploads/2018/09/State_Office-Page-PNG-3-Images-Long-Image-1300x300.png"
         />
-      </Container>
+      </Grid>
 
       <Container component="main" maxWidth="xs">
         <Box

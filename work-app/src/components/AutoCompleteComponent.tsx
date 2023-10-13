@@ -17,7 +17,6 @@ const AutoComplete: React.FC<Data> = ({
     setValue(newEvent);
   };
 
-  console.log(value);
   return (
     <Autocomplete
       disablePortal

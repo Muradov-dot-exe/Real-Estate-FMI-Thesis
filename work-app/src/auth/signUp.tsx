@@ -12,9 +12,11 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { registerInitiate } from "../redux/authActions";
+import { useSelector } from "react-redux";
 import { TitleContext } from "../context/context";
+import { useUserAuth } from "../context/authContext";
+import { Alert } from "@mui/material";
+import { validateEmail } from "./emailRegex";
 
 function Copyright(props: any) {
   return (
@@ -38,7 +40,9 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const [errorMsg, setErrorMsg] = useState<any>(null);
+  const { signUp }: any = useUserAuth();
+  const [emailAlert, setEmailAlert] = useState<any>(null);
 
   const value = useContext(TitleContext);
   useEffect(() => {
@@ -64,20 +68,23 @@ export default function SignUp() {
     }
   }, [currentUser, navigate]);
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setErrorMsg(null);
 
     if (password !== passwordConfirm) {
       return;
     }
-
-    dispatch(registerInitiate(email, password, displayName));
-    setCredentials({
-      email: "",
-      displayName: "",
-      password: "",
-      passwordConfirm: "",
-    });
+    if (validateEmail(email)?.input === undefined) {
+      return setEmailAlert(<Alert severity="error">Bad Email Format!</Alert>);
+    } else if (validateEmail(email)?.input !== undefined) {
+      setEmailAlert(null);
+    }
+    try {
+      await signUp(email, password, displayName);
+    } catch (error: any) {
+      setErrorMsg(error.message);
+    }
   };
 
   const handleCredential = (event: any) => {
@@ -104,6 +111,13 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
+          {errorMsg !== null && (
+            <>
+              <br></br>
+              <Alert severity="error">{errorMsg}</Alert>
+            </>
+          )}
+          {emailAlert !== null && emailAlert}
           <Box
             component="form"
             noValidate

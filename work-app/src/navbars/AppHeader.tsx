@@ -39,11 +39,15 @@ const AppHeader = () => {
           <AppBar position="static">
             <Toolbar>
               <Typography>{value.title}</Typography>
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ flexGrow: 1 }}
-              ></Typography>
+
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                {currentUser !== null && currentUser.displayName && (
+                  <Typography align="center">
+                    Hello, {currentUser.displayName}
+                  </Typography>
+                )}
+              </Typography>
+
               {!currentUser ? (
                 <>
                   <Button color="inherit" href="/signup">

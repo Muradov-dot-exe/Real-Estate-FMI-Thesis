@@ -6,6 +6,7 @@ import { auth } from "./firebase";
 import { setUser } from "./redux/authActions";
 import { router } from "./router/routes";
 import React from "react";
+import { UserAuthContextProvider } from "./context/authContext";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,9 @@ const App = () => {
 
   return (
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <UserAuthContextProvider>
+        <RouterProvider router={router} />
+      </UserAuthContextProvider>
     </React.StrictMode>
   );
 };
