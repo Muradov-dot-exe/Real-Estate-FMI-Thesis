@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { TitleContext } from "../context/context";
 import DeleteFile from "../components/delete";
+import newLogo from "../img/newRealEstateLogo.jpg";
 
 export default function Home() {
   const defaultTheme = createTheme();
@@ -26,9 +27,11 @@ export default function Home() {
           sx={{
             height: "100%",
             width: "100%",
+            marginLeft: "15%",
+            marginTop: "2%",
           }}
           alt="The house from the offer."
-          src="https://pra.com/wp-content/uploads/2018/09/State_Office-Page-PNG-3-Images-Long-Image-1300x300.png"
+          src={newLogo}
         />
       </Grid>
 

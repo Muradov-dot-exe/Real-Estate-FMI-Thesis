@@ -36,7 +36,7 @@ const AppHeader = () => {
     <>
       <ThemeProvider theme={defaultTheme}>
         <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
+          <AppBar position="static" style={{ backgroundColor: "gray" }}>
             <Toolbar>
               <Typography>{value.title}</Typography>
 
