@@ -6,15 +6,18 @@ import {
   Button,
   createTheme,
   ThemeProvider,
+  IconButton,
 } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutInitiate } from "../redux/authActions";
 import { TitleContext } from "../context/context";
 import { toast } from "react-toastify";
-
+import MenuIcon from "@mui/icons-material/Menu";
 const AppHeader = () => {
   const { currentUser } = useSelector((state: any) => state.user);
+  const [open, setOpen] = useState<boolean>(false);
+
   const dispatch = useDispatch();
 
   const value = useContext(TitleContext);
@@ -29,16 +32,37 @@ const AppHeader = () => {
   const notif = () => {
     toast.info("Signed Out");
   };
+  const toggleDrawer = (event: any) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
 
+    setOpen(!open);
+  };
   const defaultTheme = createTheme();
 
   return (
     <>
       <ThemeProvider theme={defaultTheme}>
         <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static" style={{ backgroundColor: "gray" }}>
+          <AppBar position="static" style={{ backgroundColor: "#aa6c39" }}>
             <Toolbar>
-              <Typography>{value.title}</Typography>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={toggleDrawer}
+                sx={{
+                  transition:
+                    "margin-left 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms",
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography sx={{ marginLeft: "10px" }}>{value.title}</Typography>
 
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 {currentUser !== null && currentUser.displayName && (

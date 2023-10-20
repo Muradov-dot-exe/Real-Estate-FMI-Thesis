@@ -9,6 +9,7 @@ import {
 import { TitleContext } from "../context/context";
 import DeleteFile from "../components/delete";
 import newLogo from "../img/newRealEstateLogo.jpg";
+import Slider from "../components/Image Slider/Slider";
 
 export default function Home() {
   const defaultTheme = createTheme();
@@ -23,16 +24,15 @@ export default function Home() {
     <ThemeProvider theme={defaultTheme}>
       <Grid container sx={{ display: "flex" }}>
         <Box
-          component="img"
           sx={{
-            height: "100%",
+            height: "10%",
             width: "100%",
-            marginLeft: "15%",
+            marginLeft: "9%",
             marginTop: "2%",
           }}
-          alt="The house from the offer."
-          src={newLogo}
-        />
+        >
+          <Slider />
+        </Box>
       </Grid>
 
       <Container component="main" maxWidth="xs">

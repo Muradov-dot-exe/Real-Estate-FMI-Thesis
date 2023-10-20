@@ -9,7 +9,7 @@ const Layout = () => {
       <AppSidebar />
       <CustomizedSnackbars />
 
-      <Box sx={{ position: "relative" }}>
+      <Box sx={{ position: "relative", backgroundColor: "beige" }}>
         <Outlet />
       </Box>
     </>

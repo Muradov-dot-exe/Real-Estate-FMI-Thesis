@@ -36,7 +36,7 @@ function Copyright(props: any) {
       align="center"
       {...props}
     >
-      {"Muradov LTD © "}
+      {"Gold Estate Ltd © "}
 
       {new Date().getFullYear()}
       {"."}
@@ -57,6 +57,15 @@ export default function SignIn() {
     email: "",
     password: "",
   });
+
+  const buttonStyles = {
+    "&:hover": {
+      backgroundColor: "orange", // Change to your desired color
+    },
+    mt: 3,
+    mb: 2,
+    backgroundColor: "#aa6c39",
+  };
 
   const { email, password } = credentials;
 
@@ -160,12 +169,8 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
+              sx={{ mb: 3 }}
               onChange={handleCredential}
-            />
-
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
             />
 
             <Grid container>
@@ -193,7 +198,7 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={buttonStyles}
               disabled={email.length === 0 || password.length === 0}
             >
               Sign In

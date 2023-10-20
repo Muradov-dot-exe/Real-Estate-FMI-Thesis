@@ -26,10 +26,8 @@ function Copyright(props: any) {
       align="center"
       {...props}
     >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
+      {"Copyright Gold Estate Ltd © "}
+
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -43,6 +41,7 @@ export default function SignUp() {
   const [errorMsg, setErrorMsg] = useState<any>(null);
   const { signUp }: any = useUserAuth();
   const [emailAlert, setEmailAlert] = useState<any>(null);
+  const [passwordError, setPasswordError] = useState<any>(null);
 
   const value = useContext(TitleContext);
   useEffect(() => {
@@ -60,6 +59,15 @@ export default function SignUp() {
 
   const { email, password, displayName, passwordConfirm } = credentials;
 
+  const buttonStyles = {
+    "&:hover": {
+      backgroundColor: "orange", // Change to your desired color
+    },
+    mt: 3,
+    mb: 2,
+    backgroundColor: "#aa6c39",
+  };
+
   useEffect(() => {
     if (currentUser) {
       navigate("/products");
@@ -73,7 +81,11 @@ export default function SignUp() {
     setErrorMsg(null);
 
     if (password !== passwordConfirm) {
-      return;
+      return setPasswordError(
+        <Alert severity="error">Passwords do not match!</Alert>
+      );
+    } else if (password === passwordConfirm) {
+      setPasswordError(null);
     }
     if (validateEmail(email)?.input === undefined) {
       return setEmailAlert(<Alert severity="error">Bad Email Format!</Alert>);
@@ -117,7 +129,18 @@ export default function SignUp() {
               <Alert severity="error">{errorMsg}</Alert>
             </>
           )}
-          {emailAlert !== null && emailAlert}
+          {emailAlert !== null && (
+            <>
+              <br></br>
+              {emailAlert}
+            </>
+          )}
+          {passwordError !== null && (
+            <>
+              <br></br>
+              {passwordError}
+            </>
+          )}
           <Box
             component="form"
             noValidate
@@ -181,12 +204,8 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              disabled={
-                email.length === 0 ||
-                password.length === 0 ||
-                passwordConfirm !== password
-              }
+              sx={buttonStyles}
+              disabled={email.length === 0 || password.length === 0}
             >
               Sign Up
             </Button>

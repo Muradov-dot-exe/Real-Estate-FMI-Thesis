@@ -15,19 +15,23 @@ import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import PeopleIcon from "@mui/icons-material/People";
 import EventNoteIcon from "@mui/icons-material/EventNote";
-import { AppBar, Toolbar, Typography } from "@mui/material";
+import { AppBar, Toolbar } from "@mui/material";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import AppHeader from "./AppHeader";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-
-const drawerWidth = 300;
+import HomeIcon from "@mui/icons-material/Home";
+const drawerWidth = 180;
 
 const AppSidebar = () => {
   const { currentUser } = useSelector((state: any) => state.user);
+  const [openDrawer, setOpenDrawer] = React.useState<boolean>(false);
 
   return (
-    <Box>
-      <AppBar sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+    <>
+      <AppBar
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+      >
         <AppHeader />
       </AppBar>
       <Drawer
@@ -45,16 +49,20 @@ const AppSidebar = () => {
         <Toolbar />
         <Box sx={{ overflow: "auto" }}>
           <List>
-            {["Dashboard"].map((text, index) => (
+            {["Home"].map((text, index) => (
               <Link
-                style={{ textDecoration: "none", color: "inherit" }}
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                  width: "100%",
+                }}
                 to={"/"}
                 key={text}
               >
-                <ListItem key={text}>
+                <ListItem key={text} disablePadding>
                   <ListItemButton>
                     <ListItemIcon>
-                      <DashboardIcon />
+                      <HomeIcon />
                     </ListItemIcon>
                     <ListItemText primary={text} />
                   </ListItemButton>
@@ -62,7 +70,6 @@ const AppSidebar = () => {
               </Link>
             ))}
           </List>
-          {currentUser && <Typography sx={{ marginLeft: 5 }}>Admin</Typography>}
           <List>
             {[
               "Roles",
@@ -99,7 +106,11 @@ const AppSidebar = () => {
                     {index === 0 && currentUser ? (
                       <Link
                         key={text}
-                        style={{ textDecoration: "none", color: "inherit" }}
+                        style={{
+                          textDecoration: "none",
+                          color: "inherit",
+                          width: "100%",
+                        }}
                         to={"/products"}
                       >
                         <ListItemText primary={text} />
@@ -107,7 +118,11 @@ const AppSidebar = () => {
                     ) : index === 1 ? (
                       <Link
                         key={text}
-                        style={{ textDecoration: "none", color: "inherit" }}
+                        style={{
+                          textDecoration: "none",
+                          color: "inherit",
+                          width: "100%",
+                        }}
                         to={"/locations"}
                       >
                         <ListItemText primary={text} key={text} />
@@ -115,7 +130,11 @@ const AppSidebar = () => {
                     ) : (
                       <Link
                         key={text}
-                        style={{ textDecoration: "none", color: "inherit" }}
+                        style={{
+                          textDecoration: "none",
+                          color: "inherit",
+                          width: "100%",
+                        }}
                         to={"/departments"}
                       >
                         <ListItemText primary={text} key={text} />
@@ -128,11 +147,8 @@ const AppSidebar = () => {
           </List>
           <Toolbar />
         </Box>
-        {currentUser && (
-          <Typography sx={{ marginTop: 37, marginLeft: 15 }}>1.11.7</Typography>
-        )}
       </Drawer>
-    </Box>
+    </>
   );
 };
 
