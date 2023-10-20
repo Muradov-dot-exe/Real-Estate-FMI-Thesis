@@ -51,8 +51,10 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const [emailAlert, setEmailAlert] = useState<any>(null);
   const { signIn }: any = useUserAuth();
+  const { triggerResetEmail }: any = useUserAuth();
   const [errorMsg, setErrorMsg] = useState<any>(null);
-
+  const [forgotenPassErr, setForgotenPassErr] = useState<any>(null);
+  const [recoverPassSuccess, setRecoverPassSuccess] = useState<any>(null);
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -83,6 +85,21 @@ export default function SignIn() {
       navigate("/signin");
     }
   }, [currentUser, navigate]);
+
+  const forgottenPassword = async (email: string) => {
+    try {
+      await triggerResetEmail(email);
+    } catch (error: any) {
+      setForgotenPassErr(error.message);
+    }
+    if (forgotenPassErr === null) {
+      return setRecoverPassSuccess(
+        <Alert severity="success">Recover e-mail sent</Alert>
+      );
+    } else if (forgotenPassErr !== null) {
+      setRecoverPassSuccess(null);
+    }
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -141,6 +158,18 @@ export default function SignIn() {
             <>
               <br></br>
               {emailAlert}
+            </>
+          )}
+          {forgotenPassErr !== null && recoverPassSuccess === null && (
+            <>
+              <br></br>
+              <Alert severity="error">{forgotenPassErr}</Alert>
+            </>
+          )}
+          {recoverPassSuccess === null && (
+            <>
+              <br></br>
+              {recoverPassSuccess}
             </>
           )}
           <Box
@@ -205,7 +234,13 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs={5.5}>
-                <Link href="#" variant="body2">
+                <Link
+                  href="#"
+                  variant="body2"
+                  onClick={() => {
+                    forgottenPassword(email);
+                  }}
+                >
                   Forgot password?
                 </Link>
               </Grid>

@@ -1,4 +1,8 @@
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { contextAuth } from "../firebase";
 import { auth } from "../firebase";
@@ -7,6 +11,7 @@ const userAuthContext = createContext({
   user: "",
   signUp: (email: string, password: string, displayName: string) => {},
   signIn: (email: string, password: string) => {},
+  triggerResetEmail: (email: string) => {},
 });
 
 export const UserAuthContextProvider = ({ children }: any) => {
@@ -24,16 +29,22 @@ export const UserAuthContextProvider = ({ children }: any) => {
   const signIn = (email: string, password: string) => {
     return signInWithEmailAndPassword(contextAuth, email, password);
   };
+  const triggerResetEmail = (email: string) => {
+    return sendPasswordResetEmail(contextAuth, email);
+  };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(contextAuth, (currentUser: any) => {
       setUser(currentUser);
     });
+
     return () => {
       unsubscribe();
     };
   }, []);
   return (
-    <userAuthContext.Provider value={{ user, signUp, signIn }}>
+    <userAuthContext.Provider
+      value={{ user, signUp, signIn, triggerResetEmail }}
+    >
       {children}
     </userAuthContext.Provider>
   );
