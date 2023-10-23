@@ -50,7 +50,7 @@ const AppHeader = () => {
       <ThemeProvider theme={defaultTheme}>
         <AppSidebar isOpen={isDrawerOpen} onClose={handleDrawerClose} />
         <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static" style={{ backgroundColor: "#aa6c39" }}>
+          <AppBar position="fixed" style={{ backgroundColor: "#aa6c39" }}>
             <Toolbar>
               <IconButton
                 color="inherit"
