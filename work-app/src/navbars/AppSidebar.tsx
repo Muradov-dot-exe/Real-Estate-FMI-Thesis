@@ -19,23 +19,21 @@ import { AppBar, Toolbar } from "@mui/material";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import AppHeader from "./AppHeader";
 import HomeIcon from "@mui/icons-material/Home";
-const drawerWidth = 180;
+const drawerWidth = 240;
+interface DrawerProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-const AppSidebar = () => {
+const AppSidebar = ({ isOpen, onClose }: DrawerProps) => {
   const { currentUser } = useSelector((state: any) => state.user);
-  const [openDrawer, setOpenDrawer] = React.useState<boolean>(false);
 
   return (
     <>
-      <AppBar
-        sx={{
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-        }}
-      >
-        <AppHeader />
-      </AppBar>
       <Drawer
-        variant="permanent"
+        anchor="left"
+        open={isOpen}
+        onClose={onClose}
         sx={{
           width: drawerWidth,
           flexShrink: 0,

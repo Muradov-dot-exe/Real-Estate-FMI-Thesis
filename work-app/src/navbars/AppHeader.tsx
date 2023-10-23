@@ -14,9 +14,19 @@ import { logoutInitiate } from "../redux/authActions";
 import { TitleContext } from "../context/context";
 import { toast } from "react-toastify";
 import MenuIcon from "@mui/icons-material/Menu";
+import AppSidebar from "./AppSidebar";
+
 const AppHeader = () => {
   const { currentUser } = useSelector((state: any) => state.user);
-  const [open, setOpen] = useState<boolean>(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const handleDrawerOpen = () => {
+    setIsDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setIsDrawerOpen(false);
+  };
 
   const dispatch = useDispatch();
 
@@ -32,21 +42,13 @@ const AppHeader = () => {
   const notif = () => {
     toast.info("Signed Out");
   };
-  const toggleDrawer = (event: any) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
 
-    setOpen(!open);
-  };
   const defaultTheme = createTheme();
 
   return (
     <>
       <ThemeProvider theme={defaultTheme}>
+        <AppSidebar isOpen={isDrawerOpen} onClose={handleDrawerClose} />
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="static" style={{ backgroundColor: "#aa6c39" }}>
             <Toolbar>
@@ -54,14 +56,11 @@ const AppHeader = () => {
                 color="inherit"
                 aria-label="open drawer"
                 edge="start"
-                onClick={toggleDrawer}
-                sx={{
-                  transition:
-                    "margin-left 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms",
-                }}
+                onClick={handleDrawerOpen}
               >
                 <MenuIcon />
               </IconButton>
+
               <Typography sx={{ marginLeft: "10px" }}>{value.title}</Typography>
 
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

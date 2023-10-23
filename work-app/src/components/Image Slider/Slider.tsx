@@ -3,6 +3,7 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 
 import "./slider.css";
 import { sliderData } from "./sliderData";
+import { Box, Typography } from "@mui/material";
 
 const Slider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -11,6 +12,7 @@ const Slider = () => {
   const autoScroll = true;
   let slideInterval: any;
   let intervalTime = 7000;
+  console.log(slideInterval);
 
   const nextSlide = () => {
     setCurrentSlide(currentSlide === slideLength - 1 ? 0 : currentSlide + 1);
@@ -38,29 +40,34 @@ const Slider = () => {
   }, [currentSlide]);
 
   return (
-    <div className="slider">
+    <Box className="slider">
       <AiOutlineArrowLeft className="arrow prev" onClick={prevSlide} />
       <AiOutlineArrowRight className="arrow next" onClick={nextSlide} />
       {sliderData.map((slide: any, index: any) => {
         return (
-          <div
+          <Box
             className={index === currentSlide ? "slide current" : "slide"}
             key={index}
           >
             {index === currentSlide && (
-              <div>
-                <img src={slide.image} alt="slide" className="image" />
-                <div className="content">
-                  <h2>{slide.heading}</h2>
-                  <p>{slide.desc}</p>
+              <Box>
+                <Box
+                  component="img"
+                  src={slide.image}
+                  alt="slide"
+                  className="image"
+                />
+                <Box className="content">
+                  <Typography variant="h4">{slide.heading}</Typography>
+                  <Typography>{slide.desc}</Typography>
                   <hr />
-                </div>
-              </div>
+                </Box>
+              </Box>
             )}
-          </div>
+          </Box>
         );
       })}
-    </div>
+    </Box>
   );
 };
 

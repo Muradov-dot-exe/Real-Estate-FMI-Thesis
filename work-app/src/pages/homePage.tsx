@@ -1,15 +1,9 @@
 import React, { useContext, useEffect } from "react";
-import {
-  Box,
-  Container,
-  Grid,
-  ThemeProvider,
-  createTheme,
-} from "@mui/material";
+import { Box, Grid, ThemeProvider, createTheme } from "@mui/material";
 import { TitleContext } from "../context/context";
-import DeleteFile from "../components/delete";
-import newLogo from "../img/newRealEstateLogo.jpg";
+
 import Slider from "../components/Image Slider/Slider";
+import DisplayCards from "../components/DisplayCards";
 
 export default function Home() {
   const defaultTheme = createTheme();
@@ -27,27 +21,22 @@ export default function Home() {
           sx={{
             height: "10%",
             width: "100%",
-            marginLeft: "9%",
-            marginTop: "2%",
           }}
         >
           <Slider />
         </Box>
       </Grid>
 
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            marginTop: 8,
-            flexDirection: "column",
-            alignItems: "center",
-            display: "flex",
-          }}
-        >
-          inline
-          <DeleteFile />
-        </Box>
-      </Container>
+      <Box
+        sx={{
+          marginTop: 8,
+          flexDirection: "column",
+          alignItems: "center",
+          display: "flex",
+        }}
+      >
+        <DisplayCards />
+      </Box>
     </ThemeProvider>
   );
 }
