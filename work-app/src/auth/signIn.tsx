@@ -12,6 +12,7 @@ import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
+import { toast } from "react-toastify";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect, useContext } from "react";
@@ -100,6 +101,10 @@ export default function SignIn() {
     }
   };
 
+  const notif = () => {
+    toast.info("Successful sign in !");
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!email || !password) {
@@ -112,6 +117,7 @@ export default function SignIn() {
     }
     try {
       await signIn(email, password);
+      notif();
     } catch (error: any) {
       setErrorMsg(error.message);
     }

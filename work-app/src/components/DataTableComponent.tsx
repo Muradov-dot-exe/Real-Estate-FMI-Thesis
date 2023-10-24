@@ -44,8 +44,6 @@ export default function DataTableComponent() {
     getAllPrices();
   }, []);
 
-  console.log(getAllPrices);
-
   const handleMotherboard = (event: any) => {
     setMotherboard(event.target.value);
   };

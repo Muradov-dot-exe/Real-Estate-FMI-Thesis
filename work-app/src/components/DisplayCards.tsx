@@ -9,10 +9,9 @@ import queryString from "query-string";
 import CardMedia from "@mui/material/CardMedia";
 import { Button, CardActions, Typography } from "@mui/material";
 
-const CardsGrid: React.FC = () => {
+const CardsGrid = ({ searchString = "", list = [] }: any) => {
   const [cards, setCards] = useState<any[]>([]);
 
-  // Simulated data fetching function
   async function fetchMoreData(page: any) {
     const url = queryString.stringifyUrl({
       url: "http://localhost:3001/property",
@@ -27,8 +26,13 @@ const CardsGrid: React.FC = () => {
       setCards([...cards, ...res.data]);
     } catch (error) {}
   }
-
-  console.log(cards);
+  const filteredList = cards.filter((element) => {
+    if (searchString === "") {
+      return element;
+    } else {
+      return element.type.toLowerCase().includes(searchString);
+    }
+  });
 
   useEffect(() => {
     fetchMoreData(0); // Initial data load
@@ -45,8 +49,7 @@ const CardsGrid: React.FC = () => {
       }
     >
       <Grid container spacing={3} justifyContent="center">
-        {cards.map((card: any, index) => {
-          console.log(card.image);
+        {filteredList.map((card: any, index) => {
           return (
             <Grid
               item

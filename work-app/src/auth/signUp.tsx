@@ -17,6 +17,7 @@ import { TitleContext } from "../context/context";
 import { useUserAuth } from "../context/authContext";
 import { Alert } from "@mui/material";
 import { validateEmail } from "./emailRegex";
+import { toast } from "react-toastify";
 
 function Copyright(props: any) {
   return (
@@ -94,9 +95,13 @@ export default function SignUp() {
     }
     try {
       await signUp(email, password, displayName);
+      notif();
     } catch (error: any) {
       setErrorMsg(error.message);
     }
+  };
+  const notif = () => {
+    toast.info("Successful sign up !");
   };
 
   const handleCredential = (event: any) => {
@@ -207,7 +212,7 @@ export default function SignUp() {
               sx={buttonStyles}
               disabled={email.length === 0 || password.length === 0}
             >
-              Sign Up
+              <Typography fontFamily={"Times New Roman"}>Sign Up</Typography>
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
@@ -217,7 +222,9 @@ export default function SignUp() {
               </Grid>
             </Grid>
             <Grid item textAlign={"center"} marginTop={"50px"}>
-              <Link href="/">Home</Link>
+              <Link href="/">
+                <Typography fontFamily={"Times New Roman"}>Home</Typography>
+              </Link>
             </Grid>
           </Box>
         </Box>

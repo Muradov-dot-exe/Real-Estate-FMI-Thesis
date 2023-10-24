@@ -4,9 +4,13 @@ import { TitleContext } from "../context/context";
 
 import Slider from "../components/Image Slider/Slider";
 import DisplayCards from "../components/DisplayCards";
+import { useSelector } from "react-redux";
+import PleaseLogin from "./pleaseLogin";
+import SearchBar from "../components/SearchBar";
 
 export default function Home() {
   const defaultTheme = createTheme();
+  const { currentUser } = useSelector((state: any) => state.user);
 
   const value = useContext(TitleContext);
 
@@ -29,13 +33,10 @@ export default function Home() {
 
       <Box
         sx={{
-          marginTop: 8,
-          flexDirection: "column",
-          alignItems: "center",
-          display: "flex",
+          marginTop: 4,
         }}
       >
-        <DisplayCards />
+        {currentUser ? <SearchBar /> : <PleaseLogin />}
       </Box>
     </ThemeProvider>
   );

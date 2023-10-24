@@ -15,9 +15,8 @@ import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import PeopleIcon from "@mui/icons-material/People";
 import EventNoteIcon from "@mui/icons-material/EventNote";
-import { AppBar, Toolbar } from "@mui/material";
+import { Toolbar } from "@mui/material";
 import ListAltIcon from "@mui/icons-material/ListAlt";
-import AppHeader from "./AppHeader";
 import HomeIcon from "@mui/icons-material/Home";
 const drawerWidth = 240;
 interface DrawerProps {
