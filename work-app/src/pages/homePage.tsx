@@ -1,12 +1,12 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { Box, Grid, ThemeProvider, createTheme } from "@mui/material";
 import { TitleContext } from "../context/context";
 
 import Slider from "../components/Image Slider/Slider";
-import DisplayCards from "../components/DisplayCards";
 import { useSelector } from "react-redux";
 import PleaseLogin from "./pleaseLogin";
 import SearchBar from "../components/SearchBar";
+import AppFooter from "../navbars/AppFooter";
 
 export default function Home() {
   const defaultTheme = createTheme();
@@ -38,6 +38,7 @@ export default function Home() {
       >
         {currentUser ? <SearchBar /> : <PleaseLogin />}
       </Box>
+      <AppFooter />
     </ThemeProvider>
   );
 }
