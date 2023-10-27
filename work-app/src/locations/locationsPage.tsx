@@ -4,15 +4,16 @@ import { TitleContext, requestSender } from "../context/context";
 import { Box, Divider, Typography } from "@mui/material";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import "../../src/locations/mapContainer.css";
 import ModalComponent from "../modals/modalPopUp";
 import { Department } from "../types/departmentTypes";
 import axios from "axios";
-import DeleteModal from "../modals/deleteModal";const LocationPages = () => {
+import DeleteModal from "../modals/deleteModal";
+const LocationPages = () => {
   const value = useContext(TitleContext);
   const [department, setDepartment] = useState<Department[]>([]);
   const contextData = useContext(requestSender);
   const [deleteId, setDeleteId] = useState<number>();
+
   const onRowsSelectionHandler = (ids: any) => {
     const selectedRowsData = ids.map((id: any) =>
       department.find((row: any) => row.id === id)
@@ -76,7 +77,7 @@ import DeleteModal from "../modals/deleteModal";const LocationPages = () => {
   const getDepartment = async () => {
     await axios
       .get("http://localhost:3001/department")
-      .then((response) => {
+      .then((response: any) => {
         setDepartment(response.data);
       })
       .catch((e: Error) => {

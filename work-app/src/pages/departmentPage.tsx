@@ -4,7 +4,6 @@ import { TitleContext } from "../context/context";
 import { Box, Divider, MenuItem, Select, Typography } from "@mui/material";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import "../../src/locations/mapContainer.css";
 import AutoComplete from "../components/AutoCompleteComponent";
 
 const columns: GridColDef[] = [
@@ -34,6 +33,7 @@ const rows = [
   { id: "0", Organization: "Robert Bosch EOOD", Location: "Sf" },
   { id: "1", Organization: "Robert Bosch EOOD", Location: "Sf4" },
 ];
+
 const DepartmentsPage = () => {
   const value = useContext(TitleContext);
 

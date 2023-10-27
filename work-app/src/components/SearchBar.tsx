@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { Box, TextField, Autocomplete, Button, Stack } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Autocomplete,
+  Button,
+  Stack,
+  Grid,
+} from "@mui/material";
 import React from "react";
 import axios from "axios";
 import CardsGrid from "./DisplayCards";
@@ -39,41 +46,45 @@ function SearchBar() {
   };
 
   return (
-    <Box justifyContent="center">
-      <Autocomplete
-        options={removedDuplicates}
-        disablePortal
-        id="combo-box-demo"
-        onChange={onClearIcon}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search property type"
-            onSelect={handleInput}
-            sx={{
-              width: "86.5%",
-              marginLeft: 17,
-              "& label.Mui-focused": {
-                color: "gray",
-              },
-              "& .MuiOutlinedInput-root.Mui-focused": {
-                "& > fieldset": {
-                  borderColor: "gray",
-                },
-              },
-            }}
-          />
-        )}
-      />
-      <Box
-        sx={{
-          padding: "15px",
-          marginLeft: 2,
-        }}
-      ></Box>
+    <>
+      <Box justifyContent="center">
+        <Autocomplete
+          options={removedDuplicates}
+          disablePortal
+          id="combo-box-demo"
+          onChange={onClearIcon}
+          renderInput={(params) => (
+            <Grid container justifyContent={"center"} alignItems="center">
+              <TextField
+                {...params}
+                label="Search property type"
+                onSelect={handleInput}
+                sx={{
+                  width: "86.5%",
 
-      <CardsGrid searchString={input} list={list} />
-    </Box>
+                  "& label.Mui-focused": {
+                    color: "gray",
+                  },
+                  "& .MuiOutlinedInput-root.Mui-focused": {
+                    "& > fieldset": {
+                      borderColor: "gray",
+                    },
+                  },
+                }}
+              />
+            </Grid>
+          )}
+        />
+        <Box
+          sx={{
+            padding: "15px",
+            marginLeft: 2,
+          }}
+        ></Box>
+
+        <CardsGrid searchString={input} list={list} />
+      </Box>
+    </>
   );
 }
 

@@ -9,7 +9,6 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -34,8 +33,6 @@ function Copyright(props: any) {
     </Typography>
   );
 }
-
-const defaultTheme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -111,125 +108,118 @@ export default function SignUp() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          {errorMsg !== null && (
-            <>
-              <br></br>
-              <Alert severity="error">{errorMsg}</Alert>
-            </>
-          )}
-          {emailAlert !== null && (
-            <>
-              <br></br>
-              {emailAlert}
-            </>
-          )}
-          {passwordError !== null && (
-            <>
-              <br></br>
-              {passwordError}
-            </>
-          )}
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+        {errorMsg !== null && (
+          <>
+            <br></br>
+            <Alert severity="error">{errorMsg}</Alert>
+          </>
+        )}
+        {emailAlert !== null && (
+          <>
+            <br></br>
+            {emailAlert}
+          </>
+        )}
+        {passwordError !== null && (
+          <>
+            <br></br>
+            {passwordError}
+          </>
+        )}
+        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="displayName"
+                label="Display name"
+                name="displayName"
+                type="text"
+                value={displayName}
+                onChange={handleCredential}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="user-email"
+                label="Email Address"
+                name="email"
+                type="email"
+                value={email}
+                onChange={handleCredential}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                value={password}
+                onChange={handleCredential}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="inputRePassword"
+                label="Confirm Password"
+                name="passwordConfirm"
+                type="password"
+                value={passwordConfirm}
+                onChange={handleCredential}
+                placeholder="Confirm Password"
+                autoComplete="new-password"
+              />
+            </Grid>
+            <Grid item xs={12}></Grid>
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={buttonStyles}
+            disabled={email.length === 0 || password.length === 0}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="displayName"
-                  label="Display name"
-                  name="displayName"
-                  type="text"
-                  value={displayName}
-                  onChange={handleCredential}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="user-email"
-                  label="Email Address"
-                  name="email"
-                  type="email"
-                  value={email}
-                  onChange={handleCredential}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={handleCredential}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="inputRePassword"
-                  label="Confirm Password"
-                  name="passwordConfirm"
-                  type="password"
-                  value={passwordConfirm}
-                  onChange={handleCredential}
-                  placeholder="Confirm Password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}></Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={buttonStyles}
-              disabled={email.length === 0 || password.length === 0}
-            >
-              <Typography fontFamily={"Times New Roman"}>Sign Up</Typography>
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/signin" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-            <Grid item textAlign={"center"} marginTop={"50px"}>
-              <Link href="/">
-                <Typography fontFamily={"Times New Roman"}>Home</Typography>
+            <Typography fontFamily={"Times New Roman"}>Sign Up</Typography>
+          </Button>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link href="/signin" variant="body2">
+                Already have an account? Sign in
               </Link>
             </Grid>
-          </Box>
+          </Grid>
+          <Grid item textAlign={"center"} marginTop={"50px"}>
+            <Link href="/">
+              <Typography fontFamily={"Times New Roman"}>Home</Typography>
+            </Link>
+          </Grid>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+      </Box>
+      <Copyright sx={{ mt: 5 }} />
+    </Container>
   );
 }

@@ -16,6 +16,7 @@ const userAuthContext = createContext({
 
 export const UserAuthContextProvider = ({ children }: any) => {
   const [user, setUser] = useState("");
+
   const signUp = (email: string, password: string, displayName: string) => {
     return auth
       .createUserWithEmailAndPassword(email, password)
@@ -29,9 +30,11 @@ export const UserAuthContextProvider = ({ children }: any) => {
   const signIn = (email: string, password: string) => {
     return signInWithEmailAndPassword(contextAuth, email, password);
   };
+
   const triggerResetEmail = (email: string) => {
     return sendPasswordResetEmail(contextAuth, email);
   };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(contextAuth, (currentUser: any) => {
       setUser(currentUser);
@@ -41,6 +44,7 @@ export const UserAuthContextProvider = ({ children }: any) => {
       unsubscribe();
     };
   }, []);
+
   return (
     <userAuthContext.Provider
       value={{ user, signUp, signIn, triggerResetEmail }}
@@ -49,6 +53,7 @@ export const UserAuthContextProvider = ({ children }: any) => {
     </userAuthContext.Provider>
   );
 };
+
 export function useUserAuth() {
   return useContext(userAuthContext);
 }

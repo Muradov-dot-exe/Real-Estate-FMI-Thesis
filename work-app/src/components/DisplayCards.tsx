@@ -111,17 +111,19 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
           Filter by rooms
         </Button>
       </Stack>
-      <Box
-        component="img"
-        src={homepagestyledline}
-        alt="wavy line"
-        sx={{
-          width: "50%",
-          marginLeft: 60,
-          marginBottom: "6px",
-          padding: "5px",
-        }}
-      />
+      <Grid container justifyContent={"center"} alignItems="center">
+        <Box
+          component="img"
+          src={homepagestyledline}
+          alt="wavy line"
+          sx={{
+            width: "50%",
+            marginBottom: "6px",
+            padding: "5px",
+          }}
+        />
+      </Grid>
+
       <InfiniteScroll
         pageStart={0}
         loadMore={fetchMoreData}

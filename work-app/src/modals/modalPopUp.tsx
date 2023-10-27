@@ -65,9 +65,11 @@ const ModalComponent: React.FC<UpdateData> = ({ updateId }): JSX.Element => {
         },
       }
     );
+
     handleClose();
     contextData.setDataValue(["1"]);
   };
+
   const notif = () => {
     toast.success("New location added");
   };

@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 type DeleteData = {
   deleteId?: number;
 };
+
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -61,11 +62,7 @@ const DeleteModal: React.FC<DeleteData> = ({ deleteId }): JSX.Element => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <Typography
-              id="modal-modal-title"
-              fontWeight={"bold"}
-              component="h2"
-            >
+            <Typography id="modal-modal-title" component="h2">
               Are you sure you want to delete this row ?
             </Typography>
             <Grid sx={{ marginTop: 2 }}>
