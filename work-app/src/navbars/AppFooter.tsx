@@ -23,8 +23,12 @@ export default function AppFooter() {
               About Us
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              We are XYZ company, dedicated to providing the best service to our
-              customers.
+              Whether you're a first-time homebuyer, a seasoned investor, or a
+              property owner looking to sell, Golden Estate is here for you. We
+              invite you to embark on a journey with us, explore the world of
+              real estate, and make your dreams a reality. Connect with us
+              today, and let's begin this exciting journey together. Your
+              perfect property is just a click away.
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
@@ -32,13 +36,13 @@ export default function AppFooter() {
               Contact Us
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              123 Main Street, Anytown, USA
+              Ivan Vazov Str, Sopot, Bulgaria
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Email: info@example.com
+              Email: amuradov239@gmail.com
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Phone: +1 234 567 8901
+              Phone: +359 88888888
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
@@ -60,12 +64,10 @@ export default function AppFooter() {
             </Link>
           </Grid>
         </Grid>
-        <Box mt={5}>
+        <Box mt={2}>
           <Typography variant="body2" color="text.secondary" align="center">
             {"Copyright © "}
-            <Link color="inherit" href="https://your-website.com/">
-              Your Website
-            </Link>{" "}
+            <Typography color="inherit">Gold Estate</Typography>{" "}
             {new Date().getFullYear()}
             {"."}
           </Typography>

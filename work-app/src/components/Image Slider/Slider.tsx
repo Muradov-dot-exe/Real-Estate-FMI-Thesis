@@ -3,7 +3,7 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 
 import "./slider.css";
 import { sliderData } from "./sliderData";
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 
 const Slider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -37,7 +37,17 @@ const Slider = () => {
   }, [currentSlide]);
 
   return (
-    <Box className="slider">
+    <Grid
+      container
+      justifyContent={"center"}
+      alignItems="center"
+      sx={{
+        width: "100%",
+        height: "58vh",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
       <AiOutlineArrowLeft className="arrow prev" onClick={prevSlide} />
       <AiOutlineArrowRight className="arrow next" onClick={nextSlide} />
       {sliderData.map((slide: any, index: any) => {
@@ -64,7 +74,7 @@ const Slider = () => {
           </Box>
         );
       })}
-    </Box>
+    </Grid>
   );
 };
 

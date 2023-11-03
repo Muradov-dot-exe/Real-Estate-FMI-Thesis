@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import AuthVerification from "./authVerificationComponent";
-import ProductsPages from "../products/productsPage";
 import LocationPages from "../locations/locationsPage";
 import ErrorPage from "../pages/errorPage";
 import SignIn from "../auth/signIn";
@@ -8,6 +7,7 @@ import SignUp from "../auth/signUp";
 import Layout from "../pages/layoutPage";
 import Home from "../pages/homePage";
 import DepartmentsPage from "../pages/departmentPage";
+import Airplanes from "../products/airplanePage";
 
 export const router = createBrowserRouter([
   {
@@ -22,8 +22,8 @@ export const router = createBrowserRouter([
         element: <AuthVerification />,
         children: [
           {
-            path: "/products",
-            element: <ProductsPages />,
+            path: "/airplanes",
+            element: <Airplanes />,
           },
           { path: "/locations", element: <LocationPages /> },
           {

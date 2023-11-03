@@ -3,11 +3,11 @@ import DataTableComponent from "../components/DataTableComponent";
 import { useContext, useEffect } from "react";
 import { TitleContext } from "../context/context";
 
-const ProductsPages = () => {
+const Airplanes = () => {
   const value = useContext(TitleContext);
 
   useEffect(() => {
-    value.setTitle("Products");
+    value.setTitle("Aircraft");
   }, [value]);
 
   return (
@@ -35,4 +35,4 @@ const ProductsPages = () => {
   );
 };
 
-export default ProductsPages;
+export default Airplanes;

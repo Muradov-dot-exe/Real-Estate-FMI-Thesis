@@ -69,14 +69,14 @@ export default function SignIn() {
   const { currentUser } = useSelector((state: any) => state.user);
 
   const value = useContext(TitleContext);
-  
+
   useEffect(() => {
     value.setTitle("Sign In");
   }, [value]);
 
   useEffect(() => {
     if (currentUser) {
-      navigate("/products");
+      navigate("/");
     } else {
       navigate("/signin");
     }

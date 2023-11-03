@@ -1,8 +1,17 @@
 const dbconnection = require("./dbconnection");
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
 app.use(express.json());
+
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 app.get(`/`, (req, res) => {
   dbconnection.query("select * from properties", (err, result) => {

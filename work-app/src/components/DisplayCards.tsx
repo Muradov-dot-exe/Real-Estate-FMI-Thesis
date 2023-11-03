@@ -16,7 +16,7 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
 
   async function fetchMoreData(page: any) {
     const url = queryString.stringifyUrl({
-      url: "http://localhost:3001/property",
+      url: "http://localhost:4200/",
       query: {
         page,
         limit: 10,
@@ -28,6 +28,9 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
       setCards([...cards, ...res.data]);
     } catch (error) {}
   }
+
+  console.log(cards);
+
   const filteredList = cards.filter((element) => {
     if (searchString === "") {
       return element;

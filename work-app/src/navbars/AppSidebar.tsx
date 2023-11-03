@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import CarRentalIcon from "@mui/icons-material/CarRental";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -10,13 +10,9 @@ import ListItemText from "@mui/material/ListItemText";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import RecentActorsIcon from "@mui/icons-material/RecentActors";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import PeopleIcon from "@mui/icons-material/People";
-import EventNoteIcon from "@mui/icons-material/EventNote";
-import { Toolbar } from "@mui/material";
-import ListAltIcon from "@mui/icons-material/ListAlt";
+
+import { Divider, Toolbar, Typography } from "@mui/material";
+import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
 import HomeIcon from "@mui/icons-material/Home";
 const drawerWidth = 240;
 interface DrawerProps {
@@ -67,83 +63,90 @@ const AppSidebar = ({ isOpen, onClose }: DrawerProps) => {
               </Link>
             ))}
           </List>
+          <Divider sx={{ width: "100%" }} />
           <List>
-            {[
-              "Roles",
-              "Locations",
-              "Departments",
-              "Positions",
-              "Associates",
-              "Resource groups",
-              "Event types",
-              "Reports",
-            ].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                {currentUser && (
-                  <ListItemButton key={text}>
-                    <ListItemIcon>
-                      {index === 0 ? (
-                        <AccountBoxIcon />
+            {["Luxury aircraft", "Luxury vehicles", "Luxury office spaces"].map(
+              (text, index) => (
+                <ListItem key={text} disablePadding>
+                  {currentUser && (
+                    <ListItemButton key={text}>
+                      <ListItemIcon>
+                        {index === 0 ? (
+                          <AirplaneTicketIcon />
+                        ) : index === 1 ? (
+                          <CarRentalIcon />
+                        ) : index === 2 ? (
+                          <ApartmentIcon />
+                        ) : null}
+                      </ListItemIcon>
+
+                      {index === 0 && currentUser ? (
+                        <>
+                          <Link
+                            key={text}
+                            style={{
+                              textDecoration: "none",
+                              color: "inherit",
+                              width: "100%",
+                            }}
+                            to={"/airplanes"}
+                          >
+                            <ListItemText primary={text} />
+                          </Link>
+                        </>
                       ) : index === 1 ? (
-                        <LocationOnIcon />
-                      ) : index === 2 ? (
-                        <ApartmentIcon />
-                      ) : index === 3 ? (
-                        <RecentActorsIcon />
-                      ) : index === 4 ? (
-                        <PeopleAltIcon />
-                      ) : index === 5 ? (
-                        <PeopleIcon />
-                      ) : index === 6 ? (
-                        <EventNoteIcon />
+                        <Link
+                          key={text}
+                          style={{
+                            textDecoration: "none",
+                            color: "inherit",
+                            width: "100%",
+                          }}
+                          to={"/locations"}
+                        >
+                          <ListItemText primary={text} key={text} />
+                        </Link>
                       ) : (
-                        <ListAltIcon />
+                        <Link
+                          key={text}
+                          style={{
+                            textDecoration: "none",
+                            color: "inherit",
+                            width: "100%",
+                          }}
+                          to={"/departments"}
+                        >
+                          <ListItemText primary={text} key={text} />
+                        </Link>
                       )}
-                    </ListItemIcon>
-                    {index === 0 && currentUser ? (
-                      <Link
-                        key={text}
-                        style={{
-                          textDecoration: "none",
-                          color: "inherit",
-                          width: "100%",
-                        }}
-                        to={"/products"}
-                      >
-                        <ListItemText primary={text} />
-                      </Link>
-                    ) : index === 1 ? (
-                      <Link
-                        key={text}
-                        style={{
-                          textDecoration: "none",
-                          color: "inherit",
-                          width: "100%",
-                        }}
-                        to={"/locations"}
-                      >
-                        <ListItemText primary={text} key={text} />
-                      </Link>
-                    ) : (
-                      <Link
-                        key={text}
-                        style={{
-                          textDecoration: "none",
-                          color: "inherit",
-                          width: "100%",
-                        }}
-                        to={"/departments"}
-                      >
-                        <ListItemText primary={text} key={text} />
-                      </Link>
-                    )}
-                  </ListItemButton>
-                )}
-              </ListItem>
-            ))}
+                    </ListItemButton>
+                  )}
+                </ListItem>
+              )
+            )}
           </List>
           <Toolbar />
         </Box>
+        <Box
+          component={"img"}
+          src={"https://i.imgur.com/86nj6ys.png"}
+          sx={{
+            width: "100%",
+            marginTop: 25,
+            marginLeft: -1,
+          }}
+        />
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          align="center"
+          marginLeft={-3}
+        >
+          {"Copyright © "}
+          <Typography color="inherit">Gold Estate</Typography>{" "}
+          {new Date().getFullYear()}
+          {"."}
+        </Typography>
       </Drawer>
     </>
   );

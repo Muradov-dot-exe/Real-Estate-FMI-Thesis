@@ -59,7 +59,7 @@ export default function SignUp() {
 
   const buttonStyles = {
     "&:hover": {
-      backgroundColor: "orange", 
+      backgroundColor: "orange",
     },
     mt: 3,
     mb: 2,
@@ -68,7 +68,7 @@ export default function SignUp() {
 
   useEffect(() => {
     if (currentUser) {
-      navigate("/products");
+      navigate("/");
     } else {
       navigate("/signup");
     }

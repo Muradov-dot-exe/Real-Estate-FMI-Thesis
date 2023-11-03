@@ -1,9 +1,3 @@
-.slider {
-  width: 100%;
-  height: 58vh;
-  position: relative;
-  overflow: hidden;
-}
 .slide {
   position: absolute;
   top: 0;
