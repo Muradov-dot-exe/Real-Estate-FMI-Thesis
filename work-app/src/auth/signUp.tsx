@@ -59,7 +59,7 @@ export default function SignUp() {
 
   const buttonStyles = {
     "&:hover": {
-      backgroundColor: "orange", // Change to your desired color
+      backgroundColor: "orange", 
     },
     mt: 3,
     mb: 2,

@@ -69,6 +69,7 @@ export default function SignIn() {
   const { currentUser } = useSelector((state: any) => state.user);
 
   const value = useContext(TitleContext);
+  
   useEffect(() => {
     value.setTitle("Sign In");
   }, [value]);
@@ -126,9 +127,11 @@ export default function SignIn() {
   const handleGoogleSubmit = () => {
     dispatch(googleSignInInitiate());
   };
+
   const handleFacebookSubmit = () => {
     dispatch(facebookSignInInitiate());
   };
+
   const handleCredential = (event: any) => {
     let { name, value } = event.target;
 
