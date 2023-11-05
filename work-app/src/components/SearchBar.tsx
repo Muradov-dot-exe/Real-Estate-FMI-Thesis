@@ -21,7 +21,7 @@ function SearchBar() {
 
   const fetchdata = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/property");
+      const response = await axios.get("http://localhost:4200/");
       return response.data;
     } catch (error) {
       console.log(error);
