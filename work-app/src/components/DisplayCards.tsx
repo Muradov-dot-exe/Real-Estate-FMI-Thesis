@@ -9,6 +9,8 @@ import queryString from "query-string";
 import CardMedia from "@mui/material/CardMedia";
 import { Box, Button, CardActions, Stack, Typography } from "@mui/material";
 import homepagestyledline from "../img/decorativehomepageline.jpg";
+import { Link } from "react-router-dom";
+import SingleProperty from "./SingleProperty";
 
 const CardsGrid = ({ searchString = "", list = [] }: any) => {
   const [cards, setCards] = useState<any[]>([]);
@@ -59,7 +61,6 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
     filteredByPrice = [...cards].sort((a: any, b: any) => a.beds - b.beds);
     return setCards(filteredByPrice);
   };
-
   return (
     <>
       <Stack
@@ -170,8 +171,17 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    {/* <Button size="small"></Button> */}
-                    <Button size="small">Learn More</Button>
+                    <Button size="small">
+                      <Link
+                        style={{
+                          textDecoration: "none",
+                          color: "#aa6c39",
+                        }}
+                        to={`/properties/${card.id}`}
+                      >
+                        Learn More
+                      </Link>
+                    </Button>
                   </CardActions>
                 </Card>
               </Grid>

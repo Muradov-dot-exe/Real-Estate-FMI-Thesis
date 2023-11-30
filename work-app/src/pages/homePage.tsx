@@ -13,6 +13,7 @@ export default function Home() {
   const { currentUser } = useSelector((state: any) => state.user);
 
   const value = useContext(TitleContext);
+  console.log(currentUser);
 
   useEffect(() => {
     value.setTitle("Home");
@@ -38,7 +39,6 @@ export default function Home() {
       >
         {currentUser ? <SearchBar /> : <PleaseLogin />}
       </Box>
-      <AppFooter />
     </ThemeProvider>
   );
 }

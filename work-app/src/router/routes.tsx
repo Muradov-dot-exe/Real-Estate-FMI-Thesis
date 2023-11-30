@@ -8,6 +8,7 @@ import Layout from "../pages/layoutPage";
 import Home from "../pages/homePage";
 import DepartmentsPage from "../pages/departmentPage";
 import Airplanes from "../products/airplanePage";
+import SingleProperty from "../components/SingleProperty";
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
           {
             path: "/departments",
             element: <DepartmentsPage />,
+          },
+          {
+            path: "/properties/:id",
+            element: <SingleProperty />,
           },
         ],
       },

@@ -13,7 +13,6 @@ export default function AppFooter() {
       sx={{
         backgroundColor: "#aa6c39",
         p: 6,
-        marginTop: 5,
       }}
     >
       <Container maxWidth="lg">
