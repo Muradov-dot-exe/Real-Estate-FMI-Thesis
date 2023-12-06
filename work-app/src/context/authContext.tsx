@@ -24,7 +24,6 @@ export const UserAuthContextProvider = ({ children }: any) => {
       .then(({ user }) => {
         const userRolesRef = doc(firestore, "roles", user!.uid);
         setDoc(userRolesRef, { role: "visitor", email: user?.email });
-        console.log(userRolesRef);
 
         user?.updateProfile({
           displayName,

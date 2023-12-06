@@ -1,11 +1,4 @@
-import {
-  Button,
-  Modal,
-  Box,
-  Typography,
-  FormControl,
-  Grid,
-} from "@mui/material";
+import { Button, Modal, Box, Typography, Grid } from "@mui/material";
 import React, { useContext } from "react";
 import axios from "axios";
 import { requestSender } from "../context/context";
@@ -13,7 +6,7 @@ import { toast } from "react-toastify";
 
 type DeleteData = {
   deleteId?: number;
-  onDelete: () => void; // Callback to trigger onDelete
+  onDelete: () => void;
 };
 
 const DeleteModal: React.FC<DeleteData> = ({
@@ -45,7 +38,6 @@ const DeleteModal: React.FC<DeleteData> = ({
   return (
     <>
       <div>
-        {" "}
         <Button
           onClick={handleOpen}
           style={{
