@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@firebase/app": "^0.9.25",
+    "@firebase/auth": "^1.5.1",
+    "@firebase/firestore": "^4.4.0",
+    "@types/firebase": "^3.2.1"
+  }
+}

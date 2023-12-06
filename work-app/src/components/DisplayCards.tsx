@@ -10,10 +10,11 @@ import CardMedia from "@mui/material/CardMedia";
 import { Box, Button, CardActions, Stack, Typography } from "@mui/material";
 import homepagestyledline from "../img/decorativehomepageline.jpg";
 import { Link } from "react-router-dom";
-import SingleProperty from "./SingleProperty";
+import DeleteModal from "../modals/deleteModal";
 
 const CardsGrid = ({ searchString = "", list = [] }: any) => {
   const [cards, setCards] = useState<any[]>([]);
+
   let filteredByPrice;
 
   async function fetchMoreData(page: any) {
@@ -27,11 +28,17 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
 
     try {
       const res = await axios.get(url);
-      setCards([...cards, ...res.data]);
+      setCards(res.data);
     } catch (error) {}
   }
-
-  console.log(cards);
+  const handleDelete = async (deleteId: number) => {
+    try {
+      await axios.delete(`http://localhost:4200/delete/${deleteId}`);
+      fetchMoreData(0);
+    } catch (error) {
+      console.error("Error deleting property:", error);
+    }
+  };
 
   const filteredList = cards.filter((element) => {
     if (searchString === "") {
@@ -114,6 +121,21 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
         >
           Filter by rooms
         </Button>
+        <Button
+          variant="outlined"
+          sx={{
+            borderColor: "#aa6c39",
+            color: "#aa6c39",
+            "&:hover": {
+              backgroundColor: "beige",
+              color: "orange",
+              borderColor: "orange",
+            },
+          }}
+          onClick={handleRoomFilter}
+        >
+          Add a new property
+        </Button>
       </Stack>
       <Grid container justifyContent={"center"} alignItems="center">
         <Box
@@ -182,12 +204,27 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
                         Learn More
                       </Link>
                     </Button>
+                    <Button
+                      size="small"
+                      style={{
+                        textDecoration: "none",
+                        color: "#aa6c39",
+                      }}
+                    >
+                      Edit
+                    </Button>
+
+                    <DeleteModal
+                      deleteId={card.id}
+                      onDelete={() => handleDelete(card.id)}
+                    />
                   </CardActions>
                 </Card>
               </Grid>
             );
           })}
         </Grid>
+        <br></br>
       </InfiniteScroll>
     </>
   );

@@ -5,7 +5,8 @@ import {
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { contextAuth } from "../firebase";
-import { auth } from "../firebase";
+import { auth, firestore } from "../firebase";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 const userAuthContext = createContext({
   user: "",
@@ -21,6 +22,10 @@ export const UserAuthContextProvider = ({ children }: any) => {
     return auth
       .createUserWithEmailAndPassword(email, password)
       .then(({ user }) => {
+        const userRolesRef = doc(firestore, "roles", user!.uid);
+        setDoc(userRolesRef, { role: "visitor", email: user?.email });
+        console.log(userRolesRef);
+
         user?.updateProfile({
           displayName,
         });

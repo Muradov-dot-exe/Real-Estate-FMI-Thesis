@@ -4,12 +4,10 @@ import {
   Toolbar,
   Typography,
   Button,
-  createTheme,
-  ThemeProvider,
   IconButton,
   Grid,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutInitiate } from "../redux/authActions";
 import { TitleContext } from "../context/context";

@@ -63,7 +63,7 @@ const LocationPages = () => {
             <IconButton>
               <EditIcon />
             </IconButton>
-            <DeleteModal deleteId={deleteId} />
+            {/* <DeleteModal deleteId={deleteId} /> */}
           </>
         );
       },
