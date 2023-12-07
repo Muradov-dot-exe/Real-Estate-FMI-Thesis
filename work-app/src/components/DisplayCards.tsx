@@ -11,9 +11,11 @@ import { Box, Button, CardActions, Stack, Typography } from "@mui/material";
 import homepagestyledline from "../img/decorativehomepageline.jpg";
 import { Link } from "react-router-dom";
 import DeleteModal from "../modals/deleteModal";
+import { Property } from "../types/propertyTypes";
+import AddProperty from "../modals/addProperty";
 
 const CardsGrid = ({ searchString = "", list = [] }: any) => {
-  const [cards, setCards] = useState<any[]>([]);
+  const [cards, setCards] = useState<Property[]>([]);
 
   let filteredByPrice;
 
@@ -57,6 +59,10 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
     return setCards(filteredByPrice);
   };
 
+  const handleAddProperty = () => {
+    fetchMoreData(0);
+  };
+
   const handleSizeFilter = () => {
     filteredByPrice = [...cards].sort(
       (a: any, b: any) => a.floorspace - b.floorspace
@@ -79,6 +85,7 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
         <Button
           variant="outlined"
           sx={{
+            height: 50,
             borderColor: "#aa6c39",
             color: "#aa6c39",
             "&:hover": {
@@ -94,6 +101,7 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
         <Button
           variant="outlined"
           sx={{
+            height: 50,
             borderColor: "#aa6c39",
             color: "#aa6c39",
             "&:hover": {
@@ -109,6 +117,7 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
         <Button
           variant="outlined"
           sx={{
+            height: 50,
             borderColor: "#aa6c39",
             color: "#aa6c39",
             "&:hover": {
@@ -121,22 +130,11 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
         >
           Filter by rooms
         </Button>
-        <Button
-          variant="outlined"
-          sx={{
-            borderColor: "#aa6c39",
-            color: "#aa6c39",
-            "&:hover": {
-              backgroundColor: "beige",
-              color: "orange",
-              borderColor: "orange",
-            },
-          }}
-          onClick={handleRoomFilter}
-        >
-          Add a new property
-        </Button>
+        <Grid item>
+          <AddProperty onAddProperty={handleAddProperty} />
+        </Grid>
       </Stack>
+
       <Grid container justifyContent={"center"} alignItems="center">
         <Box
           component="img"

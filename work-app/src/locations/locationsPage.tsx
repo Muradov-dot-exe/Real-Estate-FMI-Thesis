@@ -4,13 +4,13 @@ import { TitleContext, requestSender } from "../context/context";
 import { Box, Divider, Typography } from "@mui/material";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import ModalComponent from "../modals/modalPopUp";
-import { Department } from "../types/departmentTypes";
+import ModalComponent from "../modals/addProperty";
 import axios from "axios";
 import DeleteModal from "../modals/deleteModal";
+
 const LocationPages = () => {
   const value = useContext(TitleContext);
-  const [department, setDepartment] = useState<Department[]>([]);
+  const [department, setDepartment] = useState<any[]>([]);
   const contextData = useContext(requestSender);
   const [deleteId, setDeleteId] = useState<number>();
 
@@ -103,7 +103,7 @@ const LocationPages = () => {
         <Box sx={{ marginTop: -8, marginRight: -10 }}>
           <Typography sx={{ fontWeight: "bold" }}>Locations</Typography>
           <Box sx={{ width: 500 }}>
-            <ModalComponent />
+            {/* <ModalComponent /> */}
             <Divider
               sx={{
                 width: 1533,
