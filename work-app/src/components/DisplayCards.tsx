@@ -14,14 +14,20 @@ import DeleteModal from "../modals/deleteModal";
 import { Property } from "../types/propertyTypes";
 import AddProperty from "../modals/addProperty";
 
-const CardsGrid = ({ searchString = "", list = [] }: any) => {
-  const [cards, setCards] = useState<Property[]>([]);
+const CardsGrid = ({ searchString = "", list = [], aircraft }: any) => {
+  const [cards, setCards] = useState<any[]>([]);
 
   let filteredByPrice;
+  let usedUrl: string;
+  if (aircraft) {
+    usedUrl = "http://localhost:4200/aircraft";
+  } else {
+    usedUrl = "http://localhost:4200/";
+  }
 
   async function fetchMoreData(page: any) {
     const url = queryString.stringifyUrl({
-      url: "http://localhost:4200/",
+      url: usedUrl,
       query: {
         page,
         limit: 10,
@@ -35,7 +41,12 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
   }
   const handleDelete = async (deleteId: number) => {
     try {
-      await axios.delete(`http://localhost:4200/delete/${deleteId}`);
+      if (aircraft) {
+        await axios.delete(`${usedUrl}/delete/${deleteId}`);
+      } else {
+        await axios.delete(`http://localhost:4200/delete/${deleteId}`);
+      }
+
       fetchMoreData(0);
     } catch (error) {
       console.error("Error deleting property:", error);
@@ -46,7 +57,11 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
     if (searchString === "") {
       return element;
     } else {
-      return element.type.toLowerCase().includes(searchString);
+      if (aircraft) {
+        return element.aircraft_type.toLowerCase().includes(searchString);
+      } else {
+        return element.type.toLowerCase().includes(searchString);
+      }
     }
   });
 
@@ -64,16 +79,27 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
   };
 
   const handleSizeFilter = () => {
-    filteredByPrice = [...cards].sort(
-      (a: any, b: any) => a.floorspace - b.floorspace
-    );
+    filteredByPrice = [...cards].sort((a: any, b: any) => {
+      if (aircraft) {
+        return a.year - b.year;
+      } else {
+        return a.floorspace - b.floorspace;
+      }
+    });
     return setCards(filteredByPrice);
   };
 
   const handleRoomFilter = () => {
-    filteredByPrice = [...cards].sort((a: any, b: any) => a.beds - b.beds);
+    filteredByPrice = [...cards].sort((a: any, b: any) => {
+      if (aircraft) {
+        return a.seats - b.seats;
+      } else {
+        return a.beds - b.beds;
+      }
+    });
     return setCards(filteredByPrice);
   };
+
   return (
     <>
       <Stack
@@ -112,7 +138,7 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
           }}
           onClick={handleSizeFilter}
         >
-          Filter by floor space
+          {aircraft ? "Filter by year" : "Filter by floor space"}
         </Button>
         <Button
           variant="outlined"
@@ -128,10 +154,10 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
           }}
           onClick={handleRoomFilter}
         >
-          Filter by rooms
+          {aircraft ? "Filter by seats" : "Filter by rooms"}
         </Button>
         <Grid item>
-          <AddProperty onAddProperty={handleAddProperty} />
+          <AddProperty onAddProperty={handleAddProperty} isEditButton={false} />
         </Grid>
       </Stack>
 
@@ -174,15 +200,15 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
                   <CardMedia
                     sx={{ height: 140 }}
                     image={card.image}
-                    title={card.area}
+                    title={aircraft ? card.aircraft_type : card.area}
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      {card.type}
+                      {aircraft ? card.aircraft_type : card.type}
                     </Typography>
-                    <Typography>Location:</Typography>
+                    <Typography>{aircraft ? "Year:" : "Location:"}</Typography>
                     <Typography variant="body2" color="text.secondary">
-                      {card.city}
+                      {aircraft ? card.year : card.city}
                     </Typography>
                     <Typography>Price:</Typography>
 
@@ -197,25 +223,28 @@ const CardsGrid = ({ searchString = "", list = [] }: any) => {
                           textDecoration: "none",
                           color: "#aa6c39",
                         }}
-                        to={`/properties/${card.id}`}
+                        to={
+                          aircraft
+                            ? `/aircraft/${card.id}`
+                            : `/properties/${card.id}`
+                        }
                       >
                         Learn More
                       </Link>
                     </Button>
-                    <Button
-                      size="small"
-                      style={{
-                        textDecoration: "none",
-                        color: "#aa6c39",
-                      }}
-                    >
-                      Edit
-                    </Button>
-
-                    <DeleteModal
-                      deleteId={card.id}
-                      onDelete={() => handleDelete(card.id)}
-                    />
+                    <Stack direction="row">
+                      {" "}
+                      <AddProperty
+                        onAddProperty={handleAddProperty}
+                        isEditButton={true}
+                        propertyToEdit={card}
+                      />
+                      <DeleteModal
+                        deleteId={card.id}
+                        onDelete={() => handleDelete(card.id)}
+                        aircraft={true}
+                      />
+                    </Stack>
                   </CardActions>
                 </Card>
               </Grid>

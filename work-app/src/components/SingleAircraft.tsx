@@ -5,22 +5,22 @@ import { Box } from "@mui/system";
 import { Container, Grid, Paper, Typography } from "@mui/material";
 import ContactUsField from "../emails/contactUs";
 
-const SingleProperty = () => {
-  const propertyParams = useParams();
-  const [properties, setProperties] = useState<any>([]);
-  const property = properties.find(
-    (x: any) => x.id === Number(propertyParams.id)
+const SingleAircraft = () => {
+  const aircraftParams = useParams();
+  const [aircrafts, setAircrafts] = useState<any>([]);
+  const aircraft = aircrafts.find(
+    (x: any) => x.id === Number(aircraftParams.id)
   );
 
   useEffect(() => {
-    axios.get("http://localhost:4200/").then((response) => {
-      setProperties(response.data);
+    axios.get("http://localhost:4200/aircraft").then((response) => {
+      setAircrafts(response.data);
     });
   }, []);
 
   return (
     <Box>
-      {property !== undefined && (
+      {aircraft !== undefined && (
         <>
           <Box
             component="img"
@@ -28,7 +28,7 @@ const SingleProperty = () => {
               width: "100%",
               height: "10%",
             }}
-            src={property.image}
+            src={aircraft.image}
           />
           <Container>
             <Grid container spacing={3}>
@@ -41,48 +41,43 @@ const SingleProperty = () => {
                         fontWeight="400"
                         sx={{ fontFamily: "Times New Roman" }}
                       >
-                        Enter our premium {property.type}
+                        Enter our premium {aircraft.aircraft_type}
                       </Typography>
                     </Box>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Located at: {property.area}
+                      Manufactured by: {aircraft.manufacturer}
                     </Typography>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      City: {property.city}
+                      Model: {aircraft.model}
                     </Typography>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Address: {property.address}
+                      Registration number: {aircraft.registration_number}
                     </Typography>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Floor space: {property.floorspace}
+                      Production year: {aircraft.year}
                     </Typography>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Beds: {property.beds}
+                      Serial Number: {aircraft.serial_number}
                     </Typography>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Baths: {property.baths}
+                      Seats: {aircraft.seats}
                     </Typography>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Parking slots: {property.parking}
-                    </Typography>
-                  </Grid>
-                  <Grid container justifyContent="center">
-                    <Typography fontWeight="450">
-                      With a price of: {property.price} $USD
+                      With a price of: {aircraft.price} $USD
                     </Typography>
                   </Grid>
                   <br></br>
@@ -119,4 +114,4 @@ const SingleProperty = () => {
     </Box>
   );
 };
-export default SingleProperty;
+export default SingleAircraft;

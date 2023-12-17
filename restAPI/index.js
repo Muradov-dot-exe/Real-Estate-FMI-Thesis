@@ -13,6 +13,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+//Properties CRUD Operations
+
 app.get(`/`, (req, res) => {
   dbconnection.query("select * from properties", (err, result) => {
     if (err) {
@@ -81,6 +83,85 @@ app.delete("/delete/:id", (req, res) => {
   let property = req.params.id;
   dbconnection.query(
     "DELETE from properties where id = " + property,
+    (err, result) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+//END of properties CRUD
+
+//Airplanes CRUD
+app.get("/aircraft", (req, res) => {
+  dbconnection.query("SELECT * FROM aircraft", (err, result) => {
+    if (err) {
+      throw err;
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+app.get("/aircraft/:id", (req, res) => {
+  const aircraftId = req.params.id;
+
+  dbconnection.query(
+    "SELECT * FROM aircraft WHERE id = " + aircraftId,
+    (err, result) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+app.post("/aircraft/add", (req, res) => {
+  const data = req.body;
+  dbconnection.query("INSERT INTO aircraft SET ?", data, (err, result) => {
+    if (err) {
+      throw err;
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+app.put("/aircraft/edit/:id", (req, res) => {
+  const data = [
+    req.body.aircraft_type,
+    req.body.manufacturer,
+    req.body.model,
+    req.body.registration_number,
+    req.body.year,
+    req.body.serial_number,
+    req.body.seats,
+    req.body.price,
+    req.body.image,
+    req.params.id,
+  ];
+  dbconnection.query(
+    "UPDATE aircraft SET aircraft_type=?, manufacturer=?, model=?, registration_number=?, year=?, serial_number=?, seats=?, price=?, Image=? WHERE id=?",
+    data,
+    (err, result) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+app.delete("/aircraft/delete/:id", (req, res) => {
+  const aircraftId = req.params.id;
+  dbconnection.query(
+    "DELETE FROM aircraft WHERE id = " + aircraftId,
     (err, result) => {
       if (err) {
         throw err;

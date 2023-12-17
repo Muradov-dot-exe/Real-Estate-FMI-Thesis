@@ -2,12 +2,21 @@ import { useState, useEffect } from "react";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 
 import "./slider.css";
-import { sliderData } from "./sliderData";
+import { sliderAircraft, sliderProperties } from "./sliderData";
 import { Box, Grid, Typography } from "@mui/material";
 
-const Slider = () => {
+const Slider = ({ aircraft }: any) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slideLength = sliderData.length;
+  let slideLength: number;
+  let selectedSliderImages;
+
+  if (aircraft) {
+    slideLength = sliderAircraft.length;
+    selectedSliderImages = sliderAircraft;
+  } else {
+    slideLength = sliderProperties.length;
+    selectedSliderImages = sliderProperties;
+  }
 
   const autoScroll = true;
   let slideInterval: any;
@@ -33,6 +42,7 @@ const Slider = () => {
     if (autoScroll) {
       auto();
     }
+
     return () => clearInterval(slideInterval);
   }, [currentSlide]);
 
@@ -50,7 +60,7 @@ const Slider = () => {
     >
       <AiOutlineArrowLeft className="arrow prev" onClick={prevSlide} />
       <AiOutlineArrowRight className="arrow next" onClick={nextSlide} />
-      {sliderData.map((slide: any, index: any) => {
+      {selectedSliderImages.map((slide: any, index: any) => {
         return (
           <Box
             className={index === currentSlide ? "slide current" : "slide"}

@@ -6,7 +6,7 @@ import {
   TextField,
   Grid,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { requestSender } from "../context/context";
 import { toast } from "react-toastify";
@@ -23,12 +23,22 @@ const style = {
   p: 2,
 };
 
-const AddProperty = ({ onAddProperty }: any) => {
+interface Props {
+  onAddProperty: any;
+  isEditButton: boolean;
+  propertyToEdit?: any;
+}
+
+const AddProperty: React.FC<Props> = ({
+  onAddProperty,
+  isEditButton,
+  propertyToEdit,
+}): JSX.Element => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const contextData = useContext(requestSender);
 
-  const [newProperty, setNewProperty] = useState({
+  const initialPropertyState = {
     area: "",
     address: "",
     city: "",
@@ -40,17 +50,20 @@ const AddProperty = ({ onAddProperty }: any) => {
     price: "",
     parking: "",
     construction: "",
-  });
+  };
+
+  const [newProperty, setNewProperty] = useState(
+    propertyToEdit || initialPropertyState
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setNewProperty((prevData) => ({
+    setNewProperty((prevData: any) => ({
       ...prevData,
       [name]: value,
     }));
   };
-  console.log(newProperty);
 
   const handleClose = () => {
     setOpen(false);
@@ -59,62 +72,84 @@ const AddProperty = ({ onAddProperty }: any) => {
   const postData = async (e: any) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:4200/property/add", newProperty, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      // Use PUT request if propertyToEdit is provided, otherwise use POST
+      const axiosMethod = propertyToEdit ? axios.put : axios.post;
 
-      // Clear the form fields
-      setNewProperty({
-        area: "",
-        address: "",
-        city: "",
-        image: "",
-        type: "",
-        floorspace: "",
-        beds: "",
-        baths: "",
-        price: "",
-        parking: "",
-        construction: "",
-      });
+      await axiosMethod(
+        `http://localhost:4200/property/${
+          propertyToEdit ? `edit/${propertyToEdit.id}` : "add"
+        }`,
+        newProperty,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setNewProperty(initialPropertyState);
 
       handleClose();
       contextData.setDataValue(["1"]);
       onAddProperty();
       notif();
     } catch (error) {
-      console.error("Error adding property:", error);
+      console.error(
+        `Error ${propertyToEdit ? "editing" : "adding"} property:`,
+        error
+      );
       errorNotif();
     }
   };
 
   const notif = () => {
-    toast.success("New location added");
+    toast.success(
+      `Property ${propertyToEdit ? "edited" : "added"} successfully`
+    );
   };
+
   const errorNotif = () => {
-    toast.error("Could not create new property!");
+    toast.error(`Could not ${propertyToEdit ? "edit" : "add"} the property!`);
   };
+
+  useEffect(() => {
+    if (propertyToEdit) {
+      // If propertyToEdit is provided, set initial values
+      setNewProperty(propertyToEdit);
+    }
+  }, [propertyToEdit]);
 
   return (
     <>
-      <Button
-        onClick={handleOpen}
-        variant="outlined"
-        sx={{
-          height: 50,
-          borderColor: "#aa6c39",
-          color: "#aa6c39",
-          "&:hover": {
-            backgroundColor: "beige",
-            color: "orange",
-            borderColor: "orange",
-          },
-        }}
-      >
-        Add a new property
-      </Button>
+      {isEditButton ? (
+        <Button
+          onClick={handleOpen}
+          size="small"
+          style={{
+            color: "#aa6c39",
+            textDecoration: "none",
+          }}
+        >
+          Edit
+        </Button>
+      ) : (
+        <Button
+          onClick={handleOpen}
+          variant="outlined"
+          sx={{
+            height: 50,
+            borderColor: "#aa6c39",
+            color: "#aa6c39",
+            "&:hover": {
+              backgroundColor: "beige",
+              color: "orange",
+              borderColor: "orange",
+            },
+          }}
+        >
+          Add a new property
+        </Button>
+      )}
 
       <FormControl fullWidth onSubmit={postData}>
         <Modal
@@ -125,7 +160,7 @@ const AddProperty = ({ onAddProperty }: any) => {
         >
           <Grid sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              New property info:
+              {isEditButton ? "Edit property info:" : "New property info:"}
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               <TextField
@@ -268,7 +303,7 @@ const AddProperty = ({ onAddProperty }: any) => {
               onClick={postData}
               type="submit"
             >
-              Add
+              {isEditButton ? "Save" : "Add"}
             </Button>
           </Grid>
         </Modal>

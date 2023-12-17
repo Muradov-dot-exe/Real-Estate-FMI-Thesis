@@ -85,11 +85,13 @@ export default function SignUp() {
     } else if (password === passwordConfirm) {
       setPasswordError(null);
     }
+
     if (validateEmail(email)?.input === undefined) {
       return setEmailAlert(<Alert severity="error">Bad Email Format!</Alert>);
     } else if (validateEmail(email)?.input !== undefined) {
       setEmailAlert(null);
     }
+
     try {
       await signUp(email, password, displayName);
       notif();
@@ -97,6 +99,7 @@ export default function SignUp() {
       setErrorMsg(error.message);
     }
   };
+
   const notif = () => {
     toast.info("Successful sign up !");
   };

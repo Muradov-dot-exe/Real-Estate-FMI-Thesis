@@ -28,6 +28,7 @@ export default function DataTableComponent() {
         console.log(e.message);
       });
   };
+
   const getAllPrices = async () => {
     await axios
       .get("http://localhost:3001/prices")

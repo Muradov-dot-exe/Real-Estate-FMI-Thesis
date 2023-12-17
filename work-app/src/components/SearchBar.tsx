@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
-import {
-  Box,
-  TextField,
-  Autocomplete,
-
-  Grid,
-} from "@mui/material";
+import { Box, TextField, Autocomplete, Grid } from "@mui/material";
 import React from "react";
 import axios from "axios";
 import CardsGrid from "./DisplayCards";
 
-function SearchBar() {
+function SearchBar({ aircraft }: any) {
   const [list, setList] = useState([]);
   const [input, setInput] = useState("");
+  let url: string;
+
+  if (aircraft) {
+    url = "http://localhost:4200/aircraft";
+  } else {
+    url = "http://localhost:4200/";
+  }
 
   const handleInput = (e: any) => {
     setInput(e.target.value.toLowerCase());
@@ -20,7 +21,7 @@ function SearchBar() {
 
   const fetchdata = async () => {
     try {
-      const response = await axios.get("http://localhost:4200/");
+      const response = await axios.get(url);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -28,8 +29,13 @@ function SearchBar() {
   };
 
   const mappedList: any = list.map((item: any) => {
-    return item.type;
+    if (aircraft) {
+      return item.aircraft_type;
+    } else {
+      return item.type;
+    }
   });
+
   const removedDuplicates = mappedList.filter((x: any, y: any) => {
     return mappedList.indexOf(x) === y;
   });
@@ -81,7 +87,7 @@ function SearchBar() {
           }}
         ></Box>
 
-        <CardsGrid searchString={input} list={list} />
+        <CardsGrid searchString={input} list={list} aircraft={aircraft} />
       </Box>
     </>
   );

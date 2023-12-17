@@ -7,11 +7,13 @@ import { toast } from "react-toastify";
 type DeleteData = {
   deleteId?: number;
   onDelete: () => void;
+  aircraft: boolean;
 };
 
 const DeleteModal: React.FC<DeleteData> = ({
   deleteId,
   onDelete,
+  aircraft,
 }): JSX.Element => {
   const contextData = useContext(requestSender);
   const [open, setOpen] = React.useState(false);
@@ -32,7 +34,11 @@ const DeleteModal: React.FC<DeleteData> = ({
   };
 
   const notif = () => {
-    toast.warning("Property deleted");
+    if (aircraft) {
+      toast.warning("Aircraft deleted");
+    } else {
+      toast.warning("Property deleted");
+    }
   };
 
   return (
@@ -67,7 +73,9 @@ const DeleteModal: React.FC<DeleteData> = ({
             }}
           >
             <Typography id="modal-modal-title" component="h2">
-              Are you sure you want to delete this property with id {deleteId} ?
+              {aircraft
+                ? `Are you sure you want to delete this aircraft with id ${deleteId} ?`
+                : `Are you sure you want to delete this property with id ${deleteId} ?`}
             </Typography>
             <Grid sx={{ marginTop: 2 }}>
               <Button

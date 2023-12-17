@@ -4,8 +4,8 @@ import { TitleContext } from "../context/context";
 
 import Slider from "../components/Image Slider/Slider";
 import { useSelector } from "react-redux";
-import PleaseLogin from "./pleaseLogin";
 import SearchBar from "../components/SearchBar";
+import PleaseLogin from "../pages/pleaseLogin";
 
 export default function Home() {
   const defaultTheme = createTheme();
@@ -14,7 +14,7 @@ export default function Home() {
   const value = useContext(TitleContext);
 
   useEffect(() => {
-    value.setTitle("Home");
+    value.setTitle("Aircraft");
   }, [value]);
 
   return (
@@ -26,7 +26,7 @@ export default function Home() {
             width: "100%",
           }}
         >
-          <Slider aircraft={false} />
+          <Slider aircraft={true} />
         </Box>
       </Grid>
 
@@ -35,7 +35,7 @@ export default function Home() {
           marginTop: 4,
         }}
       >
-        {currentUser ? <SearchBar aircraft={false} /> : <PleaseLogin />}
+        {currentUser ? <SearchBar aircraft={true} /> : <PleaseLogin />}
       </Box>
     </ThemeProvider>
   );
