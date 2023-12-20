@@ -26,7 +26,7 @@ export default function Home() {
             width: "100%",
           }}
         >
-          <Slider aircraft={false} />
+          <Slider aircraft={false} vehicles={false} />
         </Box>
       </Grid>
 
@@ -35,7 +35,11 @@ export default function Home() {
           marginTop: 4,
         }}
       >
-        {currentUser ? <SearchBar aircraft={false} /> : <PleaseLogin />}
+        {currentUser ? (
+          <SearchBar aircraft={false} vehicles={false} />
+        ) : (
+          <PleaseLogin />
+        )}
       </Box>
     </ThemeProvider>
   );

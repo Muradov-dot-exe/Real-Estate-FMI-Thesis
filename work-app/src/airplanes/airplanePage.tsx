@@ -35,7 +35,11 @@ export default function Home() {
           marginTop: 4,
         }}
       >
-        {currentUser ? <SearchBar aircraft={true} /> : <PleaseLogin />}
+        {currentUser ? (
+          <SearchBar aircraft={true} vehicles={false} />
+        ) : (
+          <PleaseLogin />
+        )}
       </Box>
     </ThemeProvider>
   );

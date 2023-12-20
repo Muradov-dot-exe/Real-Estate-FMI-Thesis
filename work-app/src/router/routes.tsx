@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import AuthVerification from "./authVerificationComponent";
-import LocationPages from "../vehicles/aircraftPage";
 import ErrorPage from "../pages/errorPage";
 import SignIn from "../auth/signIn";
 import SignUp from "../auth/signUp";
@@ -10,6 +9,8 @@ import DepartmentsPage from "../pages/departmentPage";
 import Airplanes from "../airplanes/airplanePage";
 import SingleProperty from "../components/SingleProperty";
 import SingleAircraft from "../components/SingleAircraft";
+import SingleVehicle from "../components/SingleVehicle";
+import LuxuryVehicles from "../vehicles/vehiclesPage";
 
 export const router = createBrowserRouter([
   {
@@ -27,7 +28,7 @@ export const router = createBrowserRouter([
             path: "/airplanes",
             element: <Airplanes />,
           },
-          { path: "/locations", element: <LocationPages /> },
+          { path: "/vehicles", element: <LuxuryVehicles /> },
           {
             path: "/departments",
             element: <DepartmentsPage />,
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
           {
             path: "/aircraft/:id",
             element: <SingleAircraft />,
+          },
+          {
+            path: "/vehicle/:id",
+            element: <SingleVehicle />,
           },
         ],
       },

@@ -7,14 +7,14 @@ import { useSelector } from "react-redux";
 import SearchBar from "../components/SearchBar";
 import PleaseLogin from "../pages/pleaseLogin";
 
-export default function Home() {
+export default function LuxuryVehicles() {
   const defaultTheme = createTheme();
   const { currentUser } = useSelector((state: any) => state.user);
 
   const value = useContext(TitleContext);
 
   useEffect(() => {
-    value.setTitle("Home");
+    value.setTitle("Luxury Vehicles");
   }, [value]);
 
   return (
@@ -26,7 +26,7 @@ export default function Home() {
             width: "100%",
           }}
         >
-          <Slider />
+          <Slider aircraft={false} vehicles={true} />
         </Box>
       </Grid>
 
@@ -35,7 +35,11 @@ export default function Home() {
           marginTop: 4,
         }}
       >
-        {currentUser ? <SearchBar /> : <PleaseLogin />}
+        {currentUser ? (
+          <SearchBar aircraft={false} vehicles={true} />
+        ) : (
+          <PleaseLogin />
+        )}
       </Box>
     </ThemeProvider>
   );

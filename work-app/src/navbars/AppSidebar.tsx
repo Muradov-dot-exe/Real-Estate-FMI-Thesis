@@ -102,7 +102,7 @@ const AppSidebar = ({ isOpen, onClose }: DrawerProps) => {
                             color: "inherit",
                             width: "100%",
                           }}
-                          to={"/locations"}
+                          to={"/vehicles"}
                         >
                           <ListItemText primary={text} key={text} />
                         </Link>

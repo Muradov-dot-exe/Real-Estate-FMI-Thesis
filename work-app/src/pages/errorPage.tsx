@@ -9,7 +9,7 @@ export default function ErrorPage() {
           Oops! You just got 404-ed. GGWP!
         </Typography>
         <Typography marginTop={"20px"}>
-          Sorry, but you are digging too much. This page doesn't exist nigga
+          Sorry, but you are digging too much. This page doesn't exist.
         </Typography>
         <Typography marginTop={"30px"}>
           Got to<Link to={"/"}> Home</Link>.

@@ -3,6 +3,10 @@ import realestategold from "../../img/realestategold.jpg";
 import houseexample from "../../img/houseexample.jpg";
 import luxuryaircraftdisplay from "../../img/luxuryaircraftdisplay.jpg";
 import luxuryaircraftdisplay2 from "../../img/luxuryaircraftdisplay2.jpg";
+import vehicletodisplay from "../../img/vehicletodisplay.jpg";
+import vehicletodisplay2 from "../../img/vehicletodisplay2.jpg";
+
+import vehicletodisplay3 from "../../img/vehicletodisplay3.jpg";
 
 import luxuryaircraftdisplay3 from "../../img/luxuryaircraftdisplay3.jpg";
 
@@ -39,5 +43,23 @@ export const sliderAircraft = [
     image: luxuryaircraftdisplay3,
     heading: "Your personal flying luxury hotel.",
     desc: "Buying and selling airplanes is all about finding the perfect match for your flying needs. Whether it's a sleek private jet or a reliable commercial plane, the process involves choosing the right model, considering passenger space, and ensuring smooth flight performance. It's like finding the dream vehicle, but for the sky!",
+  },
+];
+
+export const sliderVehicles = [
+  {
+    image: vehicletodisplay,
+    heading: "Ride in our premium selection of luxury brands.",
+    desc: "Explore our premium selection of luxury vehicles, offering an unparalleled experience in sophistication and comfort. From high-end sedans to exquisite SUVs, each vehicle is a testament to elegance and style.",
+  },
+  {
+    image: vehicletodisplay2,
+    heading: "Our most exclusive vehicles in one place.",
+    desc: "Immerse yourself in a world of exclusivity with our curated collection of luxury vehicles. Whether it's a sleek sports car, a top-tier SUV, or a high-performance sedan, we bring together the most exclusive models for the discerning enthusiast.",
+  },
+  {
+    image: vehicletodisplay3,
+    heading: "Fast & Luxurious",
+    desc: "Experience the epitome of speed and luxury with our collection of premium vehicles. The journey of buying and selling luxury automobiles involves choosing the perfect match for your high-performance needs. From sleek private cars to refined commercial models, each vehicle promises an extraordinary blend of style and superior performance. It's not just finding a vehicle; it's discovering a luxurious masterpiece for the road!",
   },
 ];

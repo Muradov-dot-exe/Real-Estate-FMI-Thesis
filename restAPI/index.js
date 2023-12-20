@@ -172,4 +172,83 @@ app.delete("/aircraft/delete/:id", (req, res) => {
   );
 });
 
+//END OF AIRCRAFT REQUESTS
+
+//VEHICLE REQUESTS
+
+app.get(`/vehicles`, (req, res) => {
+  dbconnection.query("select * from vehicles", (err, result) => {
+    if (err) {
+      throw err;
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+app.get(`/vehicle/:id`, (req, res) => {
+  let vehicle = req.params.id;
+
+  dbconnection.query(
+    "select * from vehicles where id= " + vehicle,
+    (err, result) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+app.post("/vehicle/add", (req, res) => {
+  const data = req.body;
+  dbconnection.query("INSERT INTO vehicles SET ?", data, (err, result) => {
+    if (err) {
+      throw err;
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+app.put("/vehicle/edit/:id", (req, res) => {
+  const data = [
+    req.body.vehicle_type,
+    req.body.manufacturer,
+    req.body.model,
+    req.body.image,
+    req.body.VIN,
+    req.body.year,
+    req.body.seats,
+    req.body.price,
+    req.params.id,
+  ];
+  dbconnection.query(
+    "UPDATE vehicles SET vehicle_type=?, manufacturer=?, model=?, image=?, VIN=?, year=?, seats=?, price=? WHERE id = ?",
+    data,
+    (err, result) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+app.delete("/delete/:id", (req, res) => {
+  let vehicle = req.params.id;
+  dbconnection.query(
+    "DELETE from vehicles where id = " + vehicle,
+    (err, result) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
 app.listen(4200);

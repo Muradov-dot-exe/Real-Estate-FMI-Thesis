@@ -8,12 +8,14 @@ type DeleteData = {
   deleteId?: number;
   onDelete: () => void;
   aircraft: boolean;
+  vehicles: boolean;
 };
 
 const DeleteModal: React.FC<DeleteData> = ({
   deleteId,
   onDelete,
   aircraft,
+  vehicles,
 }): JSX.Element => {
   const contextData = useContext(requestSender);
   const [open, setOpen] = React.useState(false);
@@ -36,6 +38,8 @@ const DeleteModal: React.FC<DeleteData> = ({
   const notif = () => {
     if (aircraft) {
       toast.warning("Aircraft deleted");
+    } else if (vehicles) {
+      toast.warning("Vehicle deleted");
     } else {
       toast.warning("Property deleted");
     }
@@ -75,6 +79,8 @@ const DeleteModal: React.FC<DeleteData> = ({
             <Typography id="modal-modal-title" component="h2">
               {aircraft
                 ? `Are you sure you want to delete this aircraft with id ${deleteId} ?`
+                : vehicles
+                ? `Are you sure you want to delete this vehicle with id ${deleteId} ?`
                 : `Are you sure you want to delete this property with id ${deleteId} ?`}
             </Typography>
             <Grid sx={{ marginTop: 2 }}>

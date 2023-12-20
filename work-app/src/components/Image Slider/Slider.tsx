@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 
 import "./slider.css";
-import { sliderAircraft, sliderProperties } from "./sliderData";
+import { sliderAircraft, sliderProperties, sliderVehicles } from "./sliderData";
 import { Box, Grid, Typography } from "@mui/material";
 
-const Slider = ({ aircraft }: any) => {
+const Slider = ({ aircraft, vehicles }: any) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   let slideLength: number;
   let selectedSliderImages;
@@ -13,6 +13,9 @@ const Slider = ({ aircraft }: any) => {
   if (aircraft) {
     slideLength = sliderAircraft.length;
     selectedSliderImages = sliderAircraft;
+  } else if (vehicles) {
+    slideLength = sliderVehicles.length;
+    selectedSliderImages = sliderVehicles;
   } else {
     slideLength = sliderProperties.length;
     selectedSliderImages = sliderProperties;

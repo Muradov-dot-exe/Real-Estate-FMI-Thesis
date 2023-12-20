@@ -4,13 +4,15 @@ import React from "react";
 import axios from "axios";
 import CardsGrid from "./DisplayCards";
 
-function SearchBar({ aircraft }: any) {
+function SearchBar({ aircraft, vehicles }: any) {
   const [list, setList] = useState([]);
   const [input, setInput] = useState("");
   let url: string;
 
   if (aircraft) {
     url = "http://localhost:4200/aircraft";
+  } else if (vehicles) {
+    url = "http://localhost:4200/vehicles";
   } else {
     url = "http://localhost:4200/";
   }
@@ -31,6 +33,8 @@ function SearchBar({ aircraft }: any) {
   const mappedList: any = list.map((item: any) => {
     if (aircraft) {
       return item.aircraft_type;
+    } else if (vehicles) {
+      return item.vehicle_type;
     } else {
       return item.type;
     }
@@ -87,7 +91,12 @@ function SearchBar({ aircraft }: any) {
           }}
         ></Box>
 
-        <CardsGrid searchString={input} list={list} aircraft={aircraft} />
+        <CardsGrid
+          searchString={input}
+          list={list}
+          aircraft={aircraft}
+          vehicles={vehicles}
+        />
       </Box>
     </>
   );

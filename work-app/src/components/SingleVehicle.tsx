@@ -5,22 +5,22 @@ import { Box } from "@mui/system";
 import { Container, Grid, Paper, Typography } from "@mui/material";
 import ContactUsField from "../emails/contactUs";
 
-const SingleAircraft = () => {
-  const aircraftParams = useParams();
-  const [aircrafts, setAircrafts] = useState<any>([]);
-  const aircraft = aircrafts.find(
-    (x: any) => x.id === Number(aircraftParams.id)
+const SingleVehicle = () => {
+  const propertyParams = useParams();
+  const [properties, setProperties] = useState<any>([]);
+  const property = properties.find(
+    (x: any) => x.id === Number(propertyParams.id)
   );
 
   useEffect(() => {
-    axios.get("http://localhost:4200/aircraft").then((response) => {
-      setAircrafts(response.data);
+    axios.get("http://localhost:4200/vehicles").then((response) => {
+      setProperties(response.data);
     });
   }, []);
 
   return (
     <Box>
-      {aircraft !== undefined && (
+      {property !== undefined && (
         <>
           <Box
             component="img"
@@ -28,7 +28,7 @@ const SingleAircraft = () => {
               width: "100%",
               height: "10%",
             }}
-            src={aircraft.image}
+            src={property.image}
           />
           <Container>
             <Grid container spacing={3}>
@@ -41,43 +41,38 @@ const SingleAircraft = () => {
                         fontWeight="400"
                         sx={{ fontFamily: "Times New Roman" }}
                       >
-                        View our luxury {aircraft.aircraft_type} aircraft
+                        Enjoy our new {property.vehicle_type}
                       </Typography>
                     </Box>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Manufactured by: {aircraft.manufacturer}
+                      Manufactured by: {property.manufacturer}
                     </Typography>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Model: {aircraft.model}
+                      Model: {property.model}
                     </Typography>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Registration number: {aircraft.registration_number}
+                      VIN: {property.VIN}
                     </Typography>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Production year: {aircraft.year}
+                      Production year: {property.year}
                     </Typography>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Serial Number: {aircraft.serial_number}
+                      Seats: {property.seats}
                     </Typography>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Seats: {aircraft.seats}
-                    </Typography>
-                  </Grid>
-                  <Grid container justifyContent="center">
-                    <Typography fontWeight="450">
-                      With a price of: {aircraft.price} $USD
+                      With a price of: {property.price} $USD
                     </Typography>
                   </Grid>
                   <br></br>
@@ -114,4 +109,4 @@ const SingleAircraft = () => {
     </Box>
   );
 };
-export default SingleAircraft;
+export default SingleVehicle;

@@ -11,16 +11,24 @@ import { Box, Button, CardActions, Stack, Typography } from "@mui/material";
 import homepagestyledline from "../img/decorativehomepageline.jpg";
 import { Link } from "react-router-dom";
 import DeleteModal from "../modals/deleteModal";
-import { Property } from "../types/propertyTypes";
 import AddProperty from "../modals/addProperty";
+import AddAircraft from "../modals/addAircraft";
+import AddVehicle from "../modals/addVehicles";
 
-const CardsGrid = ({ searchString = "", list = [], aircraft }: any) => {
+const CardsGrid = ({
+  searchString = "",
+  list = [],
+  aircraft,
+  vehicles,
+}: any) => {
   const [cards, setCards] = useState<any[]>([]);
 
   let filteredByPrice;
   let usedUrl: string;
   if (aircraft) {
     usedUrl = "http://localhost:4200/aircraft";
+  } else if (vehicles) {
+    usedUrl = "http://localhost:4200/vehicles";
   } else {
     usedUrl = "http://localhost:4200/";
   }
@@ -43,6 +51,8 @@ const CardsGrid = ({ searchString = "", list = [], aircraft }: any) => {
     try {
       if (aircraft) {
         await axios.delete(`${usedUrl}/delete/${deleteId}`);
+      } else if (vehicles) {
+        await axios.delete(`${usedUrl}/delete/${deleteId}`);
       } else {
         await axios.delete(`http://localhost:4200/delete/${deleteId}`);
       }
@@ -59,6 +69,8 @@ const CardsGrid = ({ searchString = "", list = [], aircraft }: any) => {
     } else {
       if (aircraft) {
         return element.aircraft_type.toLowerCase().includes(searchString);
+      } else if (vehicles) {
+        return element.vehicle_type.toLowerCase().includes(searchString);
       } else {
         return element.type.toLowerCase().includes(searchString);
       }
@@ -80,7 +92,7 @@ const CardsGrid = ({ searchString = "", list = [], aircraft }: any) => {
 
   const handleSizeFilter = () => {
     filteredByPrice = [...cards].sort((a: any, b: any) => {
-      if (aircraft) {
+      if (aircraft || vehicles) {
         return a.year - b.year;
       } else {
         return a.floorspace - b.floorspace;
@@ -91,7 +103,7 @@ const CardsGrid = ({ searchString = "", list = [], aircraft }: any) => {
 
   const handleRoomFilter = () => {
     filteredByPrice = [...cards].sort((a: any, b: any) => {
-      if (aircraft) {
+      if (aircraft || vehicles) {
         return a.seats - b.seats;
       } else {
         return a.beds - b.beds;
@@ -138,7 +150,7 @@ const CardsGrid = ({ searchString = "", list = [], aircraft }: any) => {
           }}
           onClick={handleSizeFilter}
         >
-          {aircraft ? "Filter by year" : "Filter by floor space"}
+          {aircraft || vehicles ? "Filter by year" : "Filter by floor space"}
         </Button>
         <Button
           variant="outlined"
@@ -154,10 +166,22 @@ const CardsGrid = ({ searchString = "", list = [], aircraft }: any) => {
           }}
           onClick={handleRoomFilter}
         >
-          {aircraft ? "Filter by seats" : "Filter by rooms"}
+          {aircraft || vehicles ? "Filter by seats" : "Filter by rooms"}
         </Button>
         <Grid item>
-          <AddProperty onAddProperty={handleAddProperty} isEditButton={false} />
+          {aircraft ? (
+            <AddAircraft
+              onAddAircraft={handleAddProperty}
+              isEditButton={false}
+            />
+          ) : vehicles ? (
+            <AddVehicle onAddVehicle={handleAddProperty} isEditButton={false} />
+          ) : (
+            <AddProperty
+              onAddProperty={handleAddProperty}
+              isEditButton={false}
+            />
+          )}
         </Grid>
       </Stack>
 
@@ -200,18 +224,49 @@ const CardsGrid = ({ searchString = "", list = [], aircraft }: any) => {
                   <CardMedia
                     sx={{ height: 140 }}
                     image={card.image}
-                    title={aircraft ? card.aircraft_type : card.area}
+                    title={
+                      aircraft
+                        ? card.aircraft_type
+                        : vehicles
+                        ? card.vehicle_type
+                        : card.area
+                    }
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      {aircraft ? card.aircraft_type : card.type}
+                      {aircraft
+                        ? card.aircraft_type
+                        : vehicles
+                        ? card.vehicle_type
+                        : card.type}
                     </Typography>
-                    <Typography>{aircraft ? "Year:" : "Location:"}</Typography>
+                    <Typography>
+                      {aircraft
+                        ? "Year:"
+                        : vehicles
+                        ? "Manufacturer:"
+                        : "Location:"}
+                    </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      {aircraft ? card.year : card.city}
+                      {aircraft
+                        ? card.year
+                        : vehicles
+                        ? card.manufacturer
+                        : card.city}
                     </Typography>
+                    {vehicles && (
+                      <>
+                        <Typography>Year:</Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {card.year}
+                        </Typography>
+                        <Typography>Seats:</Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {card.seats}
+                        </Typography>
+                      </>
+                    )}
                     <Typography>Price:</Typography>
-
                     <Typography variant="body2" color="text.secondary">
                       {card.price} $
                     </Typography>
@@ -226,6 +281,8 @@ const CardsGrid = ({ searchString = "", list = [], aircraft }: any) => {
                         to={
                           aircraft
                             ? `/aircraft/${card.id}`
+                            : vehicles
+                            ? `/vehicle/${card.id}`
                             : `/properties/${card.id}`
                         }
                       >
@@ -233,17 +290,40 @@ const CardsGrid = ({ searchString = "", list = [], aircraft }: any) => {
                       </Link>
                     </Button>
                     <Stack direction="row">
-                      {" "}
-                      <AddProperty
-                        onAddProperty={handleAddProperty}
-                        isEditButton={true}
-                        propertyToEdit={card}
-                      />
-                      <DeleteModal
-                        deleteId={card.id}
-                        onDelete={() => handleDelete(card.id)}
-                        aircraft={true}
-                      />
+                      {aircraft ? (
+                        <AddAircraft
+                          onAddAircraft={handleAddProperty}
+                          isEditButton={true}
+                          aircraftToEdit={card}
+                        />
+                      ) : vehicles ? (
+                        <AddVehicle
+                          onAddVehicle={handleAddProperty}
+                          isEditButton={true}
+                          vehicleToEdit={card}
+                        />
+                      ) : (
+                        <AddProperty
+                          onAddProperty={handleAddProperty}
+                          isEditButton={true}
+                          propertyToEdit={card}
+                        />
+                      )}
+                      {aircraft ? (
+                        <DeleteModal
+                          deleteId={card.id}
+                          onDelete={() => handleDelete(card.id)}
+                          aircraft={true}
+                          vehicles={false}
+                        />
+                      ) : (
+                        <DeleteModal
+                          deleteId={card.id}
+                          onDelete={() => handleDelete(card.id)}
+                          aircraft={false}
+                          vehicles={true}
+                        />
+                      )}
                     </Stack>
                   </CardActions>
                 </Card>

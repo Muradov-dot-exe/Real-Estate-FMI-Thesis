@@ -29,6 +29,18 @@ export default function AppFooter() {
               today, and let's begin this exciting journey together. Your
               perfect property is just a click away.
             </Typography>
+            <br></br>
+            <Typography variant="h6" color="text.primary" gutterBottom>
+              Disclaimer
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              All inquiries for purchases and needs of additional information
+              happen through contacting us personally. We believe in the
+              face-to-face contacts between the person representing our brand
+              and the potential buyer. Send us an e-mail message or visit us
+              directly and we will fulfil your request in the shortest amount of
+              time.
+            </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
             <Typography variant="h6" color="text.primary" gutterBottom>
