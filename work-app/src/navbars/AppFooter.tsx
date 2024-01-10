@@ -19,18 +19,6 @@ export default function AppFooter() {
         <Grid container spacing={5}>
           <Grid item xs={12} sm={4}>
             <Typography variant="h6" color="text.primary" gutterBottom>
-              About Us
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Whether you're a first-time homebuyer, a seasoned investor, or a
-              property owner looking to sell, Golden Estate is here for you. We
-              invite you to embark on a journey with us, explore the world of
-              real estate, and make your dreams a reality. Connect with us
-              today, and let's begin this exciting journey together. Your
-              perfect property is just a click away.
-            </Typography>
-            <br></br>
-            <Typography variant="h6" color="text.primary" gutterBottom>
               Disclaimer
             </Typography>
             <Typography variant="body2" color="text.secondary">

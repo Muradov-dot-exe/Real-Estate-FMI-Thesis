@@ -10,10 +10,12 @@ import ListItemText from "@mui/material/ListItemText";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import InfoIcon from "@mui/icons-material/Info";
 
 import { Divider, Toolbar, Typography } from "@mui/material";
 import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
 import HomeIcon from "@mui/icons-material/Home";
+import { useUserAuth } from "../context/authContext";
 const drawerWidth = 240;
 interface DrawerProps {
   isOpen: boolean;
@@ -21,7 +23,7 @@ interface DrawerProps {
 }
 
 const AppSidebar = ({ isOpen, onClose }: DrawerProps) => {
-  const { currentUser } = useSelector((state: any) => state.user);
+  const { user }: any = useUserAuth();
 
   return (
     <>
@@ -68,7 +70,7 @@ const AppSidebar = ({ isOpen, onClose }: DrawerProps) => {
             {["Luxury aircraft", "Luxury vehicles", "Luxury office spaces"].map(
               (text, index) => (
                 <ListItem key={text} disablePadding>
-                  {currentUser && (
+                  {user && (
                     <ListItemButton key={text}>
                       <ListItemIcon>
                         {index === 0 ? (
@@ -80,7 +82,7 @@ const AppSidebar = ({ isOpen, onClose }: DrawerProps) => {
                         ) : null}
                       </ListItemIcon>
 
-                      {index === 0 && currentUser ? (
+                      {index === 0 && user ? (
                         <>
                           <Link
                             key={text}
@@ -117,13 +119,37 @@ const AppSidebar = ({ isOpen, onClose }: DrawerProps) => {
                           to={"/departments"}
                         >
                           <ListItemText primary={text} key={text} />
+                          <Divider sx={{ width: "100%" }} />
                         </Link>
                       )}
                     </ListItemButton>
                   )}
                 </ListItem>
               )
-            )}
+            )}{" "}
+          </List>
+
+          <List>
+            {["About us"].map((text, index) => (
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                  width: "100%",
+                }}
+                to={"/about"}
+                key={text}
+              >
+                <ListItem key={text} disablePadding>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <InfoIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            ))}
           </List>
           <Toolbar />
         </Box>

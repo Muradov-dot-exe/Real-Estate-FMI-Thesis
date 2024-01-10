@@ -15,16 +15,15 @@ import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import { toast } from "react-toastify";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState, useEffect, useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   facebookSignInInitiate,
   googleSignInInitiate,
 } from "../redux/authActions";
-import { TitleContext } from "../context/context";
-import { validateEmail } from "./emailRegex";
+
 import { useUserAuth } from "../context/authContext";
 import { Alert } from "@mui/material";
+import axios from "axios";
 
 function Copyright(props: any) {
   return (
@@ -41,6 +40,7 @@ function Copyright(props: any) {
     </Typography>
   );
 }
+
 const buttonStyles = {
   "&:hover": {
     backgroundColor: "orange",
@@ -50,52 +50,41 @@ const buttonStyles = {
   backgroundColor: "#aa6c39",
 };
 
-export default function SignIn() {
-  const navigate = useNavigate();
+function SignIn() {
   const dispatch = useDispatch();
-  const [emailAlert, setEmailAlert] = useState<any>(null);
-  const { signIn } = useUserAuth();
-  const { triggerResetEmail } = useUserAuth();
-  const [errorMsg, setErrorMsg] = useState<any>(null);
-  const [forgottenPassErr, setForgottenPassErr] = useState<any>(null);
-  const [recoverPassSuccess, setRecoverPassSuccess] = useState<any>(null);
-  const [credentials, setCredentials] = useState({
-    email: "",
+
+  const navigate = useNavigate();
+  const { signIn }: any = useUserAuth();
+  const [errorMsg, setErrorMsg] = React.useState(null);
+  const [forgottenPassErr, setForgottenPassErr] = React.useState<any>(null);
+  const [recoverPassSuccess, setRecoverPassSuccess] = React.useState<any>(null);
+  const [credentials, setCredentials] = React.useState({
+    username: "",
     password: "",
   });
 
-  const { email, password } = credentials;
+  const { username, password } = credentials;
+  const { user } = useUserAuth();
 
-  const { currentUser } = useSelector((state: any) => state.user);
-
-  const value = useContext(TitleContext);
-
-  useEffect(() => {
-    value.setTitle("Sign In");
-  }, [value]);
-
-  useEffect(() => {
-    if (currentUser) {
+  React.useEffect(() => {
+    if (user) {
       navigate("/");
     } else {
       navigate("/signin");
     }
-  }, [currentUser, navigate]);
+  }, [user, navigate]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setForgottenPassErr(null);
     setRecoverPassSuccess(null);
-  }, [email]);
+  }, [username]);
 
   const forgottenPassword = async () => {
     try {
-      await triggerResetEmail(email);
       if (forgottenPassErr === null) {
-        return setRecoverPassSuccess(
+        setRecoverPassSuccess(
           <Alert severity="success">Recover e-mail sent</Alert>
         );
-      } else if (forgottenPassErr !== null) {
-        setRecoverPassSuccess(null);
       }
     } catch (error: any) {
       setForgottenPassErr(error.message);
@@ -108,16 +97,15 @@ export default function SignIn() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!email || !password) {
+    axios.defaults.withCredentials = true;
+
+    if (!username || !password) {
       return;
     }
-    if (validateEmail(email)?.input === undefined) {
-      return setEmailAlert(<Alert severity="error">Bad Email Format!</Alert>);
-    } else if (validateEmail(email)?.input !== undefined) {
-      setEmailAlert(null);
-    }
+
     try {
-      await signIn(email, password);
+      await signIn(username, password);
+
       notif();
     } catch (error: any) {
       setErrorMsg(error.message);
@@ -132,9 +120,8 @@ export default function SignIn() {
     dispatch(facebookSignInInitiate());
   };
 
-  const handleCredential = (event: any) => {
-    let { name, value } = event.target;
-
+  const handleCredential = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
     setCredentials({ ...credentials, [name]: value });
   };
 
@@ -143,7 +130,7 @@ export default function SignIn() {
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 10,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -155,27 +142,21 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        {errorMsg !== null && emailAlert === null && (
+        {errorMsg !== null && (
           <>
-            <br></br>
+            <br />
             <Alert severity="error">{errorMsg}</Alert>
-          </>
-        )}
-        {emailAlert !== null && (
-          <>
-            <br></br>
-            {emailAlert}
           </>
         )}
         {forgottenPassErr !== null && recoverPassSuccess === null && (
           <>
-            <br></br>
+            <br />
             <Alert severity="error">{forgottenPassErr}</Alert>
           </>
         )}
         {recoverPassSuccess !== null && (
           <>
-            <br></br>
+            <br />
             {recoverPassSuccess}
           </>
         )}
@@ -184,11 +165,11 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
+            id="username"
+            label="Username"
+            name="username"
             autoFocus
-            type="email"
+            type="text"
             onChange={handleCredential}
           />
 
@@ -230,7 +211,7 @@ export default function SignIn() {
             fullWidth
             variant="contained"
             sx={buttonStyles}
-            disabled={email.length === 0 || password.length === 0}
+            disabled={username.length === 0 || password.length === 0}
           >
             Sign In
           </Button>
@@ -248,7 +229,9 @@ export default function SignIn() {
           </Grid>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
+      <Copyright sx={{ mt: 10 }} />
     </Container>
   );
 }
+
+export default SignIn;

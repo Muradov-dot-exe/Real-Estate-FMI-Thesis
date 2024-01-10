@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { requestSender } from "../context/context";
 import { toast } from "react-toastify";
+import { useUserAuth } from "../context/authContext";
 
 const style = {
   position: "absolute" as "absolute",
@@ -37,7 +38,14 @@ const AddAircraft: React.FC<Props> = ({
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const contextData = useContext(requestSender);
+  const { user }: any = useUserAuth();
+  let isUserAdmin = false;
 
+  // if (user) {
+  //   isUserAdmin = user.roles.includes("admin");
+  // }
+
+  // console.log(isUserAdmin);
   const initialAircraftState = {
     aircraft_type: "",
     manufacturer: "",

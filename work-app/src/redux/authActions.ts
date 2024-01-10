@@ -47,15 +47,15 @@ export const setUser = (user: any) => ({
   payload: user,
 });
 
-export const logoutInitiate = (): any => {
-  return function (dispatch: any) {
-    dispatch(logoutStart());
-    auth
-      .signOut()
-      .then((response: any) => dispatch(logoutSuccess()))
-      .catch((error) => dispatch(logoutFailed(error.message)));
-  };
-};
+// export const logoutInitiate = (): any => {
+//   return function (dispatch: any) {
+//     dispatch(logoutStart());
+//     auth
+//       .signOut()
+//       .then((response: any) => dispatch(logoutSuccess()))
+//       .catch((error) => dispatch(logoutFailed(error.message)));
+//   };
+// };
 
 export const googleSignInInitiate = (): any => {
   return function (dispatch: any) {

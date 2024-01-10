@@ -8,17 +8,18 @@ import {
   Grid,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutInitiate } from "../redux/authActions";
+
 import { TitleContext } from "../context/context";
 import { toast } from "react-toastify";
 import MenuIcon from "@mui/icons-material/Menu";
 import AppSidebar from "./AppSidebar";
 import styledlineimage from "../img/styledlineimage.jpg";
+import { useUserAuth } from "../context/authContext";
 
 const AppHeader = () => {
-  const { currentUser } = useSelector((state: any) => state.user);
+  const { user }: any = useUserAuth();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { signOut }: any = useUserAuth();
 
   const handleDrawerOpen = () => {
     setIsDrawerOpen(true);
@@ -28,19 +29,12 @@ const AppHeader = () => {
     setIsDrawerOpen(false);
   };
 
-  const dispatch = useDispatch();
-
   const value = useContext(TitleContext);
 
   const handleAuth = () => {
-    if (currentUser) {
-      dispatch(logoutInitiate());
-      notif();
+    if (user) {
+      signOut();
     }
-  };
-
-  const notif = () => {
-    toast.info("Signed Out");
   };
 
   return (
@@ -68,7 +62,7 @@ const AppHeader = () => {
             </Typography>
 
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              {currentUser !== null && currentUser.displayName && (
+              {user !== null && user.username && (
                 <Grid container justifyContent="center">
                   <Grid
                     item
@@ -94,7 +88,7 @@ const AppHeader = () => {
                       fontSize={"large"}
                       color="black"
                     >
-                      Welcome, {currentUser.displayName}
+                      Welcome, {user.username}
                     </Typography>
                     <Box
                       component="img"
@@ -107,7 +101,7 @@ const AppHeader = () => {
               )}
             </Typography>
 
-            {!currentUser ? (
+            {!user ? (
               <>
                 <Button color="inherit" href="/signup">
                   <Typography fontFamily={"Times New Roman"} color="black">

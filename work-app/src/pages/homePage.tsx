@@ -6,10 +6,11 @@ import Slider from "../components/Image Slider/Slider";
 import { useSelector } from "react-redux";
 import PleaseLogin from "./pleaseLogin";
 import SearchBar from "../components/SearchBar";
+import { useUserAuth } from "../context/authContext";
 
 export default function Home() {
   const defaultTheme = createTheme();
-  const { currentUser } = useSelector((state: any) => state.user);
+  const { user }: any = useUserAuth();
 
   const value = useContext(TitleContext);
 
@@ -35,7 +36,7 @@ export default function Home() {
           marginTop: 4,
         }}
       >
-        {currentUser ? (
+        {user ? (
           <SearchBar aircraft={false} vehicles={false} />
         ) : (
           <PleaseLogin />

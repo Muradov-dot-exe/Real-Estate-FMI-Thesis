@@ -1,4 +1,7 @@
 import * as React from "react";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,53 +12,36 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { TitleContext } from "../context/context";
-import { useUserAuth } from "../context/authContext";
 import { Alert } from "@mui/material";
 import { validateEmail } from "./emailRegex";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { useUserAuth } from "../context/authContext";
+import { TitleContext } from "../context/context";
 
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright Gold Estate Ltd © "}
-
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-export default function SignUp() {
+function SignUp() {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState<any>(null);
-  const { signUp }: any = useUserAuth();
+  const { signIn }: any = useUserAuth();
   const [emailAlert, setEmailAlert] = useState<any>(null);
   const [passwordError, setPasswordError] = useState<any>(null);
+  const [passLengthError, setPassLengthError] = React.useState<any>(undefined);
 
   const value = useContext(TitleContext);
   useEffect(() => {
     value.setTitle("Sign Up");
   }, [value]);
 
-  const { currentUser } = useSelector((state: any) => state.user);
+  const { user } = useUserAuth();
 
   const [credentials, setCredentials] = useState({
-    displayName: "",
+    username: "",
     email: "",
     password: "",
     passwordConfirm: "",
   });
 
-  const { email, password, displayName, passwordConfirm } = credentials;
+  const { email, password, username, passwordConfirm } = credentials;
 
   const buttonStyles = {
     "&:hover": {
@@ -67,16 +53,30 @@ export default function SignUp() {
   };
 
   useEffect(() => {
-    if (currentUser) {
+    if (user) {
       navigate("/");
     } else {
       navigate("/signup");
     }
-  }, [currentUser, navigate]);
+  }, [user, navigate]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErrorMsg(null);
+
+    if (!email || !password) {
+      return;
+    }
+
+    if (!password || password.length < 10) {
+      return setPassLengthError(
+        <Alert severity="error">
+          Password must be at least 10 characters long
+        </Alert>
+      );
+    } else {
+      setPassLengthError(null);
+    }
 
     if (password !== passwordConfirm) {
       return setPasswordError(
@@ -93,20 +93,25 @@ export default function SignUp() {
     }
 
     try {
-      await signUp(email, password, displayName);
+      await signIn(username, password);
       notif();
     } catch (error: any) {
-      setErrorMsg(error.message);
+      if (error.response) {
+        setErrorMsg(error.response.data.message);
+      } else if (error.request) {
+        setErrorMsg("No response received from the server");
+      } else {
+        setErrorMsg("Error setting up the request");
+      }
     }
   };
 
   const notif = () => {
-    toast.info("Successful sign up !");
+    toast.info("Successful sign up!");
   };
 
   const handleCredential = (event: any) => {
     let { name, value } = event.target;
-
     setCredentials({ ...credentials, [name]: value });
   };
 
@@ -129,20 +134,26 @@ export default function SignUp() {
         </Typography>
         {errorMsg !== null && (
           <>
-            <br></br>
+            <br />
             <Alert severity="error">{errorMsg}</Alert>
           </>
         )}
         {emailAlert !== null && (
           <>
-            <br></br>
+            <br />
             {emailAlert}
           </>
         )}
         {passwordError !== null && (
           <>
-            <br></br>
+            <br />
             {passwordError}
+          </>
+        )}
+        {passLengthError !== undefined && (
+          <>
+            <br />
+            {passLengthError}
           </>
         )}
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -151,11 +162,11 @@ export default function SignUp() {
               <TextField
                 required
                 fullWidth
-                id="displayName"
-                label="Display name"
-                name="displayName"
+                id="username"
+                label="Username"
+                name="username"
                 type="text"
-                value={displayName}
+                value={username}
                 onChange={handleCredential}
               />
             </Grid>
@@ -222,7 +233,8 @@ export default function SignUp() {
           </Grid>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 5 }} />
     </Container>
   );
 }
+
+export default SignUp;

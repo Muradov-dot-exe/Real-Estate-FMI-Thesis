@@ -11,6 +11,7 @@ import SingleProperty from "../components/SingleProperty";
 import SingleAircraft from "../components/SingleAircraft";
 import SingleVehicle from "../components/SingleVehicle";
 import LuxuryVehicles from "../vehicles/vehiclesPage";
+import AboutPage from "../pages/aboutPage";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/about",
+        element: <AboutPage />,
       },
       {
         path: "/",

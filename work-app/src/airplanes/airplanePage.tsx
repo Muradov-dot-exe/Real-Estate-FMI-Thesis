@@ -3,15 +3,16 @@ import { Box, Grid, ThemeProvider, createTheme } from "@mui/material";
 import { TitleContext } from "../context/context";
 
 import Slider from "../components/Image Slider/Slider";
-import { useSelector } from "react-redux";
 import SearchBar from "../components/SearchBar";
 import PleaseLogin from "../pages/pleaseLogin";
+import { useUserAuth } from "../context/authContext";
 
 export default function Home() {
   const defaultTheme = createTheme();
-  const { currentUser } = useSelector((state: any) => state.user);
+  const { user } = useUserAuth();
 
   const value = useContext(TitleContext);
+  console.log(user);
 
   useEffect(() => {
     value.setTitle("Aircraft");
@@ -35,7 +36,7 @@ export default function Home() {
           marginTop: 4,
         }}
       >
-        {currentUser ? (
+        {user ? (
           <SearchBar aircraft={true} vehicles={false} />
         ) : (
           <PleaseLogin />

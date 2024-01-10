@@ -6,10 +6,11 @@ import Slider from "../components/Image Slider/Slider";
 import { useSelector } from "react-redux";
 import SearchBar from "../components/SearchBar";
 import PleaseLogin from "../pages/pleaseLogin";
+import { useUserAuth } from "../context/authContext";
 
 export default function LuxuryVehicles() {
   const defaultTheme = createTheme();
-  const { currentUser } = useSelector((state: any) => state.user);
+  const { user } = useUserAuth();
 
   const value = useContext(TitleContext);
 
@@ -35,7 +36,7 @@ export default function LuxuryVehicles() {
           marginTop: 4,
         }}
       >
-        {currentUser ? (
+        {user ? (
           <SearchBar aircraft={false} vehicles={true} />
         ) : (
           <PleaseLogin />
