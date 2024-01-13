@@ -12,6 +12,34 @@ const generateToken = (user) => {
     expiresIn: expiresIn,
   });
 };
+exports.signup = (req, res) => {
+  User.create({
+    username: req.body.username,
+    email: req.body.email,
+    password: bcrypt.hashSync(req.body.password, 8),
+  })
+    .then((user) => {
+      // Assign 'user' role to new user by default
+      Role.findOne({
+        where: {
+          name: "user",
+        },
+      }).then((role) => {
+        if (role) {
+          user.setRoles([role.id]).then(() => {
+            // Do not create the session or automatically sign in the user
+            res.send({ message: "User registered successfully!" });
+          });
+        } else {
+          // Handle the case where the 'user' role doesn't exist
+          res.status(500).send({ message: "User role not found." });
+        }
+      });
+    })
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+};
 
 exports.signin = (req, res) => {
   User.findOne({
@@ -60,34 +88,6 @@ exports.signin = (req, res) => {
         email: user.email,
         roles: user.roles.map((role) => role.name),
         accessToken: token,
-      });
-    })
-    .catch((err) => {
-      res.status(500).send({ message: err.message });
-    });
-};
-
-exports.signup = (req, res) => {
-  User.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8),
-  })
-    .then((user) => {
-      // Assign 'user' role to new user by default
-      Role.findOne({
-        where: {
-          name: "user",
-        },
-      }).then((role) => {
-        if (role) {
-          user.setRoles([role.id]).then(() => {
-            res.send({ message: "User registered successfully!" });
-          });
-        } else {
-          // Handle the case where the 'user' role doesn't exist
-          res.status(500).send({ message: "User role not found." });
-        }
       });
     })
     .catch((err) => {

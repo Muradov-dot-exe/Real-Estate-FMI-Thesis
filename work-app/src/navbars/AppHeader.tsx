@@ -10,7 +10,6 @@ import {
 import React, { useContext, useState } from "react";
 
 import { TitleContext } from "../context/context";
-import { toast } from "react-toastify";
 import MenuIcon from "@mui/icons-material/Menu";
 import AppSidebar from "./AppSidebar";
 import styledlineimage from "../img/styledlineimage.jpg";

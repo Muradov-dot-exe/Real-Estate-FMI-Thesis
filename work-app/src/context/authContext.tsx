@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const signupEndpoint = "http://localhost:4200/signup";
 const signinEndpoint = "http://localhost:4200/signin";
@@ -8,34 +9,31 @@ const signoutEndpoint = "http://localhost:3000/signout";
 
 const userAuthContext = createContext({
   user: null,
-  signUp: (email: string, password: string, displayName: string) => {},
+  signUp: (email: string, password: string, username: string) => {},
   signIn: (username: string, password: string) => {},
   signOut: () => {},
   triggerResetEmail: (email: string) => {},
 });
 
 export const UserAuthContextProvider = ({ children }: any) => {
+  const notif = () => {
+    toast.info("Successful sign up! Please sign in.");
+  };
+
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  const signUp = async (
-    email: string,
-    password: string,
-    displayName: string
-  ) => {
+  const signUp = async (email: string, password: string, username: string) => {
     try {
-      const response = await axios.post(signupEndpoint, {
+      await axios.post(signupEndpoint, {
         email,
         password,
-        username: displayName,
+        username,
       });
 
-      localStorage.setItem("user", JSON.stringify(response.data));
-      setUser(response.data);
-
-      await signIn(email, password);
+      notif();
     } catch (error) {
       console.error("Error during signup:", error);
       throw error;

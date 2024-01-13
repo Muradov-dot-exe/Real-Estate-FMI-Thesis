@@ -123,7 +123,7 @@ app.post("/property/add", (req, res) =>
 app.put("/property/edit/:id", (req, res) =>
   handleCRUD(Property, "update", req, res)
 );
-app.delete("/property/delete/:id", (req, res) =>
+app.delete("/delete/:id", (req, res) =>
   handleCRUD(Property, "delete", req, res)
 );
 
@@ -134,7 +134,7 @@ app.post("/vehicle/add", (req, res) => handleCRUD(Vehicle, "create", req, res));
 app.put("/vehicle/edit/:id", (req, res) =>
   handleCRUD(Vehicle, "update", req, res)
 );
-app.delete("/vehicle/delete/:id", (req, res) =>
+app.delete("/vehicles/delete/:id", (req, res) =>
   handleCRUD(Vehicle, "delete", req, res)
 );
 
@@ -143,7 +143,7 @@ const PORT = 4200;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   // Sync models with the database on server start
-  sequelize.sync({ force: false }).then(() => {
+  sequelize.sync({ alter: true }).then(() => {
     console.log("Database synced successfully");
   });
 });

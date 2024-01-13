@@ -28,7 +28,13 @@ const DeleteModal: React.FC<DeleteData> = ({
   };
 
   const deleteData = () => {
-    axios.delete(`http://localhost:4200/delete/${deleteId}`);
+    if (aircraft) {
+      axios.delete(`http://localhost:4200/aircraft/delete/${deleteId}`);
+    } else if (vehicles) {
+      axios.delete(`http://localhost:4200/vehicles/delete/${deleteId}`);
+    } else {
+      axios.delete(`http://localhost:4200/delete/${deleteId}`);
+    }
     handleClose();
     contextData.setDataValue(["1"]);
     notif();

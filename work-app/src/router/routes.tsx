@@ -5,7 +5,6 @@ import SignIn from "../auth/signIn";
 import SignUp from "../auth/signUp";
 import Layout from "../pages/layoutPage";
 import Home from "../pages/homePage";
-import DepartmentsPage from "../pages/departmentPage";
 import Airplanes from "../airplanes/airplanePage";
 import SingleProperty from "../components/SingleProperty";
 import SingleAircraft from "../components/SingleAircraft";
@@ -34,10 +33,6 @@ export const router = createBrowserRouter([
             element: <Airplanes />,
           },
           { path: "/vehicles", element: <LuxuryVehicles /> },
-          {
-            path: "/departments",
-            element: <DepartmentsPage />,
-          },
           {
             path: "/properties/:id",
             element: <SingleProperty />,

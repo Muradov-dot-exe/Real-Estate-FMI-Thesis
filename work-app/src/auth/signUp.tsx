@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -14,15 +13,13 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Alert } from "@mui/material";
 import { validateEmail } from "./emailRegex";
-import { toast } from "react-toastify";
-import axios from "axios";
 import { useUserAuth } from "../context/authContext";
 import { TitleContext } from "../context/context";
 
 function SignUp() {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState<any>(null);
-  const { signIn }: any = useUserAuth();
+  const { signUp }: any = useUserAuth();
   const [emailAlert, setEmailAlert] = useState<any>(null);
   const [passwordError, setPasswordError] = useState<any>(null);
   const [passLengthError, setPassLengthError] = React.useState<any>(undefined);
@@ -55,8 +52,6 @@ function SignUp() {
   useEffect(() => {
     if (user) {
       navigate("/");
-    } else {
-      navigate("/signup");
     }
   }, [user, navigate]);
 
@@ -93,8 +88,9 @@ function SignUp() {
     }
 
     try {
-      await signIn(username, password);
-      notif();
+      await signUp(email, password, username);
+
+      navigate("/signin");
     } catch (error: any) {
       if (error.response) {
         setErrorMsg(error.response.data.message);
@@ -104,10 +100,6 @@ function SignUp() {
         setErrorMsg("Error setting up the request");
       }
     }
-  };
-
-  const notif = () => {
-    toast.info("Successful sign up!");
   };
 
   const handleCredential = (event: any) => {

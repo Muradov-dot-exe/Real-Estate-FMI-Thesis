@@ -67,36 +67,20 @@ const AppSidebar = ({ isOpen, onClose }: DrawerProps) => {
           </List>
           <Divider sx={{ width: "100%" }} />
           <List>
-            {["Luxury aircraft", "Luxury vehicles", "Luxury office spaces"].map(
-              (text, index) => (
-                <ListItem key={text} disablePadding>
-                  {user && (
-                    <ListItemButton key={text}>
-                      <ListItemIcon>
-                        {index === 0 ? (
-                          <AirplaneTicketIcon />
-                        ) : index === 1 ? (
-                          <CarRentalIcon />
-                        ) : index === 2 ? (
-                          <ApartmentIcon />
-                        ) : null}
-                      </ListItemIcon>
-
-                      {index === 0 && user ? (
-                        <>
-                          <Link
-                            key={text}
-                            style={{
-                              textDecoration: "none",
-                              color: "inherit",
-                              width: "100%",
-                            }}
-                            to={"/airplanes"}
-                          >
-                            <ListItemText primary={text} />
-                          </Link>
-                        </>
+            {["Luxury aircraft", "Luxury vehicles"].map((text, index) => (
+              <ListItem key={text} disablePadding>
+                {user && (
+                  <ListItemButton key={text}>
+                    <ListItemIcon>
+                      {index === 0 ? (
+                        <AirplaneTicketIcon />
                       ) : index === 1 ? (
+                        <CarRentalIcon />
+                      ) : null}
+                    </ListItemIcon>
+
+                    {index === 0 && user ? (
+                      <>
                         <Link
                           key={text}
                           style={{
@@ -104,29 +88,28 @@ const AppSidebar = ({ isOpen, onClose }: DrawerProps) => {
                             color: "inherit",
                             width: "100%",
                           }}
-                          to={"/vehicles"}
+                          to={"/airplanes"}
                         >
-                          <ListItemText primary={text} key={text} />
+                          <ListItemText primary={text} />
                         </Link>
-                      ) : (
-                        <Link
-                          key={text}
-                          style={{
-                            textDecoration: "none",
-                            color: "inherit",
-                            width: "100%",
-                          }}
-                          to={"/departments"}
-                        >
-                          <ListItemText primary={text} key={text} />
-                          <Divider sx={{ width: "100%" }} />
-                        </Link>
-                      )}
-                    </ListItemButton>
-                  )}
-                </ListItem>
-              )
-            )}{" "}
+                      </>
+                    ) : (
+                      <Link
+                        key={text}
+                        style={{
+                          textDecoration: "none",
+                          color: "inherit",
+                          width: "100%",
+                        }}
+                        to={"/vehicles"}
+                      >
+                        <ListItemText primary={text} key={text} />
+                      </Link>
+                    )}
+                  </ListItemButton>
+                )}
+              </ListItem>
+            ))}
           </List>
 
           <List>

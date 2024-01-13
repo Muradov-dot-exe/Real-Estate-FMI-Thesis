@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { requestSender } from "../context/context";
 import { toast } from "react-toastify";
+import { useUserAuth } from "../context/authContext";
 
 const style = {
   position: "absolute" as "absolute",
@@ -37,6 +38,9 @@ const AddVehicle: React.FC<Props> = ({
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const contextData = useContext(requestSender);
+  const { user }: any = useUserAuth();
+  const isUserAdmin = user.roles.includes("admin");
+  const isUserMod = user.roles.includes("moderator");
 
   const initialVehicleState = {
     vehicle_type: "",
@@ -114,7 +118,7 @@ const AddVehicle: React.FC<Props> = ({
 
   return (
     <>
-      {isEditButton ? (
+      {isEditButton && isUserMod ? (
         <Button
           onClick={handleOpen}
           size="small"
@@ -125,7 +129,7 @@ const AddVehicle: React.FC<Props> = ({
         >
           Edit
         </Button>
-      ) : (
+      ) : isUserAdmin ? (
         <Button
           onClick={handleOpen}
           variant="outlined"
@@ -142,7 +146,7 @@ const AddVehicle: React.FC<Props> = ({
         >
           Add a new vehicle
         </Button>
-      )}
+      ) : null}
 
       <FormControl fullWidth onSubmit={postData}>
         <Modal

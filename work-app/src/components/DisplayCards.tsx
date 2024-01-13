@@ -14,6 +14,7 @@ import DeleteModal from "../modals/deleteModal";
 import AddProperty from "../modals/addProperty";
 import AddAircraft from "../modals/addAircraft";
 import AddVehicle from "../modals/addVehicles";
+import { useUserAuth } from "../context/authContext";
 
 const CardsGrid = ({
   searchString = "",
@@ -22,6 +23,8 @@ const CardsGrid = ({
   vehicles,
 }: any) => {
   const [cards, setCards] = useState<any[]>([]);
+  const { user }: any = useUserAuth();
+  const isUserMod = user.roles.includes("moderator");
 
   let filteredByPrice;
   let usedUrl: string;
@@ -309,21 +312,28 @@ const CardsGrid = ({
                           propertyToEdit={card}
                         />
                       )}
-                      {aircraft ? (
+                      {aircraft && isUserMod ? (
                         <DeleteModal
                           deleteId={card.id}
                           onDelete={() => handleDelete(card.id)}
                           aircraft={true}
                           vehicles={false}
                         />
-                      ) : (
+                      ) : isUserMod && vehicles ? (
                         <DeleteModal
                           deleteId={card.id}
                           onDelete={() => handleDelete(card.id)}
                           aircraft={false}
                           vehicles={true}
                         />
-                      )}
+                      ) : isUserMod ? (
+                        <DeleteModal
+                          deleteId={card.id}
+                          onDelete={() => handleDelete(card.id)}
+                          aircraft={false}
+                          vehicles={false}
+                        />
+                      ) : null}
                     </Stack>
                   </CardActions>
                 </Card>

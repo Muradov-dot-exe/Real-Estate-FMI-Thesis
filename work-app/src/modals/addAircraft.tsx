@@ -39,13 +39,9 @@ const AddAircraft: React.FC<Props> = ({
   const handleOpen = () => setOpen(true);
   const contextData = useContext(requestSender);
   const { user }: any = useUserAuth();
-  let isUserAdmin = false;
+  const isUserAdmin = user.roles.includes("admin");
+  const isUserMod = user.roles.includes("moderator");
 
-  // if (user) {
-  //   isUserAdmin = user.roles.includes("admin");
-  // }
-
-  // console.log(isUserAdmin);
   const initialAircraftState = {
     aircraft_type: "",
     manufacturer: "",
@@ -119,14 +115,13 @@ const AddAircraft: React.FC<Props> = ({
 
   useEffect(() => {
     if (aircraftToEdit) {
-      // If aircraftToEdit is provided, set initial values
       setNewAircraft(aircraftToEdit);
     }
   }, [aircraftToEdit]);
 
   return (
     <>
-      {isEditButton ? (
+      {isEditButton && isUserMod ? (
         <Button
           onClick={handleOpen}
           size="small"
@@ -137,7 +132,7 @@ const AddAircraft: React.FC<Props> = ({
         >
           Edit
         </Button>
-      ) : (
+      ) : isUserAdmin ? (
         <Button
           onClick={handleOpen}
           variant="outlined"
@@ -154,7 +149,7 @@ const AddAircraft: React.FC<Props> = ({
         >
           Add a new aircraft
         </Button>
-      )}
+      ) : null}
 
       <FormControl fullWidth onSubmit={postData}>
         <Modal

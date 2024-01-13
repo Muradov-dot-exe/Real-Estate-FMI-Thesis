@@ -54,8 +54,6 @@ function SearchBar({ aircraft, vehicles }: any) {
     }
   };
 
-  console.log(list);
-
   return (
     <>
       <Box justifyContent="center">
