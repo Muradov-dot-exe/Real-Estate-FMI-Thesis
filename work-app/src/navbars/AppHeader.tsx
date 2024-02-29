@@ -4,61 +4,126 @@ import {
   Toolbar,
   Typography,
   Button,
-  createTheme,
-  ThemeProvider,
+  IconButton,
+  Grid,
 } from "@mui/material";
-import React, { useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutInitiate } from "../redux/authActions";
-import TemporaryDrawer from "./AppSidebar";
+import React, { useContext, useState } from "react";
+
 import { TitleContext } from "../context/context";
+import MenuIcon from "@mui/icons-material/Menu";
+import AppSidebar from "./AppSidebar";
+import styledlineimage from "../img/styledlineimage.jpg";
+import { useUserAuth } from "../context/authContext";
 
 const AppHeader = () => {
-  const { currentUser } = useSelector((state: any) => state.user);
-  const dispatch = useDispatch();
+  const { user }: any = useUserAuth();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { signOut }: any = useUserAuth();
+
+  const handleDrawerOpen = () => {
+    setIsDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setIsDrawerOpen(false);
+  };
 
   const value = useContext(TitleContext);
 
   const handleAuth = () => {
-    if (currentUser) {
-      dispatch(logoutInitiate());
+    if (user) {
+      signOut();
     }
   };
 
-  const defaultTheme = createTheme();
-
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <>
+      <AppSidebar isOpen={isDrawerOpen} onClose={handleDrawerClose} />
+
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+        <AppBar position="fixed" style={{ backgroundColor: "#aa6c39" }}>
           <Toolbar>
-            <Box>
-              <TemporaryDrawer />
-            </Box>
-            <Typography>{value.title}</Typography>
+            <IconButton
+              sx={{ color: "black" }}
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerOpen}
+            >
+              <MenuIcon />
+            </IconButton>
+
             <Typography
-              variant="h6"
-              component="div"
-              sx={{ flexGrow: 1 }}
-            ></Typography>
-            {!currentUser ? (
+              sx={{ marginLeft: "10px", color: "black" }}
+              fontFamily={"Times New Roman"}
+              fontSize={"large"}
+            >
+              {value.title}
+            </Typography>
+
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              {user !== null && user.username && (
+                <Grid container justifyContent="center">
+                  <Grid
+                    item
+                    xs={2}
+                    sm={6}
+                    md={2}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <Box
+                      component="img"
+                      src={styledlineimage}
+                      alt="wavy line"
+                      sx={{ width: "70%", marginRight: 4 }}
+                    />
+                    <Typography
+                      align="center"
+                      fontFamily={"Times New Roman"}
+                      fontSize={"large"}
+                      color="black"
+                    >
+                      Welcome, {user.username}
+                    </Typography>
+                    <Box
+                      component="img"
+                      src={styledlineimage}
+                      alt="wavy line"
+                      sx={{ width: "70%", marginLeft: 4 }}
+                    />
+                  </Grid>
+                </Grid>
+              )}
+            </Typography>
+
+            {!user ? (
               <>
                 <Button color="inherit" href="/signup">
-                  Sign Up
+                  <Typography fontFamily={"Times New Roman"} color="black">
+                    Sign Up
+                  </Typography>
                 </Button>
                 <Button color="inherit" href="/signin">
-                  Sign In
+                  <Typography fontFamily={"Times New Roman"} color="black">
+                    Sign In
+                  </Typography>
                 </Button>
               </>
             ) : (
               <Button onClick={handleAuth} color="inherit" href="/">
-                Sign Out
+                <Typography fontFamily={"Times New Roman"} color="black">
+                  Sign Out
+                </Typography>
               </Button>
             )}
           </Toolbar>
         </AppBar>
       </Box>
-    </ThemeProvider>
+    </>
   );
 };
 export default AppHeader;

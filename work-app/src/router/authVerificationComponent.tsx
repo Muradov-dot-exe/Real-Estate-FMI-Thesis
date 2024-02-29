@@ -1,12 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
+import { useUserAuth } from "../context/authContext";
 import RedirectPage from "./redirectComponent";
 
 const AuthVerification = () => {
-  const { currentUser } = useSelector((state: any) => state.user);
+  const { user } = useUserAuth();
 
-  return currentUser ? <Outlet /> : <RedirectPage />;
+  return user ? <Outlet /> : <RedirectPage />;
 };
 
 export default AuthVerification;

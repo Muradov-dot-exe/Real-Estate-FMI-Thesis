@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,187 +11,222 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { registerInitiate } from "../redux/authActions";
+import { Alert } from "@mui/material";
+import { validateEmail } from "./emailRegex";
+import { useUserAuth } from "../context/authContext";
 import { TitleContext } from "../context/context";
 
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-const defaultTheme = createTheme();
-
-export default function SignUp() {
+function SignUp() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const [errorMsg, setErrorMsg] = useState<any>(null);
+  const { signUp }: any = useUserAuth();
+  const [emailAlert, setEmailAlert] = useState<any>(null);
+  const [passwordError, setPasswordError] = useState<any>(null);
+  const [passLengthError, setPassLengthError] = React.useState<any>(undefined);
 
   const value = useContext(TitleContext);
   useEffect(() => {
     value.setTitle("Sign Up");
   }, [value]);
 
-  const { currentUser } = useSelector((state: any) => state.user);
+  const { user } = useUserAuth();
 
   const [credentials, setCredentials] = useState({
-    displayName: "",
+    username: "",
     email: "",
     password: "",
     passwordConfirm: "",
   });
 
-  const { email, password, displayName, passwordConfirm } = credentials;
+  const { email, password, username, passwordConfirm } = credentials;
+
+  const buttonStyles = {
+    "&:hover": {
+      backgroundColor: "orange",
+    },
+    mt: 3,
+    mb: 2,
+    backgroundColor: "#aa6c39",
+  };
 
   useEffect(() => {
-    if (currentUser) {
-      navigate("/products");
-    } else {
-      navigate("/signup");
+    if (user) {
+      navigate("/");
     }
-  }, [currentUser, navigate]);
+  }, [user, navigate]);
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setErrorMsg(null);
 
-    if (password !== passwordConfirm) {
+    if (!email || !password) {
       return;
     }
 
-    dispatch(registerInitiate(email, password, displayName));
-    setCredentials({
-      email: "",
-      displayName: "",
-      password: "",
-      passwordConfirm: "",
-    });
+    if (!password || password.length < 10) {
+      return setPassLengthError(
+        <Alert severity="error">
+          Password must be at least 10 characters long
+        </Alert>
+      );
+    } else {
+      setPassLengthError(null);
+    }
+
+    if (password !== passwordConfirm) {
+      return setPasswordError(
+        <Alert severity="error">Passwords do not match!</Alert>
+      );
+    } else if (password === passwordConfirm) {
+      setPasswordError(null);
+    }
+
+    if (validateEmail(email)?.input === undefined) {
+      return setEmailAlert(<Alert severity="error">Bad Email Format!</Alert>);
+    } else if (validateEmail(email)?.input !== undefined) {
+      setEmailAlert(null);
+    }
+
+    try {
+      await signUp(email, password, username);
+
+      navigate("/signin");
+    } catch (error: any) {
+      if (error.response) {
+        setErrorMsg(error.response.data.message);
+      } else if (error.request) {
+        setErrorMsg("No response received from the server");
+      } else {
+        setErrorMsg("Error setting up the request");
+      }
+    }
   };
 
   const handleCredential = (event: any) => {
     let { name, value } = event.target;
-
     setCredentials({ ...credentials, [name]: value });
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+        {errorMsg !== null && (
+          <>
+            <br />
+            <Alert severity="error">{errorMsg}</Alert>
+          </>
+        )}
+        {emailAlert !== null && (
+          <>
+            <br />
+            {emailAlert}
+          </>
+        )}
+        {passwordError !== null && (
+          <>
+            <br />
+            {passwordError}
+          </>
+        )}
+        {passLengthError !== undefined && (
+          <>
+            <br />
+            {passLengthError}
+          </>
+        )}
+        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                type="text"
+                value={username}
+                onChange={handleCredential}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="user-email"
+                label="Email Address"
+                name="email"
+                type="email"
+                value={email}
+                onChange={handleCredential}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                value={password}
+                onChange={handleCredential}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="inputRePassword"
+                label="Confirm Password"
+                name="passwordConfirm"
+                type="password"
+                value={passwordConfirm}
+                onChange={handleCredential}
+                placeholder="Confirm Password"
+                autoComplete="new-password"
+              />
+            </Grid>
+            <Grid item xs={12}></Grid>
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={buttonStyles}
+            disabled={email.length === 0 || password.length === 0}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="displayName"
-                  label="Display name"
-                  name="displayName"
-                  type="text"
-                  value={displayName}
-                  onChange={handleCredential}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="user-email"
-                  label="Email Address"
-                  name="email"
-                  type="email"
-                  value={email}
-                  onChange={handleCredential}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={handleCredential}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="inputRePassword"
-                  label="Confirm Password"
-                  name="passwordConfirm"
-                  type="password"
-                  value={passwordConfirm}
-                  onChange={handleCredential}
-                  placeholder="Confirm Password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}></Grid>
+            <Typography fontFamily={"Times New Roman"}>Sign Up</Typography>
+          </Button>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link href="/signin" variant="body2">
+                Already have an account? Sign in
+              </Link>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              disabled={
-                email.length === 0 ||
-                password.length === 0 ||
-                passwordConfirm !== password
-              }
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/signin" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-            <Grid item textAlign={"center"} marginTop={"50px"}>
-              <Link href="/">Home</Link>
-            </Grid>
-          </Box>
+          </Grid>
+          <Grid item textAlign={"center"} marginTop={"50px"}>
+            <Link href="/">
+              <Typography fontFamily={"Times New Roman"}>Home</Typography>
+            </Link>
+          </Grid>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+      </Box>
+    </Container>
   );
 }
+
+export default SignUp;

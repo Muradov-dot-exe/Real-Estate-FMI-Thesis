@@ -7,8 +7,6 @@ const initialState = {
 };
 const userReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case types.REGISTER_START:
-    case types.LOGIN_START:
     case types.LOGOUT_START:
     case types.GOOGLE_SIGN_IN_START:
     case types.FACEBOOK_SIGN_IN_START:
@@ -27,8 +25,7 @@ const userReducer = (state = initialState, action: any) => {
         ...state,
         currentUser: null,
       };
-    case types.REGISTER_SUCCESS:
-    case types.LOGIN_SUCCESS:
+
     case types.GOOGLE_SIGN_IN_SUCCESS:
     case types.FACEBOOK_SIGN_IN_SUCCESS:
       return {
@@ -36,8 +33,7 @@ const userReducer = (state = initialState, action: any) => {
         loading: false,
         currentUser: action.payload,
       };
-    case types.REGISTER_FAIL:
-    case types.LOGIN_FAIL:
+
     case types.LOGOUT_FAIL:
     case types.GOOGLE_SIGN_IN_FAIL:
     case types.FACEBOOK_SIGN_IN_FAIL:

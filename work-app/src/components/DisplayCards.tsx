@@ -1,0 +1,350 @@
+import React, { useState, useEffect } from "react";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Grid from "@mui/material/Grid";
+import CircularProgress from "@mui/material/CircularProgress";
+import InfiniteScroll from "react-infinite-scroller";
+import axios from "axios";
+import queryString from "query-string";
+import CardMedia from "@mui/material/CardMedia";
+import { Box, Button, CardActions, Stack, Typography } from "@mui/material";
+import homepagestyledline from "../img/decorativehomepageline.jpg";
+import { Link } from "react-router-dom";
+import DeleteModal from "../modals/deleteModal";
+import AddProperty from "../modals/addProperty";
+import AddAircraft from "../modals/addAircraft";
+import AddVehicle from "../modals/addVehicles";
+import { useUserAuth } from "../context/authContext";
+
+const CardsGrid = ({
+  searchString = "",
+  list = [],
+  aircraft,
+  vehicles,
+}: any) => {
+  const [cards, setCards] = useState<any[]>([]);
+  const { user }: any = useUserAuth();
+  const isUserMod = user.roles.includes("moderator");
+
+  let filteredByPrice;
+  let usedUrl: string;
+  if (aircraft) {
+    usedUrl = "http://localhost:4200/aircraft";
+  } else if (vehicles) {
+    usedUrl = "http://localhost:4200/vehicles";
+  } else {
+    usedUrl = "http://localhost:4200/";
+  }
+
+  async function fetchMoreData(page: any) {
+    const url = queryString.stringifyUrl({
+      url: usedUrl,
+      query: {
+        page,
+        limit: 10,
+      },
+    });
+
+    try {
+      const res = await axios.get(url);
+      setCards(res.data);
+    } catch (error) {}
+  }
+  const handleDelete = async (deleteId: number) => {
+    try {
+      if (aircraft) {
+        await axios.delete(`${usedUrl}/delete/${deleteId}`);
+      } else if (vehicles) {
+        await axios.delete(`${usedUrl}/delete/${deleteId}`);
+      } else {
+        await axios.delete(`http://localhost:4200/delete/${deleteId}`);
+      }
+
+      fetchMoreData(0);
+    } catch (error) {
+      console.error("Error deleting property:", error);
+    }
+  };
+
+  const filteredList = cards.filter((element) => {
+    if (searchString === "") {
+      return element;
+    } else {
+      if (aircraft) {
+        return element.aircraft_type.toLowerCase().includes(searchString);
+      } else if (vehicles) {
+        return element.vehicle_type.toLowerCase().includes(searchString);
+      } else {
+        return element.type.toLowerCase().includes(searchString);
+      }
+    }
+  });
+
+  useEffect(() => {
+    fetchMoreData(0);
+  }, []);
+
+  const handlePriceFilter = () => {
+    filteredByPrice = [...cards].sort((a: any, b: any) => a.price - b.price);
+    return setCards(filteredByPrice);
+  };
+
+  const handleAddProperty = () => {
+    fetchMoreData(0);
+  };
+
+  const handleSizeFilter = () => {
+    filteredByPrice = [...cards].sort((a: any, b: any) => {
+      if (aircraft || vehicles) {
+        return a.year - b.year;
+      } else {
+        return a.floorspace - b.floorspace;
+      }
+    });
+    return setCards(filteredByPrice);
+  };
+
+  const handleRoomFilter = () => {
+    filteredByPrice = [...cards].sort((a: any, b: any) => {
+      if (aircraft || vehicles) {
+        return a.seats - b.seats;
+      } else {
+        return a.beds - b.beds;
+      }
+    });
+    return setCards(filteredByPrice);
+  };
+
+  return (
+    <>
+      <Stack
+        direction="row"
+        spacing={2}
+        justifyContent="center"
+        marginBottom={"13px"}
+      >
+        <Button
+          variant="outlined"
+          sx={{
+            height: 50,
+            borderColor: "#aa6c39",
+            color: "#aa6c39",
+            "&:hover": {
+              backgroundColor: "beige",
+              color: "orange",
+              borderColor: "orange",
+            },
+          }}
+          onClick={handlePriceFilter}
+        >
+          Filter By Price
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{
+            height: 50,
+            borderColor: "#aa6c39",
+            color: "#aa6c39",
+            "&:hover": {
+              backgroundColor: "beige",
+              color: "orange",
+              borderColor: "orange",
+            },
+          }}
+          onClick={handleSizeFilter}
+        >
+          {aircraft || vehicles ? "Filter by year" : "Filter by floor space"}
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{
+            height: 50,
+            borderColor: "#aa6c39",
+            color: "#aa6c39",
+            "&:hover": {
+              backgroundColor: "beige",
+              color: "orange",
+              borderColor: "orange",
+            },
+          }}
+          onClick={handleRoomFilter}
+        >
+          {aircraft || vehicles ? "Filter by seats" : "Filter by rooms"}
+        </Button>
+        <Grid item>
+          {aircraft ? (
+            <AddAircraft
+              onAddAircraft={handleAddProperty}
+              isEditButton={false}
+            />
+          ) : vehicles ? (
+            <AddVehicle onAddVehicle={handleAddProperty} isEditButton={false} />
+          ) : (
+            <AddProperty
+              onAddProperty={handleAddProperty}
+              isEditButton={false}
+            />
+          )}
+        </Grid>
+      </Stack>
+
+      <Grid container justifyContent={"center"} alignItems="center">
+        <Box
+          component="img"
+          src={homepagestyledline}
+          alt="wavy line"
+          sx={{
+            width: "50%",
+            marginBottom: "6px",
+            padding: "5px",
+          }}
+        />
+      </Grid>
+
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={fetchMoreData}
+        loader={
+          <div style={{ textAlign: "center", padding: "20px" }}>
+            <CircularProgress />
+          </div>
+        }
+      >
+        <Grid container spacing={3} justifyContent="center">
+          {filteredList.map((card: any, index) => {
+            return (
+              <Grid
+                item
+                key={index}
+                xs={12}
+                sm={6}
+                md={2}
+                sx={{ marginLeft: 2 }}
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardMedia
+                    sx={{ height: 140 }}
+                    image={card.image}
+                    title={
+                      aircraft
+                        ? card.aircraft_type
+                        : vehicles
+                        ? card.vehicle_type
+                        : card.area
+                    }
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {aircraft
+                        ? card.aircraft_type
+                        : vehicles
+                        ? card.vehicle_type
+                        : card.type}
+                    </Typography>
+                    <Typography>
+                      {aircraft
+                        ? "Year:"
+                        : vehicles
+                        ? "Manufacturer:"
+                        : "Location:"}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {aircraft
+                        ? card.year
+                        : vehicles
+                        ? card.manufacturer
+                        : card.city}
+                    </Typography>
+                    {vehicles && (
+                      <>
+                        <Typography>Year:</Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {card.year}
+                        </Typography>
+                        <Typography>Seats:</Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {card.seats}
+                        </Typography>
+                      </>
+                    )}
+                    <Typography>Price:</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {card.price} $
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small">
+                      <Link
+                        style={{
+                          textDecoration: "none",
+                          color: "#aa6c39",
+                        }}
+                        to={
+                          aircraft
+                            ? `/aircraft/${card.id}`
+                            : vehicles
+                            ? `/vehicle/${card.id}`
+                            : `/properties/${card.id}`
+                        }
+                      >
+                        Learn More
+                      </Link>
+                    </Button>
+                    <Stack direction="row">
+                      {aircraft ? (
+                        <AddAircraft
+                          onAddAircraft={handleAddProperty}
+                          isEditButton={true}
+                          aircraftToEdit={card}
+                        />
+                      ) : vehicles ? (
+                        <AddVehicle
+                          onAddVehicle={handleAddProperty}
+                          isEditButton={true}
+                          vehicleToEdit={card}
+                        />
+                      ) : (
+                        <AddProperty
+                          onAddProperty={handleAddProperty}
+                          isEditButton={true}
+                          propertyToEdit={card}
+                        />
+                      )}
+                      {aircraft && isUserMod ? (
+                        <DeleteModal
+                          deleteId={card.id}
+                          onDelete={() => handleDelete(card.id)}
+                          aircraft={true}
+                          vehicles={false}
+                        />
+                      ) : isUserMod && vehicles ? (
+                        <DeleteModal
+                          deleteId={card.id}
+                          onDelete={() => handleDelete(card.id)}
+                          aircraft={false}
+                          vehicles={true}
+                        />
+                      ) : isUserMod ? (
+                        <DeleteModal
+                          deleteId={card.id}
+                          onDelete={() => handleDelete(card.id)}
+                          aircraft={false}
+                          vehicles={false}
+                        />
+                      ) : null}
+                    </Stack>
+                  </CardActions>
+                </Card>
+              </Grid>
+            );
+          })}
+        </Grid>
+        <br></br>
+      </InfiniteScroll>
+    </>
+  );
+};
+
+export default CardsGrid;
