@@ -15,6 +15,10 @@ const Vehicle = sequelize.define("Vehicle", {
   year: { type: DataTypes.INTEGER, allowNull: false },
   seats: { type: DataTypes.INTEGER, allowNull: false },
   price: { type: DataTypes.FLOAT, allowNull: false },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
 });
 
 module.exports = Vehicle;

@@ -18,6 +18,10 @@ const Property = sequelize.define("Property", {
   price: { type: DataTypes.FLOAT, allowNull: false },
   parking: { type: DataTypes.INTEGER, allowNull: false },
   construction: { type: DataTypes.STRING, allowNull: false },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
 });
 
 module.exports = Property;

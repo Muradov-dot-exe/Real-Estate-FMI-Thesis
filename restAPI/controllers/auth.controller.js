@@ -12,6 +12,7 @@ const generateToken = (user) => {
     expiresIn: expiresIn,
   });
 };
+
 exports.signup = (req, res) => {
   User.create({
     username: req.body.username,

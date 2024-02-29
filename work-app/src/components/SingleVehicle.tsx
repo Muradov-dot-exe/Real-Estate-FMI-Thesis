@@ -6,21 +6,19 @@ import { Container, Grid, Paper, Typography } from "@mui/material";
 import ContactUsField from "../emails/contactUs";
 
 const SingleVehicle = () => {
-  const propertyParams = useParams();
-  const [properties, setProperties] = useState<any>([]);
-  const property = properties.find(
-    (x: any) => x.id === Number(propertyParams.id)
-  );
+  const vehicleParams = useParams();
+  const [vehicles, setVehicles] = useState<any>([]);
+  const vehicle = vehicles.find((x: any) => x.id === Number(vehicleParams.id));
 
   useEffect(() => {
     axios.get("http://localhost:4200/vehicles").then((response) => {
-      setProperties(response.data);
+      setVehicles(response.data);
     });
   }, []);
 
   return (
     <Box>
-      {property !== undefined && (
+      {vehicle !== undefined && (
         <>
           <Box
             component="img"
@@ -28,7 +26,7 @@ const SingleVehicle = () => {
               width: "100%",
               height: "10%",
             }}
-            src={property.image}
+            src={vehicle.image}
           />
           <Container>
             <Grid container spacing={3}>
@@ -41,50 +39,41 @@ const SingleVehicle = () => {
                         fontWeight="400"
                         sx={{ fontFamily: "Times New Roman" }}
                       >
-                        Enjoy our new {property.vehicle_type}
+                        Enjoy our new {vehicle.vehicle_type}
                       </Typography>
                     </Box>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Manufactured by: {property.manufacturer}
+                      Manufactured by: {vehicle.manufacturer}
                     </Typography>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Model: {property.model}
+                      Model: {vehicle.model}
+                    </Typography>
+                  </Grid>
+                  <Grid container justifyContent="center">
+                    <Typography fontWeight="450">VIN: {vehicle.VIN}</Typography>
+                  </Grid>
+                  <Grid container justifyContent="center">
+                    <Typography fontWeight="450">
+                      Production year: {vehicle.year}
                     </Typography>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      VIN: {property.VIN}
+                      Seats: {vehicle.seats}
                     </Typography>
                   </Grid>
                   <Grid container justifyContent="center">
                     <Typography fontWeight="450">
-                      Production year: {property.year}
-                    </Typography>
-                  </Grid>
-                  <Grid container justifyContent="center">
-                    <Typography fontWeight="450">
-                      Seats: {property.seats}
-                    </Typography>
-                  </Grid>
-                  <Grid container justifyContent="center">
-                    <Typography fontWeight="450">
-                      With a price of: {property.price} $USD
+                      With a price of: {vehicle.price} $USD
                     </Typography>
                   </Grid>
                   <br></br>
                   <Grid container>
-                    <Typography>
-                      Step into a world of comfort and style with meticulously
-                      designed interiors that boast high-end finishes, spacious
-                      layouts, and an abundance of natural light. Our
-                      condominiums provide an oasis of tranquility amidst the
-                      vibrancy of the city, offering a perfect retreat for
-                      relaxation and rejuvenation.
-                    </Typography>
+                    <Typography>{vehicle.description}</Typography>
                   </Grid>
                 </Paper>
               </Grid>

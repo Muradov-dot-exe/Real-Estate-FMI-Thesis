@@ -17,7 +17,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 430,
+  width: 600,
   bgcolor: "background.paper",
   border: "1px solid #000",
   boxShadow: 24,
@@ -51,6 +51,7 @@ const AddVehicle: React.FC<Props> = ({
     VIN: "",
     seats: "",
     price: "",
+    description: "",
   };
 
   const [newVehicle, setNewVehicle] = useState(
@@ -155,116 +156,136 @@ const AddVehicle: React.FC<Props> = ({
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Grid sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              {isEditButton ? "Edit vehicle info:" : "New vehicle info:"}
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Vehicle Type"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newVehicle.vehicle_type}
-                name="vehicle_type"
-              />
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Manufacturer"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newVehicle.manufacturer}
-                name="manufacturer"
-              />
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Model"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newVehicle.model}
-                name="model"
-              />
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Image"
-                placeholder="Add imgur link (ex: https://i.imgur.com/kC3uZtb.jpg)"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newVehicle.image}
-                name="image"
-              />
-            </Typography>
+          <Grid container direction="row" sx={style}>
+            <Grid item xs={12}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                {isEditButton ? "Edit vehicle info:" : "New vehicle info:"}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Vehicle Type"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newVehicle.vehicle_type}
+                  name="vehicle_type"
+                />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Manufacturer"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newVehicle.manufacturer}
+                  name="manufacturer"
+                />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Model"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newVehicle.model}
+                  name="model"
+                />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Image"
+                  placeholder="Add imgur link (ex: https://i.imgur.com/kC3uZtb.jpg)"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newVehicle.image}
+                  name="image"
+                />
+              </Typography>
 
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Year"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newVehicle.year}
-                name="year"
-              />
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="VIN"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newVehicle.VIN}
-                name="VIN"
-              />
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Seats"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newVehicle.seats}
-                name="seats"
-              />
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Price"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newVehicle.price}
-                name="price"
-              />
-            </Typography>
-            <Button
-              color="primary"
-              sx={{ marginLeft: 40, marginTop: 2 }}
-              onClick={postData}
-              type="submit"
-            >
-              {isEditButton ? "Save" : "Add"}
-            </Button>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Year"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newVehicle.year}
+                  name="year"
+                />
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="VIN"
+                  variant="outlined"
+                  sx={{ display: "flex" }}
+                  value={newVehicle.VIN}
+                  name="VIN"
+                />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Seats"
+                  variant="outlined"
+                  sx={{ display: "flex" }}
+                  value={newVehicle.seats}
+                  name="seats"
+                />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Price"
+                  variant="outlined"
+                  sx={{ display: "flex" }}
+                  value={newVehicle.price}
+                  name="price"
+                />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Description"
+                  variant="outlined"
+                  sx={{ display: "flex" }}
+                  value={newVehicle.description}
+                  name="description"
+                />
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                color="primary"
+                sx={{ marginTop: 2 }}
+                onClick={postData}
+                type="submit"
+              >
+                {isEditButton ? "Save" : "Add"}
+              </Button>
+            </Grid>
           </Grid>
         </Modal>
       </FormControl>

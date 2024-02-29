@@ -63,13 +63,13 @@ const AboutPage = () => {
                 CEO: Ali Muradov
               </Typography>
               <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                CSO: Ivan Ivanov
+                CSO:
               </Typography>
               <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                General Secretary: Stoyan Ivanov
+                General Secretary:
               </Typography>
               <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                Main consultant: Petya Petrova
+                Main consultant:
               </Typography>
 
               {/* Add more personnel information as needed */}
@@ -77,7 +77,7 @@ const AboutPage = () => {
             <br></br>
             <Typography variant="h6">
               If you want to reach us directly , please contact our main
-              consultant: petyaT@gold-estate.com
+              consultant: amuradov239@gmail.com
             </Typography>
           </>
         )}

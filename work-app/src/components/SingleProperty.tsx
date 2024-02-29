@@ -87,14 +87,7 @@ const SingleProperty = () => {
                   </Grid>
                   <br></br>
                   <Grid container>
-                    <Typography>
-                      Step into a world of comfort and style with meticulously
-                      designed interiors that boast high-end finishes, spacious
-                      layouts, and an abundance of natural light. Our
-                      condominiums provide an oasis of tranquility amidst the
-                      vibrancy of the city, offering a perfect retreat for
-                      relaxation and rejuvenation.
-                    </Typography>
+                    <Typography>{property.description}</Typography>
                   </Grid>
                 </Paper>
               </Grid>

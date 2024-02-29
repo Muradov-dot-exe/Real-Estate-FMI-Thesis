@@ -17,7 +17,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 430,
+  width: 600,
   bgcolor: "background.paper",
   border: "1px solid #000",
   boxShadow: 24,
@@ -52,6 +52,7 @@ const AddAircraft: React.FC<Props> = ({
     serial_number: "",
     seats: "",
     price: "",
+    description: "",
   };
 
   const [newAircraft, setNewAircraft] = useState(
@@ -158,127 +159,147 @@ const AddAircraft: React.FC<Props> = ({
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Grid sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              {isEditButton ? "Edit aircraft info:" : "New aircraft info:"}
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Aircraft Type"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newAircraft.aircraft_type}
-                name="aircraft_type"
-              />
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Manufacturer"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newAircraft.manufacturer}
-                name="manufacturer"
-              />
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Model"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newAircraft.model}
-                name="model"
-              />
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Image"
-                placeholder="Add imgur link (ex: https://i.imgur.com/kC3uZtb.jpg)"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newAircraft.image}
-                name="image"
-              />
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Registration Number"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newAircraft.registration_number}
-                name="registration_number"
-              />
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Year"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newAircraft.year}
-                name="year"
-              />
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Serial Number"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newAircraft.serial_number}
-                name="serial_number"
-              />
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Seats"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newAircraft.seats}
-                name="seats"
-              />
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <TextField
-                required
-                onChange={handleChange}
-                id="outlined-basic"
-                label="Price"
-                variant="outlined"
-                sx={{ display: "flex" }}
-                value={newAircraft.price}
-                name="price"
-              />
-            </Typography>
-            <Button
-              color="primary"
-              sx={{ marginLeft: 40, marginTop: 2 }}
-              onClick={postData}
-              type="submit"
-            >
-              {isEditButton ? "Save" : "Add"}
-            </Button>
+          <Grid container direction="row" sx={style}>
+            <Grid item xs={12}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                {isEditButton ? "Edit aircraft info:" : "New aircraft info:"}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Aircraft Type"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newAircraft.aircraft_type}
+                  name="aircraft_type"
+                />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Manufacturer"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newAircraft.manufacturer}
+                  name="manufacturer"
+                />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Model"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newAircraft.model}
+                  name="model"
+                />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Image"
+                  placeholder="Add imgur link (ex: https://i.imgur.com/kC3uZtb.jpg)"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newAircraft.image}
+                  name="image"
+                />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Registration Number"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newAircraft.registration_number}
+                  name="registration_number"
+                />
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Year"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newAircraft.year}
+                  name="year"
+                />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Serial Number"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newAircraft.serial_number}
+                  name="serial_number"
+                />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Seats"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newAircraft.seats}
+                  name="seats"
+                />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Price"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newAircraft.price}
+                  name="price"
+                />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <TextField
+                  required
+                  onChange={handleChange}
+                  id="outlined-basic"
+                  label="Description"
+                  variant="outlined"
+                  sx={{ display: "flex", paddingRight: 2 }}
+                  value={newAircraft.description}
+                  name="description"
+                />
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                color="primary"
+                sx={{ marginTop: 2 }}
+                onClick={postData}
+                type="submit"
+              >
+                {isEditButton ? "Save" : "Add"}
+              </Button>
+            </Grid>
           </Grid>
         </Modal>
       </FormControl>

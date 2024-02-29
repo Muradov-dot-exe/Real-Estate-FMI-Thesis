@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 const express = require("express");
 const cors = require("cors");
 const sequelize = require("./config/dbconnection");

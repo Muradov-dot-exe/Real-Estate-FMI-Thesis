@@ -185,7 +185,7 @@ function SignIn() {
             onChange={handleCredential}
           />
 
-          <Grid container>
+          {/* <Grid container>
             <Grid item xs>
               <Button
                 variant="contained"
@@ -205,7 +205,7 @@ function SignIn() {
                 Facebook
               </Button>
             </Grid>
-          </Grid>
+          </Grid> */}
           <Button
             type="submit"
             fullWidth

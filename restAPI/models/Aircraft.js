@@ -16,6 +16,10 @@ const Aircraft = sequelize.define("Aircraft", {
   seats: { type: DataTypes.INTEGER, allowNull: false },
   price: { type: DataTypes.FLOAT, allowNull: false },
   image: { type: DataTypes.STRING, allowNull: false },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
 });
 
 module.exports = Aircraft;
