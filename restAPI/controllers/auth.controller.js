@@ -72,7 +72,6 @@ exports.signin = (req, res) => {
 
       const token = generateToken(user);
 
-      console.log("User ID:", user.id);
       req.session.token = token;
       req.session.userId = user.id;
       req.session.expiresIn = Date.now() + 86400000;

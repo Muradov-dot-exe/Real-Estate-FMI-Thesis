@@ -40,7 +40,7 @@ const CardsGrid = ({
   } else if (vehicles) {
     usedUrl = "http://localhost:4200/vehicles";
   } else {
-    usedUrl = "http://localhost:4200/";
+    usedUrl = "http://localhost:4200";
   }
 
   async function fetchMoreData(page: number) {

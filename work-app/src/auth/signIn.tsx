@@ -48,7 +48,7 @@ const buttonStyles = {
 function SignIn() {
   const navigate = useNavigate();
   const { signIn } = useUserAuth();
-  const [errorMsg, setErrorMsg] = React.useState(null);
+  const [errorMsg, setErrorMsg] = React.useState<null | string>(null);
   const [forgottenPassErr, setForgottenPassErr] = React.useState<null>(null);
   const [recoverPassSuccess, setRecoverPassSuccess] =
     React.useState<JSX.Element | null>(null);
@@ -102,7 +102,7 @@ function SignIn() {
 
       notif();
     } catch (error: any) {
-      setErrorMsg(error.message);
+      setErrorMsg("Wrong username or password !");
     }
   };
 

@@ -48,9 +48,6 @@ async function createRoles() {
         { id: 2, name: "moderator" },
         { id: 3, name: "admin" },
       ]);
-      console.log("Roles created successfully");
-    } else {
-      console.log("Roles already exist");
     }
   } catch (error) {
     console.error("Error creating roles:", error);
@@ -134,9 +131,5 @@ app.delete("/vehicles/delete/:id", (req, res) =>
 
 const PORT = 4200;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-
-  sequelize.sync({ alter: true }).then(() => {
-    console.log("Database synced successfully");
-  });
+  sequelize.sync({ alter: true }).then(() => {});
 });

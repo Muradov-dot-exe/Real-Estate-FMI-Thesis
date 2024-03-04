@@ -123,7 +123,6 @@ const AddProperty: React.FC<Props> = ({
       setNewProperty(propertyToEdit);
     }
   }, [propertyToEdit]);
-  console.log(newProperty);
 
   return (
     <>
