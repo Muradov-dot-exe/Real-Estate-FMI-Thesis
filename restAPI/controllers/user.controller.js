@@ -28,9 +28,9 @@ exports.userInfo = async (req, res) => {
       attributes: ["id", "username", "email"],
       include: {
         model: Role,
-        as: "roles", // Specify the alias for the association
-        attributes: ["name"], // Include only the 'name' attribute of the role
-        through: { attributes: [] }, // Exclude the junction table attributes from the result
+        as: "roles",
+        attributes: ["name"],
+        through: { attributes: [] },
       },
     });
 
@@ -38,15 +38,12 @@ exports.userInfo = async (req, res) => {
       return res.status(404).send({ message: "User Not Found." });
     }
 
-    // Extract roles from the user object and send it in the response
     const roles = user?.roles?.map((role) => role.name) || [];
 
-    // Generate a new JWT token
     const token = jwt.sign({ id: user.id }, config.secret, {
       expiresIn: 86400,
     });
 
-    // Set the token as an HttpOnly cookie
     res.setHeader(
       "Set-Cookie",
       cookie.serialize("token", token, {

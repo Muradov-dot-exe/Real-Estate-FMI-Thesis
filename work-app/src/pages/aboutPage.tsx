@@ -1,7 +1,7 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React, { useState } from "react";
 
-import { Container, Paper, Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import { useContext, useEffect } from "react";
 import { TitleContext } from "../context/context";
 
@@ -71,8 +71,6 @@ const AboutPage = () => {
               <Typography variant="body1" sx={{ fontWeight: "bold" }}>
                 Main consultant:
               </Typography>
-
-              {/* Add more personnel information as needed */}
             </Box>
             <br></br>
             <Typography variant="h6">

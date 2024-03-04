@@ -4,13 +4,12 @@ import axios from "axios";
 import { Box } from "@mui/system";
 import { Container, Grid, Paper, Typography } from "@mui/material";
 import ContactUsField from "../emails/contactUs";
+import { ItemType } from "../types/cardTypes";
 
 const SingleProperty = () => {
   const propertyParams = useParams();
-  const [properties, setProperties] = useState<any>([]);
-  const property = properties.find(
-    (x: any) => x.id === Number(propertyParams.id)
-  );
+  const [properties, setProperties] = useState<ItemType[]>([]);
+  const property = properties.find((x) => x.id === Number(propertyParams.id));
 
   useEffect(() => {
     axios.get("http://localhost:4200/").then((response) => {

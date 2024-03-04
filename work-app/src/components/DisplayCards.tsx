@@ -15,18 +15,25 @@ import AddProperty from "../modals/addProperty";
 import AddAircraft from "../modals/addAircraft";
 import AddVehicle from "../modals/addVehicles";
 import { useUserAuth } from "../context/authContext";
+import { AuthObjectType } from "../types/authTypes";
+import { ItemType } from "../types/cardTypes";
 
 const CardsGrid = ({
   searchString = "",
   list = [],
   aircraft,
   vehicles,
-}: any) => {
-  const [cards, setCards] = useState<any[]>([]);
-  const { user }: any = useUserAuth();
-  const isUserMod = user.roles.includes("moderator");
+}: {
+  searchString?: string;
+  list?: any[];
+  aircraft?: boolean;
+  vehicles?: boolean;
+}) => {
+  const [cards, setCards] = useState<ItemType[]>([]);
+  const { user }: AuthObjectType = useUserAuth();
+  const isUserMod = user!.roles.includes("moderator");
 
-  let filteredByPrice;
+  let filteredByPrice: ItemType[];
   let usedUrl: string;
   if (aircraft) {
     usedUrl = "http://localhost:4200/aircraft";
@@ -36,7 +43,7 @@ const CardsGrid = ({
     usedUrl = "http://localhost:4200/";
   }
 
-  async function fetchMoreData(page: any) {
+  async function fetchMoreData(page: number) {
     const url = queryString.stringifyUrl({
       url: usedUrl,
       query: {
@@ -46,20 +53,16 @@ const CardsGrid = ({
     });
 
     try {
-      const res = await axios.get(url);
+      const res = await axios.get<ItemType[]>(url);
       setCards(res.data);
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }
+
   const handleDelete = async (deleteId: number) => {
     try {
-      if (aircraft) {
-        await axios.delete(`${usedUrl}/delete/${deleteId}`);
-      } else if (vehicles) {
-        await axios.delete(`${usedUrl}/delete/${deleteId}`);
-      } else {
-        await axios.delete(`http://localhost:4200/delete/${deleteId}`);
-      }
-
+      await axios.delete(`${usedUrl}/delete/${deleteId}`);
       fetchMoreData(0);
     } catch (error) {
       console.error("Error deleting property:", error);
@@ -70,12 +73,14 @@ const CardsGrid = ({
     if (searchString === "") {
       return element;
     } else {
-      if (aircraft) {
+      if (aircraft && element.aircraft_type) {
         return element.aircraft_type.toLowerCase().includes(searchString);
-      } else if (vehicles) {
+      } else if (vehicles && element.vehicle_type) {
         return element.vehicle_type.toLowerCase().includes(searchString);
-      } else {
+      } else if (element.type) {
         return element.type.toLowerCase().includes(searchString);
+      } else {
+        return false;
       }
     }
   });
@@ -85,7 +90,9 @@ const CardsGrid = ({
   }, []);
 
   const handlePriceFilter = () => {
-    filteredByPrice = [...cards].sort((a: any, b: any) => a.price - b.price);
+    filteredByPrice = [...cards].sort(
+      (a: ItemType, b: ItemType) => a.price - b.price
+    );
     return setCards(filteredByPrice);
   };
 
@@ -94,22 +101,30 @@ const CardsGrid = ({
   };
 
   const handleSizeFilter = () => {
-    filteredByPrice = [...cards].sort((a: any, b: any) => {
+    filteredByPrice = [...cards].sort((a: ItemType, b: ItemType) => {
       if (aircraft || vehicles) {
-        return a.year - b.year;
-      } else {
+        return a.year !== undefined && b.year !== undefined
+          ? a.year - b.year
+          : 0;
+      } else if (a.floorspace !== undefined && b.floorspace !== undefined) {
         return a.floorspace - b.floorspace;
+      } else {
+        return 0;
       }
     });
     return setCards(filteredByPrice);
   };
 
   const handleRoomFilter = () => {
-    filteredByPrice = [...cards].sort((a: any, b: any) => {
+    filteredByPrice = [...cards].sort((a: ItemType, b: ItemType) => {
       if (aircraft || vehicles) {
-        return a.seats - b.seats;
+        return a.seats !== undefined && b.seats !== undefined
+          ? a.seats - b.seats
+          : 0;
       } else {
-        return a.beds - b.beds;
+        return a.beds !== undefined && b.beds !== undefined
+          ? a.beds - b.beds
+          : 0;
       }
     });
     return setCards(filteredByPrice);
@@ -211,7 +226,7 @@ const CardsGrid = ({
         }
       >
         <Grid container spacing={3} justifyContent="center">
-          {filteredList.map((card: any, index) => {
+          {filteredList.map((card: ItemType, index) => {
             return (
               <Grid
                 item
@@ -232,7 +247,7 @@ const CardsGrid = ({
                         ? card.aircraft_type
                         : vehicles
                         ? card.vehicle_type
-                        : card.area
+                        : card.type
                     }
                   />
                   <CardContent>

@@ -3,14 +3,13 @@ import { Box, Grid, ThemeProvider, createTheme } from "@mui/material";
 import { TitleContext } from "../context/context";
 
 import Slider from "../components/Image Slider/Slider";
-import { useSelector } from "react-redux";
 import PleaseLogin from "./pleaseLogin";
 import SearchBar from "../components/SearchBar";
 import { useUserAuth } from "../context/authContext";
 
 export default function Home() {
   const defaultTheme = createTheme();
-  const { user }: any = useUserAuth();
+  const { user } = useUserAuth();
 
   const value = useContext(TitleContext);
 

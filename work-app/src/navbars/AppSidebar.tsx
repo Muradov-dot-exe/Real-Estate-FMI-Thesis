@@ -7,9 +7,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import ApartmentIcon from "@mui/icons-material/Apartment";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import InfoIcon from "@mui/icons-material/Info";
 
 import { Divider, Toolbar, Typography } from "@mui/material";
@@ -23,7 +21,7 @@ interface DrawerProps {
 }
 
 const AppSidebar = ({ isOpen, onClose }: DrawerProps) => {
-  const { user }: any = useUserAuth();
+  const { user } = useUserAuth();
 
   return (
     <>

@@ -11,6 +11,8 @@ import axios from "axios";
 import { requestSender } from "../context/context";
 import { toast } from "react-toastify";
 import { useUserAuth } from "../context/authContext";
+import { AuthObjectType } from "../types/authTypes";
+import { ItemType } from "../types/cardTypes";
 
 const style = {
   position: "absolute" as "absolute",
@@ -25,9 +27,9 @@ const style = {
 };
 
 interface Props {
-  onAddProperty: any;
+  onAddProperty: () => void;
   isEditButton: boolean;
-  propertyToEdit?: any;
+  propertyToEdit?: ItemType;
 }
 
 const AddProperty: React.FC<Props> = ({
@@ -38,9 +40,9 @@ const AddProperty: React.FC<Props> = ({
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const contextData = useContext(requestSender);
-  const { user }: any = useUserAuth();
-  const isUserAdmin = user.roles.includes("admin");
-  const isUserMod = user.roles.includes("moderator");
+  const { user }: AuthObjectType = useUserAuth();
+  const isUserAdmin = user!.roles.includes("admin");
+  const isUserMod = user!.roles.includes("moderator");
 
   const initialPropertyState = {
     area: "",
@@ -64,7 +66,7 @@ const AddProperty: React.FC<Props> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setNewProperty((prevData: any) => ({
+    setNewProperty((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -77,7 +79,6 @@ const AddProperty: React.FC<Props> = ({
   const postData = async (e: any) => {
     e.preventDefault();
     try {
-      // Use PUT request if propertyToEdit is provided, otherwise use POST
       const axiosMethod = propertyToEdit ? axios.put : axios.post;
 
       await axiosMethod(
@@ -119,7 +120,6 @@ const AddProperty: React.FC<Props> = ({
 
   useEffect(() => {
     if (propertyToEdit) {
-      // If propertyToEdit is provided, set initial values
       setNewProperty(propertyToEdit);
     }
   }, [propertyToEdit]);

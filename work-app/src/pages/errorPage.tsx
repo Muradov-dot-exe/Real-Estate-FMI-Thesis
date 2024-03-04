@@ -6,7 +6,7 @@ export default function ErrorPage() {
     <Box id="error-page">
       <Container component="main" maxWidth="xs">
         <Typography component="h1" variant="h3" marginTop={"100px"}>
-          Oops! You just got 404-ed. GGWP!
+          Oops! You just got the infamous 404.
         </Typography>
         <Typography marginTop={"20px"}>
           Sorry, but you are digging too much. This page doesn't exist.

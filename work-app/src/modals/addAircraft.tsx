@@ -11,6 +11,8 @@ import axios from "axios";
 import { requestSender } from "../context/context";
 import { toast } from "react-toastify";
 import { useUserAuth } from "../context/authContext";
+import { ItemType } from "../types/cardTypes";
+import { AuthObjectType } from "../types/authTypes";
 
 const style = {
   position: "absolute" as "absolute",
@@ -25,9 +27,9 @@ const style = {
 };
 
 interface Props {
-  onAddAircraft: any;
+  onAddAircraft: () => void;
   isEditButton: boolean;
-  aircraftToEdit?: any;
+  aircraftToEdit?: ItemType;
 }
 
 const AddAircraft: React.FC<Props> = ({
@@ -38,9 +40,9 @@ const AddAircraft: React.FC<Props> = ({
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const contextData = useContext(requestSender);
-  const { user }: any = useUserAuth();
-  const isUserAdmin = user.roles.includes("admin");
-  const isUserMod = user.roles.includes("moderator");
+  const { user }: AuthObjectType = useUserAuth();
+  const isUserAdmin = user!.roles.includes("admin");
+  const isUserMod = user!.roles.includes("moderator");
 
   const initialAircraftState = {
     aircraft_type: "",
@@ -62,7 +64,7 @@ const AddAircraft: React.FC<Props> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setNewAircraft((prevData: any) => ({
+    setNewAircraft((prevData) => ({
       ...prevData,
       [name]: value,
     }));

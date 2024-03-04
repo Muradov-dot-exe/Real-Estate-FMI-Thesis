@@ -6,11 +6,9 @@ const User = db.user;
 const verifyToken = (req, res, next) => {
   let token;
 
-  // Check if the token is in the request headers
   if (req.headers.authorization) {
     token = req.headers.authorization.split(" ")[1];
   } else if (req.session && req.session.token) {
-    // If not in headers, check if it's in the session
     token = req.session.token;
   } else {
     return res.status(403).send({

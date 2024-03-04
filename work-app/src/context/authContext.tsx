@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -14,8 +20,13 @@ const userAuthContext = createContext({
   signOut: () => {},
   triggerResetEmail: (email: string) => {},
 });
+interface UserAuthContextProviderProps {
+  children: ReactNode;
+}
 
-export const UserAuthContextProvider = ({ children }: any) => {
+export const UserAuthContextProvider: React.FC<
+  UserAuthContextProviderProps
+> = ({ children }) => {
   const notif = () => {
     toast.info("Successful sign up! Please sign in.");
   };

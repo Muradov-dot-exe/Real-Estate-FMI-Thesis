@@ -10,22 +10,17 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import { toast } from "react-toastify";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch } from "react-redux";
-import {
-  facebookSignInInitiate,
-  googleSignInInitiate,
-} from "../redux/authActions";
 
 import { useUserAuth } from "../context/authContext";
 import { Alert } from "@mui/material";
 import axios from "axios";
 
-function Copyright(props: any) {
+interface CopyrightProps {
+  sx?: object;
+}
+
+function Copyright(props: CopyrightProps) {
   return (
     <Typography
       variant="body2"
@@ -51,13 +46,12 @@ const buttonStyles = {
 };
 
 function SignIn() {
-  const dispatch = useDispatch();
-
   const navigate = useNavigate();
-  const { signIn }: any = useUserAuth();
+  const { signIn } = useUserAuth();
   const [errorMsg, setErrorMsg] = React.useState(null);
-  const [forgottenPassErr, setForgottenPassErr] = React.useState<any>(null);
-  const [recoverPassSuccess, setRecoverPassSuccess] = React.useState<any>(null);
+  const [forgottenPassErr, setForgottenPassErr] = React.useState<null>(null);
+  const [recoverPassSuccess, setRecoverPassSuccess] =
+    React.useState<JSX.Element | null>(null);
   const [credentials, setCredentials] = React.useState({
     username: "",
     password: "",
@@ -110,14 +104,6 @@ function SignIn() {
     } catch (error: any) {
       setErrorMsg(error.message);
     }
-  };
-
-  const handleGoogleSubmit = () => {
-    dispatch(googleSignInInitiate());
-  };
-
-  const handleFacebookSubmit = () => {
-    dispatch(facebookSignInInitiate());
   };
 
   const handleCredential = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -184,28 +170,6 @@ function SignIn() {
             sx={{ mb: 3 }}
             onChange={handleCredential}
           />
-
-          {/* <Grid container>
-            <Grid item xs>
-              <Button
-                variant="contained"
-                startIcon={<FontAwesomeIcon icon={faGoogle} />}
-                color="error"
-                onClick={handleGoogleSubmit}
-              >
-                Google
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button
-                variant="contained"
-                onClick={handleFacebookSubmit}
-                startIcon={<FontAwesomeIcon icon={faFacebookF} />}
-              >
-                Facebook
-              </Button>
-            </Grid>
-          </Grid> */}
           <Button
             type="submit"
             fullWidth
@@ -229,7 +193,7 @@ function SignIn() {
           </Grid>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 10 }} />
+      <Copyright sx={{ mt: 12.2 }} />
     </Container>
   );
 }

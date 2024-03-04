@@ -12,7 +12,6 @@ export default function Home() {
   const { user } = useUserAuth();
 
   const value = useContext(TitleContext);
-  console.log(user);
 
   useEffect(() => {
     value.setTitle("Aircraft");

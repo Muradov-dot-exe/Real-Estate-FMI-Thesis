@@ -9,26 +9,19 @@ module.exports = function (app) {
 
   app.get("/api/test/all", controller.allAccess);
 
-  // Ensure verifyToken is executed first
   app.get("/api/test/user", [authJwt.verifyToken], controller.userBoard);
 
-  // Verify token and check for moderator role
   app.get(
     "/api/test/mod",
     [authJwt.verifyToken, authJwt.isModerator],
     controller.moderatorBoard
   );
 
-  // Verify token and check for admin role
   app.get(
     "/api/test/admin",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
   );
 
-  app.get(
-    "/userinfo",
-    // [authJwt.verifyToken], // You can restrict access if needed
-    controller.userInfo
-  );
+  app.get("/userinfo", controller.userInfo);
 };

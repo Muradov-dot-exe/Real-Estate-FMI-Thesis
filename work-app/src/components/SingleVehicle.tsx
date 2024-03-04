@@ -4,11 +4,12 @@ import axios from "axios";
 import { Box } from "@mui/system";
 import { Container, Grid, Paper, Typography } from "@mui/material";
 import ContactUsField from "../emails/contactUs";
+import { ItemType } from "../types/cardTypes";
 
 const SingleVehicle = () => {
   const vehicleParams = useParams();
-  const [vehicles, setVehicles] = useState<any>([]);
-  const vehicle = vehicles.find((x: any) => x.id === Number(vehicleParams.id));
+  const [vehicles, setVehicles] = useState<ItemType[]>([]);
+  const vehicle = vehicles.find((x) => x.id === Number(vehicleParams.id));
 
   useEffect(() => {
     axios.get("http://localhost:4200/vehicles").then((response) => {

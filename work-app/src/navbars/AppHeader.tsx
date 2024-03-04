@@ -14,11 +14,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AppSidebar from "./AppSidebar";
 import styledlineimage from "../img/styledlineimage.jpg";
 import { useUserAuth } from "../context/authContext";
+import { AuthObjectType } from "../types/authTypes";
 
 const AppHeader = () => {
-  const { user }: any = useUserAuth();
+  const { user } = useUserAuth();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { signOut }: any = useUserAuth();
+  const { signOut } = useUserAuth();
+  const userNameType = { user } as AuthObjectType;
 
   const handleDrawerOpen = () => {
     setIsDrawerOpen(true);
@@ -61,7 +63,7 @@ const AppHeader = () => {
             </Typography>
 
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              {user !== null && user.username && (
+              {userNameType.user !== null && userNameType.user.username && (
                 <Grid container justifyContent="center">
                   <Grid
                     item
@@ -87,7 +89,7 @@ const AppHeader = () => {
                       fontSize={"large"}
                       color="black"
                     >
-                      Welcome, {user.username}
+                      Welcome, {userNameType.user.username}
                     </Typography>
                     <Box
                       component="img"

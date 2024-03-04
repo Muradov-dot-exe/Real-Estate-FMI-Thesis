@@ -1,14 +1,25 @@
 import { useState, useEffect } from "react";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+import { Box, Grid, Typography } from "@mui/material";
 
 import "./slider.css";
 import { sliderAircraft, sliderProperties, sliderVehicles } from "./sliderData";
-import { Box, Grid, Typography } from "@mui/material";
 
-const Slider = ({ aircraft, vehicles }: any) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+interface SliderProps {
+  aircraft?: boolean;
+  vehicles?: boolean;
+}
+
+interface SliderImage {
+  image: string;
+  heading: string;
+  desc: string;
+}
+
+const Slider: React.FC<SliderProps> = ({ aircraft, vehicles }) => {
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
   let slideLength: number;
-  let selectedSliderImages;
+  let selectedSliderImages: SliderImage[];
 
   if (aircraft) {
     slideLength = sliderAircraft.length;
@@ -21,16 +32,20 @@ const Slider = ({ aircraft, vehicles }: any) => {
     selectedSliderImages = sliderProperties;
   }
 
-  const autoScroll = true;
-  let slideInterval: any;
-  let intervalTime = 7000;
+  const autoScroll: boolean = true;
+  let slideInterval: NodeJS.Timeout;
+  let intervalTime: number = 7000;
 
   const nextSlide = () => {
-    setCurrentSlide(currentSlide === slideLength - 1 ? 0 : currentSlide + 1);
+    setCurrentSlide((prevSlide) =>
+      prevSlide === slideLength - 1 ? 0 : prevSlide + 1
+    );
   };
 
   const prevSlide = () => {
-    setCurrentSlide(currentSlide === 0 ? slideLength - 1 : currentSlide - 1);
+    setCurrentSlide((prevSlide) =>
+      prevSlide === 0 ? slideLength - 1 : prevSlide - 1
+    );
   };
 
   function auto() {
@@ -63,7 +78,7 @@ const Slider = ({ aircraft, vehicles }: any) => {
     >
       <AiOutlineArrowLeft className="arrow prev" onClick={prevSlide} />
       <AiOutlineArrowRight className="arrow next" onClick={nextSlide} />
-      {selectedSliderImages.map((slide: any, index: any) => {
+      {selectedSliderImages.map((slide: SliderImage, index: number) => {
         return (
           <Box
             className={index === currentSlide ? "slide current" : "slide"}

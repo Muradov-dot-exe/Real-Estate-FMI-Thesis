@@ -4,16 +4,15 @@ import axios from "axios";
 import { Box } from "@mui/system";
 import { Container, Grid, Paper, Typography } from "@mui/material";
 import ContactUsField from "../emails/contactUs";
+import { ItemType } from "../types/cardTypes";
 
 const SingleAircraft = () => {
   const aircraftParams = useParams();
-  const [aircrafts, setAircrafts] = useState<any>([]);
-  const aircraft = aircrafts.find(
-    (x: any) => x.id === Number(aircraftParams.id)
-  );
+  const [aircrafts, setAircrafts] = useState<ItemType[]>([]);
+  const aircraft = aircrafts.find((x) => x.id === Number(aircraftParams.id));
 
   useEffect(() => {
-    axios.get("http://localhost:4200/aircraft").then((response) => {
+    axios.get<ItemType[]>("http://localhost:4200/aircraft").then((response) => {
       setAircrafts(response.data);
     });
   }, []);
@@ -107,4 +106,5 @@ const SingleAircraft = () => {
     </Box>
   );
 };
+
 export default SingleAircraft;

@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const sequelize = require("./config/dbconnection");
 const db = require("./models/index");
-const session = require("express-session"); // Import express-session
+const session = require("express-session");
 const cookieParser = require("cookie-parser");
 
 const Aircraft = require("./models/Aircraft");
@@ -36,15 +36,13 @@ require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
 const Role = db.role;
 db.sequelize.sync().then(() => {
-  createRoles(); // Call a function to create roles if needed
+  createRoles();
 });
 
-// Function to create roles if they don't exist
 async function createRoles() {
   try {
     const roles = await Role.findAll();
     if (!roles || roles.length === 0) {
-      // Roles don't exist, create them
       await Role.bulkCreate([
         { id: 1, name: "user" },
         { id: 2, name: "moderator" },
@@ -58,7 +56,7 @@ async function createRoles() {
     console.error("Error creating roles:", error);
   }
 }
-// Generic CRUD route handler function
+
 const handleCRUD = async (Model, operation, req, res) => {
   try {
     switch (operation) {
@@ -96,7 +94,6 @@ const handleCRUD = async (Model, operation, req, res) => {
   }
 };
 
-// Routes for Aircraft
 app.get("/aircraft", (req, res) => handleCRUD(Aircraft, "getAll", req, res));
 app.get("/aircraft/:id", (req, res) =>
   handleCRUD(Aircraft, "getById", req, res)
@@ -111,7 +108,6 @@ app.delete("/aircraft/delete/:id", (req, res) =>
   handleCRUD(Aircraft, "delete", req, res)
 );
 
-// Routes for Property
 app.get("/", (req, res) => handleCRUD(Property, "getAll", req, res));
 app.get("/property/:id", (req, res) =>
   handleCRUD(Property, "getById", req, res)
@@ -126,7 +122,6 @@ app.delete("/delete/:id", (req, res) =>
   handleCRUD(Property, "delete", req, res)
 );
 
-// Routes for Vehicle
 app.get("/vehicles", (req, res) => handleCRUD(Vehicle, "getAll", req, res));
 app.get("/vehicle/:id", (req, res) => handleCRUD(Vehicle, "getById", req, res));
 app.post("/vehicle/add", (req, res) => handleCRUD(Vehicle, "create", req, res));
@@ -137,11 +132,10 @@ app.delete("/vehicles/delete/:id", (req, res) =>
   handleCRUD(Vehicle, "delete", req, res)
 );
 
-// Start the server
 const PORT = 4200;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  // Sync models with the database on server start
+
   sequelize.sync({ alter: true }).then(() => {
     console.log("Database synced successfully");
   });

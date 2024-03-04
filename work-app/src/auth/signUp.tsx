@@ -18,11 +18,13 @@ import { TitleContext } from "../context/context";
 
 function SignUp() {
   const navigate = useNavigate();
-  const [errorMsg, setErrorMsg] = useState<any>(null);
-  const { signUp }: any = useUserAuth();
-  const [emailAlert, setEmailAlert] = useState<any>(null);
-  const [passwordError, setPasswordError] = useState<any>(null);
-  const [passLengthError, setPassLengthError] = React.useState<any>(undefined);
+  const [errorMsg, setErrorMsg] = useState<null | string>(null);
+  const { signUp } = useUserAuth();
+  const [emailAlert, setEmailAlert] = useState<null | JSX.Element>(null);
+  const [passwordError, setPasswordError] = useState<null | JSX.Element>(null);
+  const [passLengthError, setPassLengthError] = React.useState<
+    undefined | JSX.Element | null
+  >(undefined);
 
   const value = useContext(TitleContext);
   useEffect(() => {
@@ -102,7 +104,7 @@ function SignUp() {
     }
   };
 
-  const handleCredential = (event: any) => {
+  const handleCredential = (event: React.ChangeEvent<HTMLInputElement>) => {
     let { name, value } = event.target;
     setCredentials({ ...credentials, [name]: value });
   };

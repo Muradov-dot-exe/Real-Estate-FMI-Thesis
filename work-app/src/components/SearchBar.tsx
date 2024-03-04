@@ -1,10 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { Box, TextField, Autocomplete, Grid } from "@mui/material";
 import React from "react";
 import axios from "axios";
 import CardsGrid from "./DisplayCards";
+import { ItemType } from "../types/cardTypes";
 
-function SearchBar({ aircraft, vehicles }: any) {
+interface SearchBarProps {
+  aircraft: boolean;
+  vehicles: boolean;
+}
+
+function SearchBar({ aircraft, vehicles }: SearchBarProps): JSX.Element {
   const [list, setList] = useState([]);
   const [input, setInput] = useState("");
   let url: string;
@@ -17,7 +23,7 @@ function SearchBar({ aircraft, vehicles }: any) {
     url = "http://localhost:4200/";
   }
 
-  const handleInput = (e: any) => {
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value.toLowerCase());
   };
 
@@ -30,25 +36,29 @@ function SearchBar({ aircraft, vehicles }: any) {
     }
   };
 
-  const mappedList: any = list.map((item: any) => {
+  const mappedList: string[] = list.map((item: ItemType) => {
     if (aircraft) {
-      return item.aircraft_type;
+      return item.aircraft_type || "";
     } else if (vehicles) {
-      return item.vehicle_type;
+      return item.vehicle_type || "";
     } else {
-      return item.type;
+      return item.type || "";
     }
   });
 
-  const removedDuplicates = mappedList.filter((x: any, y: any) => {
-    return mappedList.indexOf(x) === y;
-  });
+  const removedDuplicates = mappedList.filter(
+    (x: string, y: number) => mappedList.indexOf(x) === y
+  );
 
   useEffect(() => {
     fetchdata().then((res) => setList(res));
   }, []);
 
-  const onClearIcon = (event: any, value: any, reason: any) => {
+  const onClearIcon = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: string | null,
+    reason: string
+  ) => {
     if (reason === "clear") {
       setInput("");
     }

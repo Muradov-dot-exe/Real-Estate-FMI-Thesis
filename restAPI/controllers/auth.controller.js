@@ -7,7 +7,7 @@ const User = db.user;
 const Role = db.role;
 
 const generateToken = (user) => {
-  const expiresIn = 86400; // 24 hours in seconds (you can adjust this as needed)
+  const expiresIn = 86400;
   return jwt.sign({ id: user.id }, config.secret, {
     expiresIn: expiresIn,
   });
@@ -20,7 +20,6 @@ exports.signup = (req, res) => {
     password: bcrypt.hashSync(req.body.password, 8),
   })
     .then((user) => {
-      // Assign 'user' role to new user by default
       Role.findOne({
         where: {
           name: "user",
@@ -28,11 +27,9 @@ exports.signup = (req, res) => {
       }).then((role) => {
         if (role) {
           user.setRoles([role.id]).then(() => {
-            // Do not create the session or automatically sign in the user
             res.send({ message: "User registered successfully!" });
           });
         } else {
-          // Handle the case where the 'user' role doesn't exist
           res.status(500).send({ message: "User role not found." });
         }
       });
@@ -75,11 +72,10 @@ exports.signin = (req, res) => {
 
       const token = generateToken(user);
 
-      // Save token, userId, and additional user info to session
       console.log("User ID:", user.id);
       req.session.token = token;
       req.session.userId = user.id;
-      req.session.expiresIn = Date.now() + 86400000; // Store the expiration time (24 hours in milliseconds)
+      req.session.expiresIn = Date.now() + 86400000;
       req.session.username = user.username;
       req.session.email = user.email;
 
@@ -97,9 +93,9 @@ exports.signin = (req, res) => {
 };
 
 exports.signout = (req, res) => {
-  req.session.destroy(); // Clear the session on signout
+  req.session.destroy();
   res.clearCookie("connect.sid");
-  res.clearCookie("token"); // Clear the session cookie on the client side
+  res.clearCookie("token");
   res.clearCookie("accesstoken");
   res.status(200).send({ message: "Signout successful!" });
 };
