@@ -112,7 +112,6 @@ const CardsGrid = ({
       const url = `http://localhost:4200/favorites`;
       const isOfferFavorited = favorites.map((x: any) => x.offerId === itemId);
       if (isOfferFavorited.includes(true)) {
-        console.log(favorites + "GOES IN THE IF BLOCK FOR DELETE /");
         await axios.delete(`${url}/${itemId}`, { withCredentials: true });
         fetchFavorites();
       } else {

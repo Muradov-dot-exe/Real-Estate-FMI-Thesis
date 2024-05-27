@@ -77,7 +77,6 @@ exports.signin = (req, res) => {
       req.session.expiresIn = Date.now() + 86400000;
       req.session.username = user.username;
       req.session.email = user.email;
-      console.log(User);
 
       res.status(200).send({
         id: user.id,
