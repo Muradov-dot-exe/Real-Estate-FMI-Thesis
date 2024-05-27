@@ -10,10 +10,10 @@ import "./index.module.css";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <CssBaseline />
-    <Provider store={store}>
-      <MainContext>
-        <App />
-      </MainContext>
-    </Provider>
+    {/* <Provider store={store}> */}
+    <MainContext>
+      <App />
+    </MainContext>
+    {/* </Provider> */}
   </React.StrictMode>
 );

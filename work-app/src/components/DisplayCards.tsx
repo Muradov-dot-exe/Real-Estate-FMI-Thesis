@@ -7,7 +7,14 @@ import InfiniteScroll from "react-infinite-scroller";
 import axios from "axios";
 import queryString from "query-string";
 import CardMedia from "@mui/material/CardMedia";
-import { Box, Button, CardActions, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CardActions,
+  Stack,
+  Typography,
+  IconButton,
+} from "@mui/material";
 import homepagestyledline from "../img/decorativehomepageline.jpg";
 import { Link } from "react-router-dom";
 import DeleteModal from "../modals/deleteModal";
@@ -17,6 +24,7 @@ import AddVehicle from "../modals/addVehicles";
 import { useUserAuth } from "../context/authContext";
 import { AuthObjectType } from "../types/authTypes";
 import { ItemType } from "../types/cardTypes";
+import StarIcon from "@mui/icons-material/Star";
 
 const CardsGrid = ({
   searchString = "",
@@ -32,6 +40,9 @@ const CardsGrid = ({
   const [cards, setCards] = useState<ItemType[]>([]);
   const { user }: AuthObjectType = useUserAuth();
   const isUserMod = user!.roles.includes("moderator");
+  const isUserAdmin = user!.roles.includes("admin");
+  const [favorites, setFavorites] = useState<number[]>([]);
+  const [loading, setLoading] = useState(false);
 
   let filteredByPrice: ItemType[];
   let usedUrl: string;
@@ -85,8 +96,42 @@ const CardsGrid = ({
     }
   });
 
+  const fetchFavorites = async () => {
+    try {
+      const res = await axios.get<number[]>(`http://localhost:4200/favorites`, {
+        withCredentials: true,
+      });
+      setFavorites(res.data);
+    } catch (error) {
+      console.error("Error fetching favorites:", error);
+    }
+  };
+
+  const toggleFavorite = async (itemId: number) => {
+    try {
+      const url = `http://localhost:4200/favorites`;
+      const isOfferFavorited = favorites.map((x: any) => x.offerId === itemId);
+      if (isOfferFavorited.includes(true)) {
+        console.log(favorites + "GOES IN THE IF BLOCK FOR DELETE /");
+        await axios.delete(`${url}/${itemId}`, { withCredentials: true });
+        fetchFavorites();
+      } else {
+        await axios.post(url, { offerId: itemId }, { withCredentials: true });
+        fetchFavorites();
+      }
+      setFavorites((prevFavorites) =>
+        prevFavorites.includes(itemId)
+          ? prevFavorites.filter((id) => id !== itemId)
+          : [...prevFavorites, itemId]
+      );
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+    }
+  };
+
   useEffect(() => {
     fetchMoreData(0);
+    fetchFavorites();
   }, []);
 
   const handlePriceFilter = () => {
@@ -227,6 +272,11 @@ const CardsGrid = ({
       >
         <Grid container spacing={3} justifyContent="center">
           {filteredList.map((card: ItemType, index) => {
+            const isOfferFavorited = favorites.map(
+              (x: any) => x.offerId === card.id
+            );
+
+            const isFavorite = isOfferFavorited.includes(true);
             return (
               <Grid
                 item
@@ -251,12 +301,31 @@ const CardsGrid = ({
                     }
                   />
                   <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      sx={{ display: "flex", alignItems: "center" }}
+                    >
                       {aircraft
                         ? card.aircraft_type
                         : vehicles
                         ? card.vehicle_type
                         : card.type}
+                      <IconButton
+                        sx={{ marginLeft: "auto" }}
+                        onClick={() => toggleFavorite(card.id)}
+                      >
+                        <StarIcon
+                          sx={{
+                            color: isFavorite ? "#FFA500" : "inherit",
+                            transition: "color 0.3s ease",
+                          }}
+                        />
+                      </IconButton>
+                      <Typography variant="body2" color="text.secondary">
+                        Favorite
+                      </Typography>
                     </Typography>
                     <Typography>
                       {aircraft
@@ -307,49 +376,48 @@ const CardsGrid = ({
                         Learn More
                       </Link>
                     </Button>
-                    <Stack direction="row">
-                      {aircraft ? (
-                        <AddAircraft
-                          onAddAircraft={handleAddProperty}
-                          isEditButton={true}
-                          aircraftToEdit={card}
-                        />
-                      ) : vehicles ? (
-                        <AddVehicle
-                          onAddVehicle={handleAddProperty}
-                          isEditButton={true}
-                          vehicleToEdit={card}
-                        />
-                      ) : (
-                        <AddProperty
-                          onAddProperty={handleAddProperty}
-                          isEditButton={true}
-                          propertyToEdit={card}
-                        />
-                      )}
-                      {aircraft && isUserMod ? (
-                        <DeleteModal
-                          deleteId={card.id}
-                          onDelete={() => handleDelete(card.id)}
-                          aircraft={true}
-                          vehicles={false}
-                        />
-                      ) : isUserMod && vehicles ? (
-                        <DeleteModal
-                          deleteId={card.id}
-                          onDelete={() => handleDelete(card.id)}
-                          aircraft={false}
-                          vehicles={true}
-                        />
-                      ) : isUserMod ? (
-                        <DeleteModal
-                          deleteId={card.id}
-                          onDelete={() => handleDelete(card.id)}
-                          aircraft={false}
-                          vehicles={false}
-                        />
-                      ) : null}
-                    </Stack>
+
+                    {aircraft ? (
+                      <AddAircraft
+                        onAddAircraft={handleAddProperty}
+                        isEditButton={true}
+                        aircraftToEdit={card}
+                      />
+                    ) : vehicles ? (
+                      <AddVehicle
+                        onAddVehicle={handleAddProperty}
+                        isEditButton={true}
+                        vehicleToEdit={card}
+                      />
+                    ) : (
+                      <AddProperty
+                        onAddProperty={handleAddProperty}
+                        isEditButton={true}
+                        propertyToEdit={card}
+                      />
+                    )}
+                    {(aircraft && isUserMod) || isUserAdmin ? (
+                      <DeleteModal
+                        deleteId={card.id}
+                        onDelete={() => handleDelete(card.id)}
+                        aircraft={true}
+                        vehicles={false}
+                      />
+                    ) : isUserMod || (isUserAdmin && vehicles) ? (
+                      <DeleteModal
+                        deleteId={card.id}
+                        onDelete={() => handleDelete(card.id)}
+                        aircraft={false}
+                        vehicles={true}
+                      />
+                    ) : isUserMod || isUserAdmin ? (
+                      <DeleteModal
+                        deleteId={card.id}
+                        onDelete={() => handleDelete(card.id)}
+                        aircraft={false}
+                        vehicles={false}
+                      />
+                    ) : null}
                   </CardActions>
                 </Card>
               </Grid>

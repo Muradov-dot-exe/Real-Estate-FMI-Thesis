@@ -15,7 +15,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 const db = require("../models");
 const User = db.user;
-const cookie = require("cookie"); // Import the 'cookie' module
+const cookie = require("cookie");
 
 const Role = db.role;
 

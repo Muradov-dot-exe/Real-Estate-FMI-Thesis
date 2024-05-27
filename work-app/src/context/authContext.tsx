@@ -53,6 +53,8 @@ export const UserAuthContextProvider: React.FC<
 
   const signIn = async (username: string, password: string) => {
     try {
+      console.log(username);
+
       const response = await axios.post(signinEndpoint, {
         username,
         password,

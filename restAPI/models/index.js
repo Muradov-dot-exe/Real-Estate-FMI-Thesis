@@ -1,20 +1,14 @@
 const Sequelize = require("sequelize");
+const sequelize = require("../config/dbconnection");
 
-const sequelize = new Sequelize("real_estate_db", "root", "pass123", {
-  host: "localhost",
-  dialect: "mysql",
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000,
-  },
-});
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.user = require("../models/User")(sequelize, Sequelize);
-db.role = require("../models/Role")(sequelize, Sequelize);
+db.user = require("./User")(sequelize, Sequelize);
+db.role = require("./Role")(sequelize, Sequelize);
+db.notification = require("./Notifications")(sequelize, Sequelize);
+db.favorite = require("./Favorite")(sequelize, Sequelize);
+
 db.user.belongsToMany(db.role, {
   through: "user_roles",
   foreignKey: "userId",
@@ -28,5 +22,13 @@ db.role.belongsToMany(db.user, {
   otherKey: "userId",
   as: "users",
 });
+
+db.user.hasMany(db.notification, { foreignKey: "userId", as: "notifications" });
+db.notification.belongsTo(db.user, { foreignKey: "userId", as: "user" });
+
+db.user.hasMany(db.favorite, { foreignKey: "userId", as: "favorites" });
+db.favorite.belongsTo(db.user, { foreignKey: "userId", as: "user" });
+
 db.ROLES = ["user", "admin", "moderator"];
+
 module.exports = db;

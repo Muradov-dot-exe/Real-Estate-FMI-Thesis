@@ -9,17 +9,17 @@ import React from "react";
 import { UserAuthContextProvider } from "./context/authContext";
 
 const App = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        dispatch(setUser(authUser));
-      } else {
-        dispatch(setUser(null));
-      }
-    });
-  }, [dispatch]);
+  // useEffect(() => {
+  //   auth.onAuthStateChanged((authUser) => {
+  //     if (authUser) {
+  //       dispatch(setUser(authUser));
+  //     } else {
+  //       dispatch(setUser(null));
+  //     }
+  //   });
+  // }, [dispatch]);
 
   return (
     <React.StrictMode>

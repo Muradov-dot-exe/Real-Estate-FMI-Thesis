@@ -4,10 +4,22 @@ const sequelize = require("./config/dbconnection");
 const db = require("./models/index");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const {
+  getFavoriteOffers,
+  addFavorite,
+  removeFavorite,
+} = require("./controllers/favorites.controller");
+const {
+  getNotifications,
+  addNotification,
+  removeNotification,
+} = require("./controllers/notifications.controller");
 
 const Aircraft = require("./models/Aircraft");
 const Property = require("./models/Property");
 const Vehicle = require("./models/Vehicle");
+const Users = require("./models/User");
+const Roles = require("./models/Role");
 
 const app = express();
 app.use(cookieParser());
@@ -23,7 +35,7 @@ app.use(cors(corsOptions));
 
 app.use(
   session({
-    secret: "cY3$3qLpA9*8vJh2",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -129,7 +141,17 @@ app.delete("/vehicles/delete/:id", (req, res) =>
   handleCRUD(Vehicle, "delete", req, res)
 );
 
-const PORT = 4200;
+app.get("/favorites", getFavoriteOffers);
+app.post("/favorites", addFavorite);
+app.delete("/favorites/:id", removeFavorite);
+
+app.get("/notifications", getNotifications);
+app.post("/notifications", addNotification);
+app.delete("/notifications/:id", removeNotification);
+const PORT = process.env.SERVER_PORT;
+
 app.listen(PORT, () => {
-  sequelize.sync({ alter: true }).then(() => {});
+  sequelize.sync().then(() => {
+    console.log("Database synced");
+  });
 });
