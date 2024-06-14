@@ -4,10 +4,23 @@ const sequelize = require("./config/dbconnection");
 const db = require("./models/index");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const {
+  getFavoriteOffers,
+  addFavorite,
+  removeFavorite,
+} = require("./controllers/favorites.controller");
+const {
+  getNotifications,
+  addNotification,
+  removeNotification,
+} = require("./controllers/notifications.controller");
 
 const Aircraft = require("./models/Aircraft");
 const Property = require("./models/Property");
 const Vehicle = require("./models/Vehicle");
+const Users = require("./models/User");
+const Roles = require("./models/Role");
+const handleCRUD = require("./controllers/handleCrudLogic");
 
 const app = express();
 app.use(cookieParser());
@@ -23,7 +36,7 @@ app.use(cors(corsOptions));
 
 app.use(
   session({
-    secret: "cY3$3qLpA9*8vJh2",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -53,43 +66,6 @@ async function createRoles() {
     console.error("Error creating roles:", error);
   }
 }
-
-const handleCRUD = async (Model, operation, req, res) => {
-  try {
-    switch (operation) {
-      case "getAll":
-        const allEntities = await Model.findAll();
-        res.send(allEntities);
-        break;
-      case "getById":
-        const entityId = req.params.id;
-        const entityById = await Model.findByPk(entityId);
-        res.send(entityById);
-        break;
-      case "create":
-        const newData = req.body;
-        const createdEntity = await Model.create(newData);
-        res.send(createdEntity);
-        break;
-      case "update":
-        const updatedData = req.body;
-        const entityToUpdate = await Model.findByPk(req.params.id);
-        await entityToUpdate.update(updatedData);
-        res.send(entityToUpdate);
-        break;
-      case "delete":
-        const entityIdToDelete = req.params.id;
-        await Model.destroy({ where: { id: entityIdToDelete } });
-        res.send({ message: "Entity deleted successfully." });
-        break;
-      default:
-        res.status(400).send({ error: "Invalid operation." });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ error: "Internal server error." });
-  }
-};
 
 app.get("/aircraft", (req, res) => handleCRUD(Aircraft, "getAll", req, res));
 app.get("/aircraft/:id", (req, res) =>
@@ -129,7 +105,17 @@ app.delete("/vehicles/delete/:id", (req, res) =>
   handleCRUD(Vehicle, "delete", req, res)
 );
 
-const PORT = 4200;
+app.get("/favorites", getFavoriteOffers);
+app.post("/favorites", addFavorite);
+app.delete("/favorites/:id", removeFavorite);
+
+app.get("/notifications", getNotifications);
+app.post("/notifications", addNotification);
+app.delete("/notifications/:id", removeNotification);
+const PORT = process.env.SERVER_PORT;
+
 app.listen(PORT, () => {
-  sequelize.sync({ alter: true }).then(() => {});
+  sequelize.sync().then(() => {
+    console.log("Database synced");
+  });
 });

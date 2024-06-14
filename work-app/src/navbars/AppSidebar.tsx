@@ -64,7 +64,7 @@ const AppSidebar = ({ isOpen, onClose }: DrawerProps) => {
             ))}
           </List>
           <Divider sx={{ width: "100%" }} />
-          <List>
+          {/* <List>
             {["Luxury aircraft", "Luxury vehicles"].map((text, index) => (
               <ListItem key={text} disablePadding>
                 {user && (
@@ -108,7 +108,7 @@ const AppSidebar = ({ isOpen, onClose }: DrawerProps) => {
                 )}
               </ListItem>
             ))}
-          </List>
+          </List> */}
 
           <List>
             {["About us"].map((text, index) => (

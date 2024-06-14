@@ -7,11 +7,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Alert } from "@mui/material";
+import { Alert, Box } from "@mui/material";
 import { validateEmail } from "./emailRegex";
 import { useUserAuth } from "../context/authContext";
 import { TitleContext } from "../context/context";
@@ -85,7 +84,7 @@ function SignUp() {
 
     if (validateEmail(email)?.input === undefined) {
       return setEmailAlert(<Alert severity="error">Bad Email Format!</Alert>);
-    } else if (validateEmail(email)?.input !== undefined) {
+    } else {
       setEmailAlert(null);
     }
 

@@ -1,3 +1,4 @@
+import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
   Modal,
@@ -6,7 +7,6 @@ import {
   TextField,
   Grid,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { requestSender } from "../context/context";
 import { toast } from "react-toastify";
@@ -63,6 +63,8 @@ const AddProperty: React.FC<Props> = ({
     propertyToEdit || initialPropertyState
   );
 
+  const [isFormValid, setFormValid] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -72,6 +74,12 @@ const AddProperty: React.FC<Props> = ({
     }));
   };
 
+  useEffect(() => {
+    // Check if all required fields have values
+    const hasValues = Object.values(newProperty).every((value) => value !== "");
+    setFormValid(hasValues);
+  }, [newProperty]);
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -79,26 +87,30 @@ const AddProperty: React.FC<Props> = ({
   const postData = async (e: any) => {
     e.preventDefault();
     try {
-      const axiosMethod = propertyToEdit ? axios.put : axios.post;
+      if (isFormValid) {
+        const axiosMethod = propertyToEdit ? axios.put : axios.post;
 
-      await axiosMethod(
-        `http://localhost:4200/property/${
-          propertyToEdit ? `edit/${propertyToEdit.id}` : "add"
-        }`,
-        newProperty,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+        await axiosMethod(
+          `http://localhost:4200/property/${
+            propertyToEdit ? `edit/${propertyToEdit.id}` : "add"
+          }`,
+          newProperty,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-      setNewProperty(initialPropertyState);
+        setNewProperty(initialPropertyState);
 
-      handleClose();
-      contextData.setDataValue(["1"]);
-      onAddProperty();
-      notif();
+        handleClose();
+        contextData.setDataValue(["1"]);
+        onAddProperty();
+        notif();
+      } else {
+        errorNotif();
+      }
     } catch (error) {
       console.error(
         `Error ${propertyToEdit ? "editing" : "adding"} property:`,
@@ -126,7 +138,7 @@ const AddProperty: React.FC<Props> = ({
 
   return (
     <>
-      {isEditButton && isUserMod ? (
+      {isEditButton && (isUserMod || isUserAdmin) ? (
         <Button
           onClick={handleOpen}
           size="small"
@@ -304,6 +316,7 @@ const AddProperty: React.FC<Props> = ({
                   sx={{ display: "flex" }}
                   name="description"
                   value={newProperty.description}
+                  required
                 />
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
@@ -315,6 +328,7 @@ const AddProperty: React.FC<Props> = ({
                   sx={{ display: "flex" }}
                   name="construction"
                   value={newProperty.construction}
+                  required
                 />
               </Typography>
             </Grid>
@@ -325,6 +339,7 @@ const AddProperty: React.FC<Props> = ({
                 sx={{ marginTop: 2 }}
                 onClick={postData}
                 type="submit"
+                disabled={!isFormValid} // Disable button if the form is not valid
               >
                 {isEditButton ? "Save" : "Add"}
               </Button>

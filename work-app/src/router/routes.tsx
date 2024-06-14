@@ -28,23 +28,23 @@ export const router = createBrowserRouter([
         path: "/",
         element: <AuthVerification />,
         children: [
-          {
-            path: "/airplanes",
-            element: <Airplanes />,
-          },
-          { path: "/vehicles", element: <LuxuryVehicles /> },
+          // {
+          //   path: "/airplanes",
+          //   element: <Airplanes />,
+          // },
+          // { path: "/vehicles", element: <LuxuryVehicles /> },
           {
             path: "/properties/:id",
             element: <SingleProperty />,
           },
-          {
-            path: "/aircraft/:id",
-            element: <SingleAircraft />,
-          },
-          {
-            path: "/vehicle/:id",
-            element: <SingleVehicle />,
-          },
+          // {
+          //   path: "/aircraft/:id",
+          //   element: <SingleAircraft />,
+          // },
+          // {
+          //   path: "/vehicle/:id",
+          //   element: <SingleVehicle />,
+          // },
         ],
       },
       { path: "/signin", element: <SignIn /> },

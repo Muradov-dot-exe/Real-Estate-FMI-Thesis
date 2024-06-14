@@ -42,13 +42,7 @@ const DeleteModal: React.FC<DeleteData> = ({
   };
 
   const notif = () => {
-    if (aircraft) {
-      toast.warning("Aircraft deleted");
-    } else if (vehicles) {
-      toast.warning("Vehicle deleted");
-    } else {
-      toast.warning("Property deleted");
-    }
+    toast.warning("Property deleted");
   };
 
   return (
