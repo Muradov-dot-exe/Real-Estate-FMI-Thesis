@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "nodemon app.js",
     "lint": "eslint .",
-    "build": "echo 'Dummy build script'"
+    "build": "react-scripts build"
   },
   "author": "Ali Muradov",
   "license": "ISC",
