@@ -84,7 +84,7 @@ function SignUp() {
 
     if (validateEmail(email)?.input === undefined) {
       return setEmailAlert(<Alert severity="error">Bad Email Format!</Alert>);
-    } else if (validateEmail(email)?.input !== undefined) {
+    } else {
       setEmailAlert(null);
     }
 

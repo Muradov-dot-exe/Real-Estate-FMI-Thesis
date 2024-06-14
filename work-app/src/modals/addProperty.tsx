@@ -138,7 +138,7 @@ const AddProperty: React.FC<Props> = ({
 
   return (
     <>
-      {(isEditButton && isUserMod) || isUserAdmin ? (
+      {isEditButton && (isUserMod || isUserAdmin) ? (
         <Button
           onClick={handleOpen}
           size="small"

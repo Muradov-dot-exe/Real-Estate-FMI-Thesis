@@ -20,6 +20,7 @@ const Property = require("./models/Property");
 const Vehicle = require("./models/Vehicle");
 const Users = require("./models/User");
 const Roles = require("./models/Role");
+const handleCRUD = require("./controllers/handleCrudLogic");
 
 const app = express();
 app.use(cookieParser());
@@ -65,43 +66,6 @@ async function createRoles() {
     console.error("Error creating roles:", error);
   }
 }
-
-const handleCRUD = async (Model, operation, req, res) => {
-  try {
-    switch (operation) {
-      case "getAll":
-        const allEntities = await Model.findAll();
-        res.send(allEntities);
-        break;
-      case "getById":
-        const entityId = req.params.id;
-        const entityById = await Model.findByPk(entityId);
-        res.send(entityById);
-        break;
-      case "create":
-        const newData = req.body;
-        const createdEntity = await Model.create(newData);
-        res.send(createdEntity);
-        break;
-      case "update":
-        const updatedData = req.body;
-        const entityToUpdate = await Model.findByPk(req.params.id);
-        await entityToUpdate.update(updatedData);
-        res.send(entityToUpdate);
-        break;
-      case "delete":
-        const entityIdToDelete = req.params.id;
-        await Model.destroy({ where: { id: entityIdToDelete } });
-        res.send({ message: "Entity deleted successfully." });
-        break;
-      default:
-        res.status(400).send({ error: "Invalid operation." });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ error: "Internal server error." });
-  }
-};
 
 app.get("/aircraft", (req, res) => handleCRUD(Aircraft, "getAll", req, res));
 app.get("/aircraft/:id", (req, res) =>

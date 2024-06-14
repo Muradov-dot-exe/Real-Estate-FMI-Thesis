@@ -1,4 +1,4 @@
-const Notification = require("../models/Notifications");
+const Notification = require("../models/Notifications")();
 
 exports.getNotifications = async (req, res) => {
   try {
@@ -13,8 +13,12 @@ exports.getNotifications = async (req, res) => {
 
 exports.addNotification = async (req, res) => {
   try {
-    const { userId, message } = req.body;
-    const notification = await Notification.create({ userId, message });
+    const { userId, offerId, message } = req.body;
+    const notification = await Notification.create({
+      userId,
+      offerId,
+      message,
+    });
     res.status(201).json(notification);
   } catch (error) {
     console.error("Error adding notification:", error);
