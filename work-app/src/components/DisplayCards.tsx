@@ -43,8 +43,9 @@ const CardsGrid = ({
   const isUserAdmin = user!.roles.includes("admin");
   const [favorites, setFavorites] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
-  let filteredByPrice: ItemType[];
   let usedUrl: string;
   if (aircraft) {
     usedUrl = "http://localhost:4200/aircraft";
@@ -54,47 +55,46 @@ const CardsGrid = ({
     usedUrl = "http://localhost:4200";
   }
 
-  async function fetchMoreData(page: number) {
+  const fetchMoreData = async (updateCards = false) => {
+    if (!hasMore) return;
+
     const url = queryString.stringifyUrl({
       url: usedUrl,
       query: {
-        page,
+        page: page + 1,
         limit: 10,
       },
     });
 
     try {
+      setLoading(true);
       const res = await axios.get<ItemType[]>(url);
-      setCards(res.data);
+      setLoading(false);
+
+      if (res.data.length === 0) {
+        setHasMore(false);
+      } else {
+        if (updateCards) {
+          setCards(res.data);
+        } else {
+          setCards([...cards, ...res.data]);
+        }
+        setPage(page + 1);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
+      setLoading(false);
     }
-  }
+  };
 
   const handleDelete = async (deleteId: number) => {
     try {
       await axios.delete(`${usedUrl}/delete/${deleteId}`);
-      fetchMoreData(0);
+      setCards(cards.filter((card) => card.id !== deleteId));
     } catch (error) {
       console.error("Error deleting property:", error);
     }
   };
-
-  const filteredList = cards.filter((element) => {
-    if (searchString === "") {
-      return element;
-    } else {
-      if (aircraft && element.aircraft_type) {
-        return element.aircraft_type.toLowerCase().includes(searchString);
-      } else if (vehicles && element.vehicle_type) {
-        return element.vehicle_type.toLowerCase().includes(searchString);
-      } else if (element.type) {
-        return element.type.toLowerCase().includes(searchString);
-      } else {
-        return false;
-      }
-    }
-  });
 
   const fetchFavorites = async () => {
     try {
@@ -129,38 +129,38 @@ const CardsGrid = ({
   };
 
   useEffect(() => {
-    fetchMoreData(0);
+    fetchMoreData();
     fetchFavorites();
   }, []);
 
   const handlePriceFilter = () => {
-    filteredByPrice = [...cards].sort(
+    const filteredByPrice = [...cards].sort(
       (a: ItemType, b: ItemType) => a.price - b.price
     );
-    return setCards(filteredByPrice);
+    setCards(filteredByPrice);
   };
 
   const handleAddProperty = () => {
-    fetchMoreData(0);
+    window.location.reload();
   };
 
   const handleSizeFilter = () => {
-    filteredByPrice = [...cards].sort((a: ItemType, b: ItemType) => {
+    const filteredBySize = [...cards].sort((a: ItemType, b: ItemType) => {
       if (aircraft || vehicles) {
         return a.year !== undefined && b.year !== undefined
           ? a.year - b.year
           : 0;
-      } else if (a.floorspace !== undefined && b.floorspace !== undefined) {
-        return a.floorspace - b.floorspace;
       } else {
-        return 0;
+        return a.floorspace !== undefined && b.floorspace !== undefined
+          ? a.floorspace - b.floorspace
+          : 0;
       }
     });
-    return setCards(filteredByPrice);
+    setCards(filteredBySize);
   };
 
   const handleRoomFilter = () => {
-    filteredByPrice = [...cards].sort((a: ItemType, b: ItemType) => {
+    const filteredByRoom = [...cards].sort((a: ItemType, b: ItemType) => {
       if (aircraft || vehicles) {
         return a.seats !== undefined && b.seats !== undefined
           ? a.seats - b.seats
@@ -171,8 +171,24 @@ const CardsGrid = ({
           : 0;
       }
     });
-    return setCards(filteredByPrice);
+    setCards(filteredByRoom);
   };
+
+  const filteredList = cards.filter((element) => {
+    if (searchString === "") {
+      return element;
+    } else {
+      if (aircraft && element.aircraft_type) {
+        return element.aircraft_type.toLowerCase().includes(searchString);
+      } else if (vehicles && element.vehicle_type) {
+        return element.vehicle_type.toLowerCase().includes(searchString);
+      } else if (element.type) {
+        return element.type.toLowerCase().includes(searchString);
+      } else {
+        return false;
+      }
+    }
+  });
 
   return (
     <>
@@ -262,20 +278,16 @@ const CardsGrid = ({
 
       <InfiniteScroll
         pageStart={0}
-        loadMore={fetchMoreData}
-        loader={
-          <div style={{ textAlign: "center", padding: "20px" }}>
-            <CircularProgress />
-          </div>
-        }
+        loadMore={() => fetchMoreData()}
+        hasMore={true}
       >
         <Grid container spacing={3} justifyContent="center">
           {filteredList.map((card: ItemType, index) => {
-            const isOfferFavorited = favorites.map(
+            const isOfferFavorited = favorites.some(
               (x: any) => x.offerId === card.id
             );
 
-            const isFavorite = isOfferFavorited.includes(true);
+            const isFavorite = isOfferFavorited;
             return (
               <Grid
                 item
@@ -358,19 +370,13 @@ const CardsGrid = ({
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small">
+                    <Button size="small" sx={{ minWidth: 95 }}>
                       <Link
                         style={{
                           textDecoration: "none",
                           color: "#aa6c39",
                         }}
-                        to={
-                          aircraft
-                            ? `/aircraft/${card.id}`
-                            : vehicles
-                            ? `/vehicle/${card.id}`
-                            : `/properties/${card.id}`
-                        }
+                        to={`/properties/${card.id}`}
                       >
                         Learn More
                       </Link>
@@ -423,7 +429,6 @@ const CardsGrid = ({
             );
           })}
         </Grid>
-        <br></br>
       </InfiniteScroll>
     </>
   );
