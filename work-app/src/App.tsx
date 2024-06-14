@@ -6,23 +6,26 @@ import { auth } from "./firebase";
 import { setUser } from "./redux/authActions";
 import { router } from "./router/routes";
 import React from "react";
+import { UserAuthContextProvider } from "./context/authContext";
 
 const App = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        dispatch(setUser(authUser));
-      } else {
-        dispatch(setUser(null));
-      }
-    });
-  }, [dispatch]);
+  // useEffect(() => {
+  //   auth.onAuthStateChanged((authUser) => {
+  //     if (authUser) {
+  //       dispatch(setUser(authUser));
+  //     } else {
+  //       dispatch(setUser(null));
+  //     }
+  //   });
+  // }, [dispatch]);
 
   return (
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <UserAuthContextProvider>
+        <RouterProvider router={router} />
+      </UserAuthContextProvider>
     </React.StrictMode>
   );
 };
