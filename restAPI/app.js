@@ -21,7 +21,9 @@ const Vehicle = require("./models/Vehicle");
 const Users = require("./models/User");
 const Roles = require("./models/Role");
 const handleCRUD = require("./controllers/handleCrudLogic");
+const dotenv = require("dotenv");
 
+dotenv.config();
 const app = express();
 app.use(cookieParser());
 app.use(express.json());
