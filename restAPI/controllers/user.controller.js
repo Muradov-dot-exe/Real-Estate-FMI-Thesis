@@ -21,7 +21,6 @@ const Role = db.role;
 
 exports.userInfo = async (req, res) => {
   const userId = req.session.userId;
-  console.log(req.session.userId);
   req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
 
   try {
@@ -36,9 +35,7 @@ exports.userInfo = async (req, res) => {
     });
 
     if (!user) {
-      return res
-        .status(404)
-        .send({ message: `"User Not Found." ${req.session} ` });
+      return res.status(404).send({ message: "User Not Found." });
     }
 
     const roles = user?.roles?.map((role) => role.name) || [];
