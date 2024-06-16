@@ -63,6 +63,7 @@ export const UserAuthContextProvider: React.FC<
 
       localStorage.setItem("user", JSON.stringify(response.data));
       sessionStorage.setItem("user", JSON.stringify(response.data));
+      console.log(response.data);
 
       setUser(response.data);
     } catch (error) {
@@ -70,6 +71,7 @@ export const UserAuthContextProvider: React.FC<
       throw error;
     }
   };
+  console.log(user);
 
   const signOut = async () => {
     try {
