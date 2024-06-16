@@ -8,10 +8,12 @@ import React, {
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const signupEndpoint = "http://localhost:4200/signup";
-const signinEndpoint = "http://localhost:4200/signin";
-const userInfoEndpoint = "http://localhost:4200/userinfo";
-const signoutEndpoint = "http://localhost:3000/signout";
+const signupEndpoint = "https://real-estate-fmi-thesis-ym9a.vercel.app/signup";
+const signinEndpoint = "https://real-estate-fmi-thesis-ym9a.vercel.app/signin";
+const userInfoEndpoint =
+  "https://real-estate-fmi-thesis-ym9a.vercel.app/userinfo";
+const signoutEndpoint =
+  "https://real-estate-fmi-thesis-ym9a.vercel.app/signout";
 
 const userAuthContext = createContext({
   user: null,
