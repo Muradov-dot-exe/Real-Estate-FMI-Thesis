@@ -35,14 +35,16 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
-      maxAge: 30 * 24 * 60 * 60 * 1000,
+      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+      httpOnly: true,
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      sameSite: "lax", // Adjust as needed ('lax', 'strict', 'none')
     },
   })
 );

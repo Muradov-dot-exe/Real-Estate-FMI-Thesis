@@ -14,6 +14,7 @@ const userInfoEndpoint =
   "https://real-estate-fmi-thesis-ym9a.vercel.app/userinfo";
 const signoutEndpoint =
   "https://real-estate-fmi-thesis-ym9a.vercel.app/signout";
+axios.defaults.withCredentials = true;
 
 const userAuthContext = createContext({
   user: null,
