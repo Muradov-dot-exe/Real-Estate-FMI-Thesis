@@ -21,6 +21,7 @@ const Role = db.role;
 
 exports.userInfo = async (req, res) => {
   const userId = req.session.userId;
+  console.log(req.session.userId);
   req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
 
   try {
