@@ -20,7 +20,11 @@ const cookie = require("cookie");
 const Role = db.role;
 
 exports.userInfo = async (req, res) => {
-  const userId = req.session.user.id;
+  if (!req.session.userId) {
+    return res.status(401).send({ message: "No userId in session" });
+  }
+
+  const userId = req.session.userId; // Accessing userId from session
   req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
 
   try {
@@ -38,7 +42,7 @@ exports.userInfo = async (req, res) => {
       return res.status(404).send({ message: `User Not Found. ${userId}` });
     }
 
-    const roles = user?.roles?.map((role) => role.name) || [];
+    const roles = user.roles.map((role) => role.name) || [];
 
     const token = jwt.sign({ id: user.id }, config.secret, {
       expiresIn: 86400,
