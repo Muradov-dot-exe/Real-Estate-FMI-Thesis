@@ -91,7 +91,7 @@ const AddProperty: React.FC<Props> = ({
         const axiosMethod = propertyToEdit ? axios.put : axios.post;
 
         await axiosMethod(
-          `http://localhost:4200/property/${
+          `https://real-estate-fmi-thesis-ym9a.vercel.app/property/${
             propertyToEdit ? `edit/${propertyToEdit.id}` : "add"
           }`,
           newProperty,

@@ -13,7 +13,9 @@ const SingleProperty = () => {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const response = await axios.get<ItemType[]>(`http://localhost:4200/`);
+        const response = await axios.get<ItemType[]>(
+          `https://real-estate-fmi-thesis-ym9a.vercel.app/`
+        );
 
         const propertyData = response.data.find(
           (item) => item.id === Number(id)

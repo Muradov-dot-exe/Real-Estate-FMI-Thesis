@@ -29,11 +29,17 @@ const DeleteModal: React.FC<DeleteData> = ({
 
   const deleteData = () => {
     if (aircraft) {
-      axios.delete(`http://localhost:4200/aircraft/delete/${deleteId}`);
+      axios.delete(
+        `https://real-estate-fmi-thesis-ym9a.vercel.app/aircraft/delete/${deleteId}`
+      );
     } else if (vehicles) {
-      axios.delete(`http://localhost:4200/vehicles/delete/${deleteId}`);
+      axios.delete(
+        `https://real-estate-fmi-thesis-ym9a.vercel.app/vehicles/delete/${deleteId}`
+      );
     } else {
-      axios.delete(`http://localhost:4200/delete/${deleteId}`);
+      axios.delete(
+        `https://real-estate-fmi-thesis-ym9a.vercel.app/delete/${deleteId}`
+      );
     }
     handleClose();
     contextData.setDataValue(["1"]);

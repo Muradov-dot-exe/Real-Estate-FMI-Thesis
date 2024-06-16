@@ -48,11 +48,11 @@ const CardsGrid = ({
 
   let usedUrl: string;
   if (aircraft) {
-    usedUrl = "http://localhost:4200/aircraft";
+    usedUrl = "https://real-estate-fmi-thesis-ym9a.vercel.app/aircraft";
   } else if (vehicles) {
-    usedUrl = "http://localhost:4200/vehicles";
+    usedUrl = "https://real-estate-fmi-thesis-ym9a.vercel.app/vehicles";
   } else {
-    usedUrl = "http://localhost:4200";
+    usedUrl = "https://real-estate-fmi-thesis-ym9a.vercel.app";
   }
 
   const fetchMoreData = async (updateCards = false) => {
@@ -98,9 +98,12 @@ const CardsGrid = ({
 
   const fetchFavorites = async () => {
     try {
-      const res = await axios.get<number[]>(`http://localhost:4200/favorites`, {
-        withCredentials: true,
-      });
+      const res = await axios.get<number[]>(
+        `https://real-estate-fmi-thesis-ym9a.vercel.app/favorites`,
+        {
+          withCredentials: true,
+        }
+      );
       setFavorites(res.data);
     } catch (error) {
       console.error("Error fetching favorites:", error);
@@ -109,7 +112,7 @@ const CardsGrid = ({
 
   const toggleFavorite = async (itemId: number) => {
     try {
-      const url = `http://localhost:4200/favorites`;
+      const url = `https://real-estate-fmi-thesis-ym9a.vercel.app/favorites`;
       const isOfferFavorited = favorites.map((x: any) => x.offerId === itemId);
       if (isOfferFavorited.includes(true)) {
         await axios.delete(`${url}/${itemId}`, { withCredentials: true });

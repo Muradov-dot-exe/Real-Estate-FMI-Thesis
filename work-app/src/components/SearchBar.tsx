@@ -16,11 +16,11 @@ function SearchBar({ aircraft, vehicles }: SearchBarProps): JSX.Element {
   let url: string;
 
   if (aircraft) {
-    url = "http://localhost:4200/aircraft";
+    url = "https://real-estate-fmi-thesis-ym9a.vercel.app/aircraft";
   } else if (vehicles) {
-    url = "http://localhost:4200/vehicles";
+    url = "https://real-estate-fmi-thesis-ym9a.vercel.app/vehicles";
   } else {
-    url = "http://localhost:4200/";
+    url = "https://real-estate-fmi-thesis-ym9a.vercel.app/";
   }
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
