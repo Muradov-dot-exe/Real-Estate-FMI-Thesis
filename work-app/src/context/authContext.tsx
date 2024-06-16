@@ -61,6 +61,8 @@ export const UserAuthContextProvider: React.FC<
       });
 
       localStorage.setItem("user", JSON.stringify(response.data));
+      sessionStorage.setItem("user", JSON.stringify(response.data));
+
       setUser(response.data);
     } catch (error) {
       console.error("Error during signin:", error);
@@ -73,6 +75,8 @@ export const UserAuthContextProvider: React.FC<
       await axios.post(signoutEndpoint);
 
       localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
+
       setUser(null);
     } catch (error) {
       console.error("Error during signout:", error);
@@ -94,15 +98,21 @@ export const UserAuthContextProvider: React.FC<
 
         if (response.data) {
           localStorage.setItem("user", JSON.stringify(response.data));
+          sessionStorage.setItem("user", JSON.stringify(response.data));
+
           setUser(response.data);
         } else {
           localStorage.removeItem("user");
+          sessionStorage.removeItem("user");
+
           setUser(null);
         }
       } catch (error) {
         console.error("Error checking token expiration:", error);
 
         localStorage.removeItem("user");
+        sessionStorage.removeItem("user");
+
         setUser(null);
       }
     };
