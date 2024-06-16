@@ -1,8 +1,8 @@
+const cookieSession = require("cookie-session");
 const express = require("express");
 const cors = require("cors");
 const sequelize = require("./config/dbconnection");
 const db = require("./models/index");
-const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const {
   getFavoriteOffers,
@@ -35,17 +35,15 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
 app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-      httpOnly: true,
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-      sameSite: "lax", // Adjust as needed ('lax', 'strict', 'none')
-    },
+  cookieSession({
+    name: "session",
+    keys: [process.env.SESSION_SECRET],
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+    httpOnly: true,
+    sameSite: "lax", // Adjust as needed ('lax', 'strict', 'none')
   })
 );
 
@@ -116,6 +114,7 @@ app.delete("/favorites/:id", removeFavorite);
 app.get("/notifications", getNotifications);
 app.post("/notifications", addNotification);
 app.delete("/notifications/:id", removeNotification);
+
 const PORT = process.env.SERVER_PORT;
 
 app.listen(PORT, () => {
