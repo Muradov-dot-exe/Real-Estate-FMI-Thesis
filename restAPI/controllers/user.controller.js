@@ -36,7 +36,9 @@ exports.userInfo = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).send({ message: "User Not Found." });
+      return res
+        .status(404)
+        .send({ message: `"User Not Found." ${req.session.userId} ` });
     }
 
     const roles = user?.roles?.map((role) => role.name) || [];
