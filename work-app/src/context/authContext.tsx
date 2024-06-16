@@ -98,7 +98,7 @@ export const UserAuthContextProvider: React.FC<
         const response = await axios.get(userInfoEndpoint, {
           withCredentials: true,
         });
-
+        console.log(response);
         if (response.data) {
           localStorage.setItem("user", JSON.stringify(response.data));
           sessionStorage.setItem("user", JSON.stringify(response.data));
