@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 const corsOptions = {
-  origin: "https://real-estate-fmi-thesis.vercel.app/",
+  origin: "https://real-estate-fmi-thesis.vercel.app",
   credentials: true,
   optionSuccessStatus: 200,
 };
